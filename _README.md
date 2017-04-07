@@ -1,13 +1,14 @@
-# Project Name
+# Ribbit
 
-> Pithy project description
+> Ribbit is an online collaboration tool. Simply open up our site in your browser, video and text chat with partner,
+and write code as a team!
 
 ## Team
 
-  - teamMember
-  - teamMember
-  - teamMember
-  - teamMember
+  - Andy Yeo
+  - David Brodie
+  - Dylan Shelters
+  - Jeff Milberger
 
 ## Table of Contents
 
