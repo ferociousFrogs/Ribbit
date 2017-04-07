@@ -2,13 +2,15 @@
   "name": "ribbit",
   "version": "1.0.0",
   "description": "A shared environment for online collaboration.",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
-    "dev": "webpack -d --watch",
-    "build": "webpack -p"
+    "react-dev": "webpack -d --watch",
+    "build": "webpack -p",
+    "server-dev": "nodemon server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -31,5 +33,7 @@
   },
   "dependencies": {
     "axios": "^0.16.0",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2"
   }
 }
