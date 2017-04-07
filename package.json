@@ -8,7 +8,7 @@
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
     "dev": "webpack -d --watch",
-    "build" : "webpack -p"
+    "build": "webpack -p"
   },
   "keywords": [],
   "author": "",
@@ -26,5 +26,10 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "webpack": "^2.3.3"
+  },
+  "dependencies": {
+    "axios": "^0.16.0",
+    "react-redux": "^5.0.3",
+    "react-router": "^4.0.0"
   }
 }
