@@ -2,8 +2,9 @@
   "name": "ribbit",
   "version": "1.0.0",
   "description": "A shared environment for online collaboration.",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
+    "start": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
@@ -31,5 +32,7 @@
   },
   "dependencies": {
     "axios": "^0.16.0",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2"
   }
 }
