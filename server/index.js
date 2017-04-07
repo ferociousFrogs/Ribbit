@@ -15,7 +15,6 @@ app.get('/', (req, res) => {
   res.send();
 }); 
 
-
 app.listen(3000, function () {
   console.log('Ribbit app listening on port 3000!')
 });

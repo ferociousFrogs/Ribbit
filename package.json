@@ -4,12 +4,13 @@
   "description": "A shared environment for online collaboration.",
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
-    "dev": "webpack -d --watch",
-    "build": "webpack -p"
+    "react-dev": "webpack -d --watch",
+    "build": "webpack -p",
+    "server-dev": "nodemon server/index.js"
   },
   "keywords": [],
   "author": "",
