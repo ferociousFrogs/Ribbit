@@ -5,14 +5,12 @@ import Home from './homepage/Home';
 import Room from './room/Room';
 
 const App = () => (
-  <Router>
-    <div>
-      <p>Hello David!</p>
-      <Navbar />
-      <Route exact path="/" component={Home} />
-      <Route path="/room" component={Room} />
-    </div>
-  </Router>
+  <div>
+    <p>Hello David!</p>
+    <Navbar />
+    <Route exact path="/" component={Home} />
+    <Route path="/room" component={Room} />
+  </div>
 );
 
 export default App;
