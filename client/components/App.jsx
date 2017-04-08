@@ -6,7 +6,7 @@ import Room from './room/Room';
 
 const App = () => (
   <div>
-    <p> Hello David!</p>
+    <p>Hello David!</p>
     <Navbar />
     <Home />
     <Room />
