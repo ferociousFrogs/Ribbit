@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-
+let port = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
@@ -15,6 +15,6 @@ app.get('/', (req, res) => {
   res.send();
 }); 
 
-app.listen(3000, function () {
+app.listen(port, function () {
   console.log('Ribbit app listening on port 3000!')
 });
