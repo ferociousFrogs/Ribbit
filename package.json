@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/index.js",
     "postinstall": "npm run build",
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
     "react-dev": "webpack -d --watch",
