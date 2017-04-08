@@ -10,10 +10,13 @@ const config = {
     path: BUILD_DIR,
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   module: {
     loaders: [
       {
-        test: /\.jsx?/,
+        test: /\.jsx?$/,
         include: APP_DIR,
         loader: 'babel-loader'
       }
