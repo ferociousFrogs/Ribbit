@@ -17,5 +17,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Ribbit app listening on port ${port}!`);
+  // console.log(`Ribbit app listening on port ${port}!`);
 });

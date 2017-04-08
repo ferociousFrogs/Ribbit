@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/index.js",
     "postinstall": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
     "react-dev": "webpack -d --watch",
@@ -24,6 +24,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "jest": "^19.0.2",
+    "react-test-renderer": "^15.5.3",
     "regenerator-runtime": "^0.10.3"
   },
   "dependencies": {
@@ -35,7 +36,7 @@
     "body-parser": "^1.17.1",
     "eslint-plugin-react": "^6.10.3",
     "express": "^4.15.2",
-    "react": "^15.4.2",
+    "react": "^15.5.3",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",

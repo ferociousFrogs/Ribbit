@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Navbar from './Navbar';
 import Home from './homepage/Home';
@@ -16,5 +15,5 @@ const App = () => (
   </Router>
 );
 
-render(<App />, document.getElementById('app'));
+export default App;
 
