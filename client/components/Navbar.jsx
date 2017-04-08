@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => (
-  <div>
-    <Link to="/">This is the navbar with logo</Link>
+  <div className="container-fluid border">
+    <Link to="/"><h1>Ribbit</h1></Link>
   </div>
 );
 

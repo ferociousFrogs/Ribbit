@@ -7,9 +7,9 @@ class Workspace extends React.Component {
 
   render() {
     return (
-      <div>
-        This is the workspace component
-      </div>
+        <div className="row border left-side">
+          This is the workspace component
+        </div>
     );
   }
 }

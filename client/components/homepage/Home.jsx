@@ -2,7 +2,7 @@ import React from 'react';
 import CreateRoute from './CreateRoute';
 
 const Home = () => (
-  <div className="home">
+  <div className="container-fluid border left-side">
     This is home div
     <CreateRoute />
   </div>

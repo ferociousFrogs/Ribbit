@@ -1,0 +1,11 @@
+.border {
+  border: 1px solid black;
+}
+
+.left-side {
+  height: 700px;
+}
+
+.right-side {
+  height: 350px;
+}

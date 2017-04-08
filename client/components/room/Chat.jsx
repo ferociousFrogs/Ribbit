@@ -7,7 +7,7 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="row border right-side">
         This is the chat component
       </div>
     );
