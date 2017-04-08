@@ -6,7 +6,6 @@ import Room from './room/Room';
 
 const App = () => (
   <div>
-    <p>Hello David!</p>
     <Navbar />
     <Route exact path="/" component={Home} />
     <Route path="/room" component={Room} />

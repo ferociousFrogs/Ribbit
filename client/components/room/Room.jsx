@@ -4,11 +4,14 @@ import Workspace from './Workspace';
 import Chat from './Chat';
 
 const Room = () => (
-  <div>
-    This is room div
-    <Workspace />
-    <Video />
-    <Chat />
+  <div className="container-fluid">
+    <div className="col-md-8">
+      <Workspace />
+    </div>
+    <div className="col-md-4">
+      <Video />
+      <Chat />
+    </div>
   </div>
 );
 

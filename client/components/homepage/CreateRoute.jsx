@@ -8,7 +8,7 @@ class CreateRoute extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="border">
         <Link to="/Room">This is our room creation div</Link>
       </div>
     );
