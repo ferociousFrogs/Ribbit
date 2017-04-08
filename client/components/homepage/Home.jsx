@@ -2,7 +2,7 @@ import React from 'react';
 import CreateRoute from './CreateRoute';
 
 const Home = () => (
-  <div>
+  <div className="home">
     This is home div
     <CreateRoute />
   </div>
