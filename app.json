@@ -1,0 +1,18 @@
+{
+  "name": "Ribbit",
+  "description": "review app for Ribbit app",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
