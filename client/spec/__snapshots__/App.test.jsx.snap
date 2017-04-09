@@ -2,15 +2,16 @@
 
 exports[`App component snapshot test 1`] = `
 <div>
-  <p>
-    Hello David!
-  </p>
-  <div>
+  <div
+    className="container-fluid border"
+  >
     <a
       href="/"
       onClick={[Function]}
     >
-      This is the navbar with logo
+      <h1>
+        Ribbit
+      </h1>
     </a>
   </div>
 </div>

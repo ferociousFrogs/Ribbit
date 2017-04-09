@@ -13,9 +13,11 @@ app.use('/', express.static(path.join(__dirname, '../client')));
 
 // Routes
 app.get('/', (req, res) => {
-  res.send();
+  res.status(200).send();
 });
 
 app.listen(port, () => {
   // console.log(`Ribbit app listening on port ${port}!`);
 });
+
+module.exports = app;

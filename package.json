@@ -25,7 +25,8 @@
     "eslint-plugin-react": "^6.10.3",
     "jest": "^19.0.2",
     "react-test-renderer": "^15.5.3",
-    "regenerator-runtime": "^0.10.3"
+    "regenerator-runtime": "^0.10.3",
+    "supertest": "^3.0.0"
   },
   "dependencies": {
     "axios": "^0.16.0",
