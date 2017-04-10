@@ -15,13 +15,17 @@
 }
 
 .chat-area {
-  height: 80%;
-  background-color: rgba(0,0,0,.2);
+  height: 290px;
+  background-color: #ced6e2;
   overflow-y: scroll;
   border-radius: 5px;
 }
 
 .chat-input {
   padding-top: 1%;
+}
+
+.chat-container {
+  background-color: #e5e5e5;
 }
 
