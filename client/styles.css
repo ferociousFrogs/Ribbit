@@ -9,3 +9,19 @@
 .right-side {
   height: 350px;
 }
+
+.chat-header {
+  height: 10%;
+}
+
+.chat-area {
+  height: 80%;
+  background-color: rgba(0,0,0,.2);
+  overflow-y: scroll;
+  border-radius: 5px;
+}
+
+.chat-input {
+  padding-top: 1%;
+}
+
