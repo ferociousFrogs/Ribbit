@@ -26,7 +26,6 @@
     "eslint-plugin-react": "^6.10.3",
     "jest": "^19.0.2",
     "react-addons-test-utils": "^15.5.1",
-    "react-test-renderer": "^15.5.3",
     "regenerator-runtime": "^0.10.3",
     "supertest": "^3.0.0"
   },
@@ -45,6 +44,7 @@
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
+    "react-test-renderer": "^15.5.3",
     "redux": "^3.6.0",
     "webpack": "^2.3.3"
   }
