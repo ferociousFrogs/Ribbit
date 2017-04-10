@@ -18,12 +18,14 @@
   "license": "ISC",
   "devDependencies": {
     "babel-jest": "^19.0.0",
+    "enzyme": "^2.8.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "jest": "^19.0.2",
+    "react-addons-test-utils": "^15.5.1",
     "react-test-renderer": "^15.5.3",
     "regenerator-runtime": "^0.10.3",
     "supertest": "^3.0.0"
