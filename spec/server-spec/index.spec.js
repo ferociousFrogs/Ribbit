@@ -1,4 +1,4 @@
-const app = require('../index.js');
+const app = require('../../server/index.js');
 const request = require('supertest');
 
 
@@ -9,7 +9,7 @@ const request = require('supertest');
   // 3) Pass the server file (the file being tested) to the request function then follow the example
   // 4) control + c to end the test session after it finishes running.
 
-test('App component snapshot test', () => {
+test('Send GET request to server', () => {
   request(app)
     .get('/')
     .expect(200)
