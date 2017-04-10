@@ -1,9 +1,11 @@
 // express server
+const app = require('express')();
 const express = require('express');
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
 
-const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
@@ -16,8 +18,12 @@ app.get('/', (req, res) => {
   res.status(200).send();
 });
 
-app.listen(port, () => {
-  // console.log(`Ribbit app listening on port ${port}!`);
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
+
+http.listen(port, () => {
+  console.log(`Ribbit app listening on port ${port}!`);
 });
 
 module.exports = app;
