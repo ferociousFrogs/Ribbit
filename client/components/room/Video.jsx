@@ -1,13 +1,6 @@
 import React from 'react';
 import webrtc from 'webrtc-adapter';
 
-const constraints = {
-  audio: true,
-  video: true
-};
-
-
-
 class Video extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +17,7 @@ class Video extends React.Component {
   }
 
   successCallback(stream) {
-    window.stream = stream; // stream available to console
+    window.stream = stream;
     if (window.URL) {
       this.setState({
         videoSrc: window.URL.createObjectURL(stream)
@@ -37,15 +30,20 @@ class Video extends React.Component {
   }
 
   errorCallback(error) {
-    console.log('navigator.getUserMedia error: ', error);
+    console.log('navigator.mediaDevices.getUserMedia error: ', error);
   }
 
-  // Consider this for refactor: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-  // Due to deprecation: https://webrtc.org/web-apis/interop/
   triggerGetUserMedia() {
-    navigator.getUserMedia = navigator.getUserMedia ||
-      navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-    navigator.getUserMedia(constraints, this.successCallback, this.errorCallback);
+    navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia ||
+      navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
+
+    const constraints = {
+      audio: true,
+      video: true
+    };
+    return navigator.mediaDevices.getUserMedia(constraints)
+      .then(this.successCallback)
+      .catch(this.errorCallback);
   }
 
   render() {
