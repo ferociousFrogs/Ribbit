@@ -1,4 +1,8 @@
 import React from 'react';
+import webrtc from 'webrtc-adapter';
+
+
+console.log('hello', webrtc);
 
 const constraints = {
   audio: true,
@@ -33,15 +37,22 @@ class Video extends React.Component {
     console.log('navigator.getUserMedia error: ', error);
   }
 
+  // Consider this for refactor: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+  // Due to deprecation: https://webrtc.org/web-apis/interop/
   triggerGetUserMedia() {
     navigator.getUserMedia(constraints, this.successCallback, this.errorCallback);
   }
 
   render() {
     return (
-      <div className="row border right-side">
+      <div className="row border right-side">2
         <video ref="video" autoPlay />
-
+        <div>
+          <button id="startButton">Start</button>
+          <button id="callButton">Call</button>
+          <button id="hangupButton">Hang Up</button>
+          <button id="nute">Mute</button>
+        </div>
       </div>
     );
   }
