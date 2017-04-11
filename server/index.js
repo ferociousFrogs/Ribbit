@@ -42,13 +42,6 @@ app.get('/runCode', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('join', (users) => {
-    // console.log('2. users from join event', users);
-    const newUser = users.find(user => user.id === '');
-    newUser.id = socket.id;
-    io.emit('newUser', newUser);
-    // console.log('3. fire newUser event, newUser = ', newUser);
-  });
   socket.on('chat message', (message) => {
     // console.log('message: ', message);
     io.emit('chat message', message);
