@@ -6,8 +6,7 @@ const constraints = {
   video: true
 };
 
-// const navigator.getUserMedia = navigator.getUserMedia ||
-//       navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
 
 class Video extends React.Component {
   constructor(props) {
@@ -44,6 +43,8 @@ class Video extends React.Component {
   // Consider this for refactor: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
   // Due to deprecation: https://webrtc.org/web-apis/interop/
   triggerGetUserMedia() {
+    navigator.getUserMedia = navigator.getUserMedia ||
+      navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
     navigator.getUserMedia(constraints, this.successCallback, this.errorCallback);
   }
 
