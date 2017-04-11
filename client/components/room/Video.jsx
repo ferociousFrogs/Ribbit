@@ -1,9 +1,6 @@
 import React from 'react';
 import webrtc from 'webrtc-adapter';
 
-
-console.log('hello', webrtc);
-
 const constraints = {
   audio: true,
   video: true

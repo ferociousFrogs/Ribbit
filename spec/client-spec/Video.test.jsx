@@ -1,6 +1,13 @@
 import React from 'react';
-import App from '../../client/components/room/Video';
+import renderer from 'react-test-renderer';
+import Video from '../../client/components/room/Video';
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
+test('Chat component snapshot test', () => {
+  const component = renderer.create(<Video />);
+  const tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+test('Video component should be a stateful class component', () => {
+  expect(React.Component.isPrototypeOf(Video)).toEqual(true);
 });
