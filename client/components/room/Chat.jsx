@@ -13,18 +13,29 @@ class Chat extends React.Component {
       messages: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleMessage = this.handleMessage.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.receiveMessage = this.receiveMessage.bind(this);
   }
 
-  handleMessage(e) {
+  componentDidMount() {
+    // Listeners for socket events go here
+    socket.on('chat message', this.receiveMessage);
+  }
+
+  receiveMessage(msg) {
+    // method for updating state with the new message.
+    const prevMessages = this.state.messages;
+    prevMessages.push(msg);
+    this.setState({ messages: prevMessages });
+  }
+
+  handleInput(e) {
     this.setState({ text: e.target.value });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const prevMessages = this.state.messages;
-    prevMessages.push(this.state.text);
-    this.setState({ messages: prevMessages });
+    socket.emit('chat message', this.state.text);
     this.setState({ text: '' });
   }
 
@@ -44,7 +55,7 @@ class Chat extends React.Component {
                 className="col-md-10 col-sm-10 col-xs-10"
                 placeholder="Type your message here."
                 value={this.state.text}
-                onChange={this.handleMessage}
+                onChange={this.handleInput}
               />
               <button className="btn-info col-md-2  col-sm-2 col-xs-2">Send</button>
             </form>
@@ -56,11 +67,3 @@ class Chat extends React.Component {
 }
 
 export default Chat;
-
-
-// [] Get data to append to the chat window on submit
-// [] set up function to grab data from the input box and update state
-// [] pass that data down to be rendered by the chatwindow and chatmessage components
-// [] for now, store messages in an array and map them all
-// []
-// []
