@@ -12,6 +12,9 @@ const constraints = {
 class Video extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      videoSrc: ''
+    };
     this.successCallback = this.successCallback.bind(this);
     this.errorCallback = this.errorCallback.bind(this);
     this.triggerGetUserMedia = this.triggerGetUserMedia.bind(this);
@@ -24,9 +27,13 @@ class Video extends React.Component {
   successCallback(stream) {
     window.stream = stream; // stream available to console
     if (window.URL) {
-      this.refs.video.src = window.URL.createObjectURL(stream);
+      this.setState({
+        videoSrc: window.URL.createObjectURL(stream)
+      });
     } else {
-      this.refs.video.src = stream;
+      this.setState({
+        videoSrc: stream
+      });
     }
   }
 
@@ -42,13 +49,13 @@ class Video extends React.Component {
 
   render() {
     return (
-      <div className="row border right-side">2
-        <video ref="video" autoPlay />
+      <div className="row border right-side">
+        <video className="video" src={this.state.videoSrc} autoPlay />
         <div>
           <button id="startButton">Start</button>
           <button id="callButton">Call</button>
-          <button id="hangupButton">Hang Up</button>
-          <button id="nute">Mute</button>
+          <button id="videoOff">Video Off</button>
+          <button id="mute">Mute</button>
         </div>
       </div>
     );
