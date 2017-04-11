@@ -1,4 +1,8 @@
 import React from 'react';
+import ChatWindow from './ChatWindow';
+import io from 'socket.io-client';
+
+let socket = io('http://localhost:3000');
 
 class Chat extends React.Component {
   constructor(props) {
@@ -12,7 +16,6 @@ class Chat extends React.Component {
   }
 
   render() {
-    const socket = io();
     return (
       <div className="row border right-side">
         <div className="container-fluid chat-container">
@@ -20,9 +23,7 @@ class Chat extends React.Component {
             <span className="glyphicon glyphicon-user" />
             <span>    Chat with USER</span>
           </div>
-          <div className="chat-area">
-            chat area
-          </div>
+          <ChatWindow />
           <div className="chat-input">
             <form onSubmit={this.handleSubmit}>
               <input
