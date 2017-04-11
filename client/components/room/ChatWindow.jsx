@@ -2,8 +2,9 @@ import React from 'react';
 import ChatMessage from './ChatMessage';
 
 const ChatWindow = (props) => (
+
   <div className="chat-area">
-    <ChatMessage />
+    {props.messages.map(message => <ChatMessage message={message} />)}
   </div>
 );
 
