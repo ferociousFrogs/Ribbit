@@ -25,6 +25,7 @@ class Chat extends React.Component {
     socket.on('chat message', this.receiveMessage);
     socket.on('newUser', this.saveUniqueUser);
     socket.emit('join', this.state.users);
+    // console.log('1. fire join event');
   }
 
   receiveMessage(msg) {
@@ -36,10 +37,15 @@ class Chat extends React.Component {
   // this function isn't implemented properly.  Currently it only
   // updates properly for the first user who connects.
   saveUniqueUser(newUser) {
+    // console.log('4. receive newUser event, newUser = ', newUser);
     const users = this.state.users;
+    // console.log('5. current state.users = ', users);
     const userIndex = users.findIndex(user => user.name === newUser.name);
+    // console.log('6. userIndex of first matching user = ', userIndex);
     users[userIndex].id = newUser.id;
+    // console.log('7. final version of state.users = ', users);
     this.setState({ users: users });
+    // console.log('8. new version of state.users = ', this.state.users);
   }
 
   handleInput(e) {
