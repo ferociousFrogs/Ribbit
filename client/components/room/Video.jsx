@@ -52,7 +52,7 @@ class Video extends React.Component {
   }
 
   errorCallback(error) {
-    console.log('navigator.mediaDevices.getUserMedia error: ', error);
+    console.log('navigator.mediaDevices.getUserMedia error: ', error.message);
   }
 
   triggerGetUserMedia() {
@@ -89,8 +89,8 @@ class Video extends React.Component {
       <div className="row border right-side">
         <video className="video" src={this.state.localVideoSrc} autoPlay />
         <div>
-          <button id="videoOff" onClick={this.handleVideoScreen}>{this.state.video}</button>
-          <button id="mute" onClick={this.handleAudio}>{this.state.mute}</button>
+          <button className="videoOff" onClick={this.handleVideoScreen}>{this.state.video}</button>
+          <button className="mute" onClick={this.handleAudio}>{this.state.mute}</button>
         </div>
       </div>
     );
