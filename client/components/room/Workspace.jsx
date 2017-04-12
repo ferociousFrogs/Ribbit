@@ -7,14 +7,23 @@ require('codemirror/mode/xml/xml');
 require('codemirror/mode/markdown/markdown');
 require('codemirror/mode/python/python');
 require('codemirror/mode/ruby/ruby');
+require('codemirror/keymap/sublime');
 
 class Workspace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      code: '// Ribbit'
+      code: '// Ribbit\nfunction ribbit() {\n return "Ribbit";\n}\n'
     };
     this.updateCode = this.updateCode.bind(this);
+  }
+
+  componentDidMount() {
+    const cm = this.refs.cm.getCodeMirror();
+    console.log('cm', cm);
+    console.log('get doc', cm.getDoc());
+    console.log('cm.getValue()', cm.getValue());
+    cm.setSize(null, 550);
   }
 
   updateCode(newCode) {
@@ -26,11 +35,14 @@ class Workspace extends React.Component {
   render() {
     const options = {
       lineNumbers: true,
+      lineWrapping: true,
+      keyMap: 'sublime',
       mode: 'javascript'
     };
     return (
       <div className="row border left-side">
         <CodeMirror
+          ref="cm"
           value={this.state.code}
           onChange={this.updateCode}
           options={options}
