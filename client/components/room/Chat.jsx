@@ -2,24 +2,27 @@ import React from 'react';
 import ChatWindow from './ChatWindow';
 import io from 'socket.io-client';
 
-let socket = io('http://localhost:3000');
+const socket = io('http://localhost:3000');
 
 class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
-      user: [{ name: 'Batman' }, { name: 'Bane' }],
+      users: [{ name: 'The Batman', id: '' }, { name: 'The Joker', id: '' }, { name: 'The Nightman', id: '' }, { name: 'Tim', id: '' }],
       messages: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.receiveMessage = this.receiveMessage.bind(this);
+    this.saveUniqueUser = this.saveUniqueUser.bind(this);
   }
 
   componentDidMount() {
     // Listeners for socket events go here
     socket.on('chat message', this.receiveMessage);
+    socket.on('newUser', this.saveUniqueUser);
+    socket.emit('join', this.state.users);
   }
 
   receiveMessage(msg) {
@@ -28,6 +31,13 @@ class Chat extends React.Component {
     prevMessages.push(msg);
     this.setState({ messages: prevMessages });
   }
+  //this function isn't implemented properly.  Currently it only updates properly for the first user who connects. 
+  saveUniqueUser(newUser) {
+    const users = this.state.users;
+    const userIndex = users.findIndex(user => user.name === newUser.name);
+    users[userIndex].id = newUser.id;
+    this.setState({ users: users });
+  }
 
   handleInput(e) {
     this.setState({ text: e.target.value });
@@ -35,7 +45,9 @@ class Chat extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    socket.emit('chat message', this.state.text);
+    if (this.state.text !== '') {
+      socket.emit('chat message', this.state.text);
+    }
     this.setState({ text: '' });
   }
 
@@ -45,7 +57,7 @@ class Chat extends React.Component {
         <div className="container-fluid chat-container">
           <div className="chat-header">
             <span className="glyphicon glyphicon-user" />
-            <span>    Chat with USER</span>
+            <span className="name-msg-offset">Chat with USER</span>
           </div>
           <ChatWindow messages={this.state.messages} />
           <div className="chat-input">
