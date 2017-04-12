@@ -82,6 +82,9 @@ class Video extends React.Component {
       },
       mute: !this.state.constraints.audio ? 'Mute' : 'Unmute'
     }, () => (this.triggerGetUserMedia()));
+    navigator.mediaDevices.getUserMedia(this.state.constraints)
+      .then(this.successCallback)
+      .catch(this.errorCallback);
   }
 
   render() {

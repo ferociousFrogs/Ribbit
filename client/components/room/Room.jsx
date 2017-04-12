@@ -10,9 +10,12 @@ const Room = () => (
     </div>
     <div className="col-md-4">
       <Video />
+    </div>
+    <div className="col-md-4">
       <Chat />
     </div>
   </div>
 );
 
+      // <Chat />
 export default Room;
