@@ -12,21 +12,23 @@ class Chat extends React.Component {
     super(props);
     this.state = {
       text: '',
-      users: [{ name: 'The Batman', id: '' }, { name: 'The Joker', id: '' }, { name: 'The Nightman', id: '' }, { name: 'Tim', id: '' }],
+      user: '',
       messages: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.receiveMessage = this.receiveMessage.bind(this);
-    this.saveUniqueUser = this.saveUniqueUser.bind(this);
   }
 
   componentDidMount() {
     // Listeners for socket events go here
     socket.on('chat message', this.receiveMessage);
-    socket.on('newUser', this.saveUniqueUser);
-    socket.emit('join', this.state.users);
-    // console.log('1. fire join event');
+  }
+
+  componentDidUpdate() {
+    // There is a new message in the state, scroll to bottom of list
+    const objDiv = document.getElementById('chatWindow');
+    objDiv.scrollTop = objDiv.scrollHeight;
   }
 
   receiveMessage(msg) {
@@ -35,19 +37,7 @@ class Chat extends React.Component {
     prevMessages.push(msg);
     this.setState({ messages: prevMessages });
   }
-  // this function isn't implemented properly.  Currently it only
-  // updates properly for the first user who connects.
-  saveUniqueUser(newUser) {
-    // console.log('4. receive newUser event, newUser = ', newUser);
-    const users = this.state.users;
-    // console.log('5. current state.users = ', users);
-    const userIndex = users.findIndex(user => user.name === newUser.name);
-    // console.log('6. userIndex of first matching user = ', userIndex);
-    users[userIndex].id = newUser.id;
-    // console.log('7. final version of state.users = ', users);
-    this.setState({ users: users });
-    // console.log('8. new version of state.users = ', this.state.users);
-  }
+
 
   handleInput(e) {
     this.setState({ text: e.target.value });
@@ -56,7 +46,13 @@ class Chat extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.text !== '') {
-      socket.emit('chat message', this.state.text);
+      const messageObj = {
+        userName: this.state.user !== '' ? this.state.user : 'Guest',
+        text: this.state.text,
+        fromMe: false
+      };
+      socket.emit('chat message', messageObj);
+      // eventually, we will use the 'fromMe' property to tag messages as from the sender so that they can render differently on the page.
     }
     this.setState({ text: '' });
   }
