@@ -100,4 +100,4 @@ class Video extends React.Component {
   }
 }
 
-export default Video2;
+export default Video;
