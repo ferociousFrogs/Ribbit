@@ -34,10 +34,6 @@ class Video extends React.Component {
     this.triggerGetUserMedia();
   }
 
-  // componentDidUpdate() {
-  //   this.triggerGetUserMedia();
-  // }
-
   gotStream(stream) {
     window.localStream = localStream = stream;
     if (window.URL) {
@@ -46,7 +42,7 @@ class Video extends React.Component {
       });
     } else {
       this.setState({
-        localVideoSrc: stream
+        localVideoSrc: window.localStream
       });
     }
   }
