@@ -18,8 +18,13 @@ app.get('/', (req, res) => {
   res.status(200).send();
 });
 
+
 io.on('connection', (socket) => {
-  // console.log('a user connected');
+  socket.on('join', (users) => {
+    const newUser = users.find(user => user.id === '');
+    newUser.id = socket.id;
+    io.emit('newUser', newUser);
+  });
   socket.on('chat message', (message) => {
     // console.log('message: ', message);
     io.emit('chat message', message);
