@@ -14,6 +14,7 @@ class Workspace extends React.Component {
     this.state = {
       code: '// Ribbit'
     };
+    this.updateCode = this.updateCode.bind(this);
   }
 
   updateCode(newCode) {
