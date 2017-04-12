@@ -19,8 +19,7 @@ coverage
 .grunt
 
 # Compiled Dirs (http://nodejs.org/api/addons.html)
-client/public/bundle.js
-client/public/styles.js
+client/public/
 
 
 # Dependency directorys
