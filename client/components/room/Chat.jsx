@@ -63,7 +63,6 @@ class Chat extends React.Component {
   }
 
   render() {
-    const socket = io();
     return (
       <div className="row border right-side">
         <div className="container-fluid chat-container">
