@@ -1,8 +1,10 @@
 import React from 'react';
-import ChatWindow from './ChatWindow';
 import io from 'socket.io-client';
+import ChatWindow from './ChatWindow';
 
-const socket = io('http://localhost:3000');
+const port = process.env.PORT || 3000;
+const server = `http://localhost:${port}`;
+const socket = io(server);
 
 class Chat extends React.Component {
   constructor(props) {
@@ -31,7 +33,8 @@ class Chat extends React.Component {
     prevMessages.push(msg);
     this.setState({ messages: prevMessages });
   }
-  //this function isn't implemented properly.  Currently it only updates properly for the first user who connects. 
+  // this function isn't implemented properly.  Currently it only
+  // updates properly for the first user who connects.
   saveUniqueUser(newUser) {
     const users = this.state.users;
     const userIndex = users.findIndex(user => user.name === newUser.name);
