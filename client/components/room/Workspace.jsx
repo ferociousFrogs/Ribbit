@@ -16,12 +16,6 @@ class Workspace extends React.Component {
     };
   }
 
-  getInitialState() {
-    return {
-      code: '// Code'
-    };
-  }
-
   updateCode(newCode) {
     this.setState({
       code: newCode
