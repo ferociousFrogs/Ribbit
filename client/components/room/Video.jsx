@@ -25,7 +25,6 @@ class Video extends React.Component {
       },
       video: 'Video Off',
       mute: 'Mute',
-      localVideoSrc: '',
       videoScreen: true,
       startButton: false,
       pc1: '',
@@ -33,27 +32,25 @@ class Video extends React.Component {
     };
     this.gotStream = this.gotStream.bind(this);
     this.start = this.start.bind(this);
+    this.createPeerConnection = this.createPeerConnection.bind(this);
+    this.handleIceCandidate = this.handleIceCandidate.bind(this);
+    this.getName = this.getName.bind(this);
+    this.getOtherPc = this.getOtherPc.bind(this);
     this.handleVideoScreen = this.handleVideoScreen.bind(this);
     this.handleAudio = this.handleAudio.bind(this);
   }
 
   componentDidMount() {
     socket.emit('Hello', 'Hello');
+    const localVideo = document.getElementById('localVideo');
+    const remoteVideo = document.getElementById('remoteVideo');
     this.start();
+    this.createPeerConnection();
   }
 
   gotStream(stream) {
-    console.log('What is this stream?', stream);
-    window.localStream = localStream = stream;
-    if (window.URL) {
-      this.setState({
-        localVideoSrc: window.URL.createObjectURL(stream)
-      });
-    } else {
-      this.setState({
-        localVideoSrc: window.localStream
-      });
-    }
+    localVideo.srcObject = stream;
+    localStream = stream;
   }
 
   start() {
@@ -65,6 +62,48 @@ class Video extends React.Component {
       .catch((error) => {
         alert(`getUserMedia() error: ${error.name}`);
       });
+  }
+
+  createPeerConnection() {
+    // Publicly available Google stun server
+    const configuration = {
+      'iceServers': [{
+        'urls': 'stun:stun.l.google.com:19302'
+      }]
+    };
+    // Establish a new RTCPeerConnection object using STUN server
+    pc1 = new RTCPeerConnection(configuration);
+    console.log('Created a P2P connection!');
+    pc1.onicecandidate = (event) => {
+      console.log('It is not reaching here', event);
+      this.handleIceCandidate(pc1, event);
+    };
+    console.log('Added a local stream to pc1!', localStream);
+    pc1.addStream(localStream);
+  }
+
+  handleIceCandidate(pc, event) {
+    if (event.candidate) {
+      this.getOtherPc(pc).addIceCandidate(
+        new RTCIceCandidate(event.candidate)
+      ).then(
+        () => {
+          console.log(`${this.getName(pc)} addIceCandidate success!`);
+        },
+        (error) => {
+          console.error(`${this.getName(pc)} failed to add ICE Candidate: ${error.toString()}`);
+        }
+      );
+      console.log(`${this.getName(pc)} ICE candidate: ${event.candidate.candidate}`);
+    }
+  }
+
+  getName(pc) {
+    return (pc === pc1) ? pc1 : pc2;
+  }
+
+  getOtherPc(pc) {
+    return (pc === pc1) ? pc2 : pc1;
   }
 
   handleVideoScreen() {
@@ -93,8 +132,8 @@ class Video extends React.Component {
   render() {
     return (
       <div className="row border right-side">
-        <video className="video" src={this.state.localVideoSrc} controls autoPlay />
-        <video className="video" src={this.state.remoteVideoSrc} controls autoPlay />
+        <video id="localVideo" controls autoPlay />
+        <video id="remoteVideo" controls autoPlay />
         <div>
           <button className="videoOff" onClick={this.handleVideoScreen}>{this.state.video}</button>
           <button className="mute" onClick={this.handleAudio}>{this.state.mute}</button>
