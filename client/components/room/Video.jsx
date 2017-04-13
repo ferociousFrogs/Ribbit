@@ -112,14 +112,14 @@ class Video extends React.Component {
     socket.on('recieved stream', this.setRemoteStream);
     return (
       <div className="row border right-side">
-        <div className="container-fluid">
+        <div className="remote">
           <video
-            className="localVideo col-md-4"
+            className="localVideo"
             src={this.state.localVideoSrc}
             autoPlay
           />
           <video
-            className="remoteVideo col-md-4"
+            className="remoteVideo"
             src={this.state.remoteVideoSrc}
             autoPlay
           />

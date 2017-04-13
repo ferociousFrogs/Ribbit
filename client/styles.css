@@ -15,16 +15,42 @@ video {
   width: 100%;
 }
 
+
+.remote {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.remoteVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -100;
+}
+
+.localVideo {
+  position: : relative;
+  max-width: 25%;
+  width: 25%;
+  margin-left: 2%;
+  z-index: 2;
+}
+
 .videoOff {
   position: absolute;
-  top: 1%;
+  top: 90%;
   margin-left: 2%;
+  z-index: 0;
 }
 
 .mute {
   position: absolute;
-  top: 1%;
+  top: 90%;
   margin-left: 20%;
+  z-index: 0;
 }
 
 .chat-header {
