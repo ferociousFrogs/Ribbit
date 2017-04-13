@@ -5,6 +5,7 @@ exports[`Chat component snapshot test 1`] = `
   className="row border right-side"
 >
   <div
+<<<<<<< HEAD
     className="container-fluid chat-container"
   >
     <div
@@ -42,6 +43,37 @@ exports[`Chat component snapshot test 1`] = `
         </button>
       </form>
     </div>
+=======
+    className="chat-header"
+  >
+    <span
+      className="glyphicon glyphicon-user"
+    />
+    <span>
+      Chat with USER
+    </span>
+  </div>
+  <div
+    className="chat-area"
+  >
+    chat area
+  </div>
+  <div
+    className="chat-input"
+  >
+    <form>
+      <input
+        className="col-md-10 col-sm-10 col-xs-10"
+        placeholder="Type your message here."
+        type="text"
+      />
+      <button
+        className="btn-info col-md-2  col-sm-2 col-xs-2"
+      >
+        Send
+      </button>
+    </form>
+>>>>>>> 8a8e3b9db2c15681206b752164affdc713d18adb
   </div>
 </div>
 `;

@@ -14,6 +14,7 @@ test('Chat component should be a stateful class component', () => {
   expect(React.Component.isPrototypeOf(Chat)).toEqual(true);
 });
 
+
 // test('Chat should emit events and pick up responses via listeners', () => {
 //   const port = process.env.PORT || 3000;
 //   const server = `http://localhost:${port}`;
@@ -24,3 +25,4 @@ test('Chat component should be a stateful class component', () => {
 //   socket.on('chat message', );
 //   expect('hello').toEqual('Aww hell no, wut up, dawg?');
 // });
+
