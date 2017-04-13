@@ -1,13 +1,18 @@
 // This is the file for the redux store
 import { createStore } from 'redux';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { browserHistory } from 'react-router';
 
 // import the root reducer
 import rootReducer from './reducers/rootReducer';
 
-const store = createStore(rootReducer);
+// BE SURE TO DOWNLOAD THE REDUX DEV TOOLS
+// https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en
+// I give access to the dev tools in the second parameter of the
+// createStore function.  The comments that say "eslint-disable" stop
+// the linter from causing problems.
 
-export const history = syncHistoryWithStore(browserHistory, store);
+/* eslint-disable no-underscore-dangle */
+const store = createStore(rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+/* eslint-enable */
 
 export default store;
