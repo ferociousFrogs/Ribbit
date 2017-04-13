@@ -1,6 +1,7 @@
 import React from 'react';
 import CodeMirror from 'react-codemirror';
 import io from 'socket.io-client';
+import axios from 'axios';
 
 // require('codemirror/lib/codemirror.css');
 require('codemirror/mode/javascript/javascript');
@@ -20,9 +21,11 @@ class Workspace extends React.Component {
     // mock user value for now
     this.state = {
       user: Math.floor(999 * Math.random()),
-      code: '// Ribbit\nfunction ribbit() {\n return "Ribbit";\n}\n'
+      code: '// Ribbit\nfunction ribbit() {\n return "Ribbit";\n};\nribbit();',
+      result: ''
     };
     this.updateCodeHandler = this.updateCodeHandler.bind(this);
+    this.runCodeButtonListener = this.runCodeButtonListener.bind(this);
   }
 
   componentDidMount() {
@@ -32,7 +35,8 @@ class Workspace extends React.Component {
       const editedCode = {
         id: 1,
         user: this.state.user,
-        value: cm.getValue()
+        value: cm.getValue(),
+        language: 'Javascript'
       };
       this.setState({
         code: editedCode.value
@@ -50,6 +54,24 @@ class Workspace extends React.Component {
     });
   }
 
+  runCodeButtonListener() {
+    axios.get('/runCode', {
+      params: {
+        value: this.state.code,
+        language: 'Javascript'
+      }
+    })
+    .then((response) => {
+      console.log(response.request.responseText);
+      this.setState({
+        result: `Docker-Container: Ribbit user$ ${response.request.responseText}`
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
   render() {
     const options = {
       lineNumbers: true,
@@ -64,7 +86,17 @@ class Workspace extends React.Component {
           value={this.state.code}
           options={options}
         />
-        This is the Workspace Component
+        <button
+          type="button"
+          className="btn-danger"
+          onClick={this.runCodeButtonListener}
+        >
+          Run Code
+        </button>
+        <div className="bash">
+          {new Date(Date.now()).toDateString()}
+          <p>{this.state.result ? this.state.result : 'Docker-Container: Ribbit user$ '}</p>
+        </div>
       </div>
     );
   }

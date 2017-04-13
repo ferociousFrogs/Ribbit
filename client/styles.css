@@ -50,6 +50,13 @@ video {
   padding-left: 10px;
 }
 
+.bash {
+  height: 17%;
+  background-color: black;
+  color: grey;
+  font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+
 /* CODEMIRROR BASICS */
 
 .CodeMirror {
