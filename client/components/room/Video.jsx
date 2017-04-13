@@ -36,6 +36,9 @@ class Video extends React.Component {
     this.handleIceCandidate = this.handleIceCandidate.bind(this);
     this.getName = this.getName.bind(this);
     this.getOtherPc = this.getOtherPc.bind(this);
+    this.onCreateOfferSuccess = this.onCreateOfferSuccess.bind(this);
+    this.onSetLocalSuccess = this.onSetLocalSuccess.bind(this);
+    this.onSetSessionDescriptionError = this.onSetSessionDescriptionError.bind(this);
     this.handleVideoScreen = this.handleVideoScreen.bind(this);
     this.handleAudio = this.handleAudio.bind(this);
   }
@@ -75,11 +78,36 @@ class Video extends React.Component {
     pc1 = new RTCPeerConnection(configuration);
     console.log('Created a P2P connection!');
     pc1.onicecandidate = (event) => {
-      console.log('It is not reaching here', event);
       this.handleIceCandidate(pc1, event);
     };
     console.log('Added a local stream to pc1!', localStream);
     pc1.addStream(localStream);
+    console.log('Time to create an offer!');
+    pc1.createOffer(
+      offerOptions
+    ).then(
+      this.onCreateOfferSuccess,
+      this.onCreateSessionDescriptionError
+    );
+  }
+
+  onCreateOfferSuccess(desc) {
+    console.log(`Offer from pc1\n ${desc.sdp}`);
+    console.log('Start pc1 setLocalDescription');
+    pc1.setLocalDescription(desc).then(
+      () => {
+        this.onSetLocalSuccess(pc1);
+      },
+        this.onSetSessionDescriptionError
+    );
+  }
+
+  onSetLocalSuccess(pc) {
+    console.log(`${this.getName(pc)} setLocalDescription complete`);
+  }
+
+  onSetSessionDescriptionError(error) {
+   console.log(`Failed to set session description: ${error.toString()}`);
   }
 
   handleIceCandidate(pc, event) {
