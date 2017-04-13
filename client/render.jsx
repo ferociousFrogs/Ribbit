@@ -2,11 +2,17 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store, { history } from './store';
+import store from './store';
 import App from './components/App';
 
-render(
+// here, we wrap our top level components in the provider
+// component, and pass it our store.  This gives us access to the store
+// from lower down in the component tree.
 
-  <Router>
-    <App />
-  </Router>, document.getElementById('app'));
+render(
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>
+  , document.getElementById('app'));

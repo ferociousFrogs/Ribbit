@@ -1,9 +1,9 @@
 // this is the file for the redux root reducer
 import { combineReducers } from 'redux';
-import chatMessage from './chatMessage-reducer';
+import chatMessagesReducer from './chatMessage-reducer';
 
 const rootReducer = combineReducers({
-  chatMessage
+  messages: chatMessagesReducer
 });
 
 export default rootReducer;
