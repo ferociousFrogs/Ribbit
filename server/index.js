@@ -12,12 +12,34 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, '../client')));
 
+const codeParser = (code) => {
+  code.value = code.value.replace(/\\n/gi, '');
+  if (code.language === 'Javascript') {
+    return eval(code.value);
+  } else if (code.language === 'Python') {
+    return 'Python coming soon!';
+  } else if (code.language === 'Ruby') {
+    return 'Ruby coming soon!';
+  }
+  return null;
+};
+
+console.log(codeParser({
+  value:'function ribbit() { return "Ribbit";};ribbit();',
+  language: 'Javascript'
+}));
 
 // Routes
 app.get('/', (req, res) => {
   res.status(200).send();
 });
 
+app.get('/runCode', (req, res) => {
+  console.log(req.query);
+  const result = codeParser(req.query);
+  console.log(result);
+  res.status(200).send(result);
+});
 
 io.on('connection', (socket) => {
   socket.on('join', (users) => {
