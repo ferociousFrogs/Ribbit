@@ -23,7 +23,9 @@ class Video extends React.Component {
       },
       video: 'Video Off',
       mute: 'Mute',
+      videoSrc: '',
       localVideoSrc: '',
+      remoteVideoSrc: '',
       videoScreen: true,
       startButton: false
     };
@@ -36,12 +38,13 @@ class Video extends React.Component {
 
   componentDidMount() {
     this.triggerGetUserMedia();
-    console.log('video props', this.props)
+    socket.on('video', this.receiveMessage);
+    socket.on('set remote', this.saveUniqueUser);
   }
 
-  // componentDidUpdate() {
-  //   this.triggerGetUserMedia();
-  // }
+  componentDidUpdate() {
+    socket.emit('send local', this.state.localVideoSrc);
+  }
 
   gotStream(stream) {
     window.localStream = localStream = stream;
@@ -95,10 +98,29 @@ class Video extends React.Component {
   render() {
     return (
       <div className="row border right-side">
-        <video className="video" src={this.state.localVideoSrc} autoPlay />
-        <div>
-          <button className="videoOff" onClick={this.handleVideoScreen}>{this.state.video}</button>
-          <button className="mute" onClick={this.handleAudio}>{this.state.mute}</button>
+        <div className="container-fluid">
+          <video
+            className="localVideo col-md-6"
+            src={this.state.localVideoSrc}
+            autoPlay
+          />
+          <video
+            className="remoteVideo col-md-6"
+            src={this.state.localVideoSrc}
+            autoPlay
+          />
+          <div>
+            <button
+              className="videoOff"
+              onClick={this.handleVideoScreen}
+            >{this.state.video}
+            </button>
+            <button
+              className="mute"
+              onClick={this.handleAudio}
+            >{this.state.mute}
+            </button>
+          </div>
         </div>
       </div>
     );

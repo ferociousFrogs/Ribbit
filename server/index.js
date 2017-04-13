@@ -43,16 +43,23 @@ app.get('/runCode', (req, res) => {
 
 io.on('connection', (socket) => {
   socket.on('join', (users) => {
+    console.log('users on join', users);
     // console.log('2. users from join event', users);
-    const newUser = users.find(user => user.id === '');
-    newUser.id = socket.id;
-    io.emit('newUser', newUser);
+    // const newUser = users.find(user => user.id === '');
+    // newUser.id = socket.id;
+    // io.emit('newUser', newUser);
     // console.log('3. fire newUser event, newUser = ', newUser);
   });
   socket.on('chat message', (message) => {
     // console.log('message: ', message);
     io.emit('chat message', message);
   });
+
+  // for video chat
+  socket.on('video', (stream) => {
+    io.broadcast.emit(stream);
+  });
+
   socket.on('disconnect', () => {
     // console.log('user disconnected');
   });
