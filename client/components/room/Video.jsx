@@ -7,7 +7,7 @@ const server = location.origin;
 // const server2 = 'https://tailbud-pr-17.herokuapp.com/';
 const socket = io(server);
 
-var localStream;
+let localStream;
 let pc1;
 let pc2;
 let offerOptions = {
