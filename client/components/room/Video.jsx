@@ -1,5 +1,11 @@
 import React from 'react';
+import io from 'socket.io-client';
 import webrtc from 'webrtc-adapter';
+
+// const port = process.env.PORT || 3000;
+const server = location.origin;
+// const server2 = 'https://tailbud-pr-17.herokuapp.com/';
+const socket = io(server);
 
 let localStream;
 let pc1;
@@ -21,20 +27,23 @@ class Video extends React.Component {
       mute: 'Mute',
       localVideoSrc: '',
       videoScreen: true,
-      startButton: false
+      startButton: false,
+      pc1: '',
+      pc2: ''
     };
     this.gotStream = this.gotStream.bind(this);
-    this.errorCallback = this.errorCallback.bind(this);
-    this.triggerGetUserMedia = this.triggerGetUserMedia.bind(this);
+    this.start = this.start.bind(this);
     this.handleVideoScreen = this.handleVideoScreen.bind(this);
     this.handleAudio = this.handleAudio.bind(this);
   }
 
   componentDidMount() {
-    this.triggerGetUserMedia();
+    socket.emit('Hello', 'Hello');
+    this.start();
   }
 
   gotStream(stream) {
+    console.log('What is this stream?', stream);
     window.localStream = localStream = stream;
     if (window.URL) {
       this.setState({
@@ -47,17 +56,15 @@ class Video extends React.Component {
     }
   }
 
-  errorCallback(error) {
-    console.log('navigator.mediaDevices.getUserMedia error: ', error.message);
-  }
-
-  triggerGetUserMedia() {
+  start() {
     navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia ||
       navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
 
     return navigator.mediaDevices.getUserMedia(this.state.constraints)
       .then(this.gotStream)
-      .catch(this.errorCallback);
+      .catch((error) => {
+        alert(`getUserMedia() error: ${error.name}`);
+      });
   }
 
   handleVideoScreen() {
@@ -67,7 +74,7 @@ class Video extends React.Component {
         audio: this.state.constraints.audio
       },
       video: !this.state.constraints.video ? 'Video Off' : 'Video On'
-    }, () => (this.triggerGetUserMedia()));
+    }, () => (this.start()));
   }
 
   handleAudio() {
@@ -77,7 +84,7 @@ class Video extends React.Component {
         audio: !this.state.constraints.audio
       },
       mute: !this.state.constraints.audio ? 'Mute' : 'Unmute'
-    }, () => (this.triggerGetUserMedia()));
+    }, () => (this.start()));
     navigator.mediaDevices.getUserMedia(this.state.constraints)
       .then(this.successCallback)
       .catch(this.errorCallback);
@@ -86,7 +93,8 @@ class Video extends React.Component {
   render() {
     return (
       <div className="row border right-side">
-        <video className="video" src={this.state.localVideoSrc} autoPlay />
+        <video className="video" src={this.state.localVideoSrc} controls autoPlay />
+        <video className="video" src={this.state.remoteVideoSrc} controls autoPlay />
         <div>
           <button className="videoOff" onClick={this.handleVideoScreen}>{this.state.video}</button>
           <button className="mute" onClick={this.handleAudio}>{this.state.mute}</button>
