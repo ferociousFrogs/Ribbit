@@ -8,9 +8,11 @@ const Room = () => (
     <div className="col-md-8">
       <Workspace />
     </div>
-    <div className="col-md-4">
-      <Video />
-    </div>
+    {['left', 'right'].map(side => (
+      <div className="col-md-2">
+        <Video key={side} side={side} />
+      </div>
+      ))}
     <div className="col-md-4">
       <Chat />
     </div>

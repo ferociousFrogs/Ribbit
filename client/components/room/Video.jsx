@@ -1,5 +1,9 @@
 import React from 'react';
 import webrtc from 'webrtc-adapter';
+import io from 'socket.io-client';
+
+const server = location.origin;
+const socket = io(server);
 
 let localStream;
 let pc1;
@@ -32,6 +36,7 @@ class Video extends React.Component {
 
   componentDidMount() {
     this.triggerGetUserMedia();
+    console.log('video props', this.props)
   }
 
   // componentDidUpdate() {
