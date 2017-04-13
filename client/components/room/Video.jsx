@@ -37,8 +37,11 @@ class Video extends React.Component {
     this.getName = this.getName.bind(this);
     this.getOtherPc = this.getOtherPc.bind(this);
     this.onCreateOfferSuccess = this.onCreateOfferSuccess.bind(this);
+    this.onCreateAnswerSuccess = this.onCreateAnswerSuccess.bind(this);
     this.onSetLocalSuccess = this.onSetLocalSuccess.bind(this);
+    this.onSetRemoteSuccess = this.onSetRemoteSuccess.bind(this);
     this.onSetSessionDescriptionError = this.onSetSessionDescriptionError.bind(this);
+    this.gotRemoteStream = this.gotRemoteStream.bind(this);
     this.handleVideoScreen = this.handleVideoScreen.bind(this);
     this.handleAudio = this.handleAudio.bind(this);
   }
@@ -76,15 +79,27 @@ class Video extends React.Component {
     };
     // Establish a new RTCPeerConnection object using STUN server
     pc1 = new RTCPeerConnection(configuration);
-    console.log('Created a P2P connection!');
+    console.log('Created a P2P connection for PC1!');
     pc1.onicecandidate = (event) => {
       this.handleIceCandidate(pc1, event);
     };
     console.log('Added a local stream to pc1!', localStream);
+
+    pc2 = new RTCPeerConnection(configuration);
+    console.log('Created a P2P connection for PC2!');
+
+    pc2.onicecandidate = (event) => {
+      this.handleIceCandidate(pc2, event);
+    };
+    console.log('Added a local stream to pc2!', localStream);
+
+    pc2.onaddstream = this.gotRemoteStream;
+
     pc1.addStream(localStream);
     console.log('Time to create an offer!');
     pc1.createOffer(
       offerOptions
+      // Why can't I put a console log here: console.log('These options', offerOptions)
     ).then(
       this.onCreateOfferSuccess,
       this.onCreateSessionDescriptionError
@@ -100,15 +115,53 @@ class Video extends React.Component {
       },
         this.onSetSessionDescriptionError
     );
+    console.log('pc2 setRemoteDescription start');
+    pc2.setRemoteDescription(desc).then(
+      () => {
+        this.onSetRemoteSuccess(pc2);
+      },
+      this.onSetSessionDescriptionError
+    );
+    console.log('pc2 createAnswer start');
+    // Since the 'remote' side has no media stream we need
+    // to pass in the right constraints in order for it to
+    // accept the incoming offer of audio and video.
+    pc2.createAnswer().then(
+      this.onCreateAnswerSuccess,
+      this.onCreateSessionDescriptionError
+    );
+  }
+
+  onCreateAnswerSuccess(desc) {
+    console.log(`Answer from pc2:\n ${desc.sdp}`);
+    console.log('pc2 setLocalDescription start');
+    pc2.setLocalDescription(desc).then(
+      () => {
+        this.onSetLocalSuccess(pc2);
+      },
+      this.onSetSessionDescriptionError
+    );
+    console.log('pc1 setRemoteDescription start');
+    pc1.setRemoteDescription(desc).then(
+      () => {
+        this.onSetRemoteSuccess(pc1);
+      },
+      this.onSetSessionDescriptionError
+    );
   }
 
   onSetLocalSuccess(pc) {
     console.log(`${this.getName(pc)} setLocalDescription complete`);
   }
 
+  onSetRemoteSuccess(pc) {
+    console.log(`${this.getName(pc)} setRemoteDescription complete`);
+  }
+
   onSetSessionDescriptionError(error) {
    console.log(`Failed to set session description: ${error.toString()}`);
   }
+
 
   handleIceCandidate(pc, event) {
     if (event.candidate) {
@@ -124,6 +177,12 @@ class Video extends React.Component {
       );
       console.log(`${this.getName(pc)} ICE candidate: ${event.candidate.candidate}`);
     }
+  }
+
+  gotRemoteStream(event) {
+    window.remoteStream = remoteVideo.srcObject;
+    remoteVideo.srcObject = event.stream;
+    console.log('The pc2 received remote stream');
   }
 
   getName(pc) {
