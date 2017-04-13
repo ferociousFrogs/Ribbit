@@ -1,7 +1,7 @@
 import React from 'react';
 import CodeMirror from 'react-codemirror';
 
-require('codemirror/lib/codemirror.css');
+// require('codemirror/lib/codemirror.css');
 require('codemirror/mode/javascript/javascript');
 require('codemirror/mode/xml/xml');
 require('codemirror/mode/markdown/markdown');
@@ -20,9 +20,6 @@ class Workspace extends React.Component {
 
   componentDidMount() {
     const cm = this.refs.cm.getCodeMirror();
-    console.log('cm', cm);
-    console.log('get doc', cm.getDoc());
-    console.log('cm.getValue()', cm.getValue());
     cm.setSize(null, 550);
   }
 

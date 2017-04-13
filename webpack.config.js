@@ -1,5 +1,5 @@
 require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
 const BUILD_DIR = path.resolve(__dirname, 'client/public');
@@ -21,28 +21,32 @@ const config = {
           path.join(__dirname, 'node_modules/react-codemirror')
         ],
         loader: 'babel-loader'
-      },
-      {
-        test: /(\.scss|\.css)$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
       }
+      // ,
+      // {
+      //   test: /(\.scss|\.css)$/,
+      //   rules: [
+      //     {
+      //       test: /\.css$/,
+      //       use: ['style-loader', 'css-loader']
+      //     }
+      //   ]
+      // }
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.scss', '.css'],
+    extensions: ['.js', '.jsx'],
     moduleExtensions: [
       'node_modules',
       path.resolve(__dirname, 'src/scripts'),
       path.resolve(__dirname, 'src')
     ]
-  },
-  plugins: [
-    new ExtractTextPlugin('styles.css')
-    // this may be pointing at the wrong file endpoint
-  ]
+  }
+  // ,
+  // plugins: [
+  //   new ExtractTextPlugin('styles.css')
+  //   // this may be pointing at the wrong file endpoint
+  // ]
 };
 
 module.exports = config;

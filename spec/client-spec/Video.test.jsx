@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import Video from '../../client/components/room/Video';
 
-test('Chat component snapshot test', () => {
+test('Video component snapshot test', () => {
   const component = renderer.create(<Video />);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
