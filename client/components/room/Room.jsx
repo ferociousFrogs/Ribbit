@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import React from 'react';
 import Video from './Video';
 import Workspace from './Workspace';
@@ -18,4 +19,4 @@ const Room = () => (
 );
 
       // <Chat />
-export default Room;
+export default connect()(Room);
