@@ -34,6 +34,9 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     // console.log('user disconnected');
   });
+  socket.on('code-edit', (code) => {
+    socket.broadcast.emit('newCode', code);
+  });
 });
 
 http.listen(port, () => {
