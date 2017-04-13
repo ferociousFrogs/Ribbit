@@ -5,35 +5,43 @@ exports[`Chat component snapshot test 1`] = `
   className="row border right-side"
 >
   <div
-    className="chat-header"
+    className="container-fluid chat-container"
   >
-    <span
-      className="glyphicon glyphicon-user"
-    />
-    <span>
-      Chat with USER
-    </span>
-  </div>
-  <div
-    className="chat-area"
-  >
-    chat area
-  </div>
-  <div
-    className="chat-input"
-  >
-    <form>
-      <input
-        className="col-md-10 col-sm-10 col-xs-10"
-        placeholder="Type your message here."
-        type="text"
+    <div
+      className="chat-header"
+    >
+      <span
+        className="glyphicon glyphicon-user"
       />
-      <button
-        className="btn-info col-md-2  col-sm-2 col-xs-2"
+      <span
+        className="name-msg-offset"
       >
-        Send
-      </button>
-    </form>
+        Chat with USER
+      </span>
+    </div>
+    <div
+      className="chat-area"
+    />
+    <div
+      className="chat-input"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <input
+          className="col-md-10 col-sm-10 col-xs-10"
+          onChange={[Function]}
+          placeholder="Type your message here."
+          type="text"
+          value=""
+        />
+        <button
+          className="btn-info col-md-2  col-sm-2 col-xs-2"
+        >
+          Send
+        </button>
+      </form>
+    </div>
   </div>
 </div>
 `;
