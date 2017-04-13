@@ -7,7 +7,7 @@ const server = location.origin;
 // const server2 = 'https://tailbud-pr-17.herokuapp.com/';
 const socket = io(server);
 
-let localStream;
+var localStream;
 let pc1;
 let pc2;
 let offerOptions = {
@@ -45,7 +45,6 @@ class Video extends React.Component {
     const localVideo = document.getElementById('localVideo');
     const remoteVideo = document.getElementById('remoteVideo');
     this.start();
-    this.createPeerConnection();
   }
 
   gotStream(stream) {
@@ -59,6 +58,7 @@ class Video extends React.Component {
 
     return navigator.mediaDevices.getUserMedia(this.state.constraints)
       .then(this.gotStream)
+      .then(this.createPeerConnection)
       .catch((error) => {
         alert(`getUserMedia() error: ${error.name}`);
       });
