@@ -56,8 +56,9 @@ io.on('connection', (socket) => {
   });
 
   // for video chat
-  socket.on('video', (stream) => {
-    io.broadcast.emit(stream);
+  socket.on('send stream', (stream) => {
+    console.log('stream being sent!');
+    socket.broadcast.emit('recieved stream', stream);
   });
 
   socket.on('disconnect', () => {

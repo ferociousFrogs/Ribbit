@@ -34,6 +34,8 @@ class Video extends React.Component {
     this.triggerGetUserMedia = this.triggerGetUserMedia.bind(this);
     this.handleVideoScreen = this.handleVideoScreen.bind(this);
     this.handleAudio = this.handleAudio.bind(this);
+    this.sendStream = this.sendStream.bind(this);
+    this.setRemoteStream = this.setRemoteStream.bind(this);
   }
 
   componentDidMount() {
@@ -42,9 +44,9 @@ class Video extends React.Component {
     socket.on('set remote', this.saveUniqueUser);
   }
 
-  componentDidUpdate() {
-    socket.emit('send local', this.state.localVideoSrc);
-  }
+  // componentDidUpdate() {
+  //   socket.emit('send local', this.state.localVideoSrc);
+  // }
 
   gotStream(stream) {
     window.localStream = localStream = stream;
@@ -59,6 +61,16 @@ class Video extends React.Component {
     }
   }
 
+  sendStream() {
+    socket.emit('send stream', this.state.localVideoSrc);
+  }
+
+  setRemoteStream(stream) {
+    this.setState({
+      remoteVideoSrc: stream
+    });
+  }
+
   errorCallback(error) {
     console.log('navigator.mediaDevices.getUserMedia error: ', error.message);
   }
@@ -69,6 +81,7 @@ class Video extends React.Component {
 
     return navigator.mediaDevices.getUserMedia(this.state.constraints)
       .then(this.gotStream)
+      .then(this.sendStream)
       .catch(this.errorCallback);
   }
 
@@ -96,17 +109,18 @@ class Video extends React.Component {
   }
 
   render() {
+    socket.on('recieved stream', this.setRemoteStream);
     return (
       <div className="row border right-side">
         <div className="container-fluid">
           <video
-            className="localVideo col-md-6"
+            className="localVideo col-md-4"
             src={this.state.localVideoSrc}
             autoPlay
           />
           <video
-            className="remoteVideo col-md-6"
-            src={this.state.localVideoSrc}
+            className="remoteVideo col-md-4"
+            src={this.state.remoteVideoSrc}
             autoPlay
           />
           <div>
