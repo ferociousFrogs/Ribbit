@@ -3,11 +3,13 @@ import React from 'react';
 import io from 'socket.io-client';
 import ChatWindow from './ChatWindow';
 import sendMessage from './../../actions/actionCreators';
+import Chance from 'chance';
 
 // const port = process.env.PORT || 3000;
 const server = location.origin;
 // const server2 = 'https://tailbud-pr-17.herokuapp.com/';
 const socket = io(server);
+const chance = new Chance();
 
 class Chat extends React.Component {
   constructor(props) {
