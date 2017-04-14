@@ -25,7 +25,7 @@ const codeParser = (code) => {
 };
 
 console.log(codeParser({
-  value:'function ribbit() { return "Ribbit";};ribbit();',
+  value:'function ribbit() { return 1+1;};ribbit();',
   language: 'Javascript'
 }));
 
@@ -35,10 +35,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/runCode', (req, res) => {
-  console.log(req.query);
   const result = codeParser(req.query);
   console.log(result);
-  res.status(200).send(result);
+  res.status(200).send(result.toString());
 });
 
 io.on('connection', (socket) => {
