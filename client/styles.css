@@ -32,14 +32,8 @@ video {
 }
 
 .chat-area {
-<<<<<<< HEAD
-  background-color: #ced6e2;
-
-  height: 80%;
-=======
   height: 290px;
   background-color: #ced6e2;
->>>>>>> Add basic classes to styles.css
   overflow-y: scroll;
   border-radius: 5px;
 }
@@ -48,15 +42,10 @@ video {
   padding-top: 1%;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Add basic classes to styles.css
 .chat-container {
   background-color: #e5e5e5;
 }
 
-<<<<<<< HEAD
 .name-msg-offset {
   padding-left: 10px;
 }
@@ -410,6 +399,3 @@ div.CodeMirror-dragcursors {
 span.CodeMirror-selectedtext { background: none; }
 
 /* THUS SPOKE CODEMIRROR*/
-
-=======
->>>>>>> Add basic classes to styles.css
