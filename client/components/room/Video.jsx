@@ -219,8 +219,8 @@ class Video extends React.Component {
   render() {
     return (
       <div className="row border right-side">
-        <video id="localVideo" controls autoPlay />
-        <video id="remoteVideo" controls autoPlay />
+        <video id="localVideo" autoPlay />
+        <video id="remoteVideo" autoPlay />
         <div>
           <button className="videoOff" onClick={this.handleVideoScreen}>{this.state.video}</button>
           <button className="mute" onClick={this.handleAudio}>{this.state.mute}</button>
