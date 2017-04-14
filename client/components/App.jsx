@@ -4,11 +4,11 @@ import Navbar from './Navbar';
 import Home from './homepage/Home';
 import Room from './room/Room';
 
-const App = () => (
+const App = props => (
   <div>
     <Navbar />
     <Route exact path="/" component={Home} />
-    <Route path="/room" component={Room} />
+    <Route path={`/:${props.roomName}`} component={Room} />
   </div>
 );
 

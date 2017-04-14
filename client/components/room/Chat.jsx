@@ -105,12 +105,11 @@ class Chat extends React.Component {
 // an object that has the key that I specify (in this case, messages), and
 // the value is the reducer itself, in this case coming from
 // chatMessage-reducer file (chatMessagesReducer)
-const mapStateToProps = (state) => {
-  return {
-    messages: state.messages,
-    userName: state.userName
-  };
-};
+
+const mapStateToProps = state => ({
+  messages: state.messages
+});
+
 
 // it's this function that is allowing us to dispatch our actions.
 //  Pay close attention to what we're doing.  Similar to how we would pass

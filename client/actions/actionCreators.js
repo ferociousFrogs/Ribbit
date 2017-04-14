@@ -12,6 +12,7 @@
 // export the action.  I'm not sure if we can "export default" a bunch
 // of times, and instead may need to write "export const actionName ....."
 // for each one
+<<<<<<< HEAD
 
 export const addUserName = name => ({
   type: 'ADD_USERNAME',
@@ -24,3 +25,18 @@ export const sendMessage = message => ({
 });
 
 // export default sendMessage;
+=======
+const actions = {
+  sendMessage: message => ({
+    type: 'SEND_MESSAGE',
+    message
+  }),
+
+  createRoomName: roomName => ({
+    type: 'CREATE_ROOM_NAME',
+    roomName
+  })
+};
+
+export default actions;
+>>>>>>> (feat) Render rooms with unique names based on user input

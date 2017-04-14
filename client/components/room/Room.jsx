@@ -18,5 +18,4 @@ const Room = () => (
   </div>
 );
 
-      // <Chat />
 export default connect()(Room);
