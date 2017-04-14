@@ -15,6 +15,22 @@ video {
   width: 100%;
 }
 
+#localVideo {
+  position: relative;
+  margin-left: 2%;
+  top: 250px;
+  width: 25%;
+  z-index: 2;
+  border: 2px solid white;
+}
+
+#remoteVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -100;
+}
+
 .videoOff {
   position: absolute;
   top: 1%;
