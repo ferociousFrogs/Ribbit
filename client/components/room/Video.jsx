@@ -47,7 +47,7 @@ class Video extends React.Component {
   }
 
   componentDidMount() {
-    socket.emit('Hello', 'Hello');
+    socket.emit('video message', 'Hello video!');
     const localVideo = document.getElementById('localVideo');
     const remoteVideo = document.getElementById('remoteVideo');
     this.start();

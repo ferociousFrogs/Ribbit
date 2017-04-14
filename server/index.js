@@ -67,6 +67,10 @@ io.on('connection', (socket) => {
   socket.on('code-edit', (code) => {
     socket.broadcast.emit('newCode', code);
   });
+  socket.on('video message', (message) => {
+    console.log(`Client said: ${message}`);
+    socket.broadcast.emit('message', message);
+  });
 });
 
 http.listen(port, () => {
