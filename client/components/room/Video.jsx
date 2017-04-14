@@ -99,7 +99,6 @@ class Video extends React.Component {
     console.log('Time to create an offer!');
     pc1.createOffer(
       offerOptions
-      // Why can't I put a console log here: console.log('These options', offerOptions)
     ).then(
       this.onCreateOfferSuccess,
       this.onCreateSessionDescriptionError
@@ -107,6 +106,7 @@ class Video extends React.Component {
   }
 
   onCreateOfferSuccess(desc) {
+    console.log('Check this out', desc)
     console.log(`Offer from pc1\n ${desc.sdp}`);
     console.log('Start pc1 setLocalDescription');
     pc1.setLocalDescription(desc).then(
@@ -123,9 +123,6 @@ class Video extends React.Component {
       this.onSetSessionDescriptionError
     );
     console.log('pc2 createAnswer start');
-    // Since the 'remote' side has no media stream we need
-    // to pass in the right constraints in order for it to
-    // accept the incoming offer of audio and video.
     pc2.createAnswer().then(
       this.onCreateAnswerSuccess,
       this.onCreateSessionDescriptionError
