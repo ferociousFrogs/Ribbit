@@ -71,6 +71,27 @@ io.on('connection', (socket) => {
     console.log(`Client said: ${message}`);
     socket.broadcast.emit('message', message);
   });
+  // Create Room socket connection
+  socket.on('create or join', (room) => {
+    console.log(`Request to create or join room received for ${room}`);
+
+    const numClients = io.sockets.sockets.length;
+    console.log(`Room ${room} now has ${numClients} client(s)`);
+
+    if (numClients === 1) {
+      socket.join(room);
+      console.log(`Client ID ${socket.id} created room ${room}`);
+      socket.emit('Created', room, socket.id);
+    } else if (numClients === 2) {
+      console.log(`Client ID ${socket.id} joined room ${room}`);
+      io.sockets.in(room).emit('join', room);
+      socket.join(room);
+      socket.emit('Joined', room, socket.id);
+      io.sockets.in(room).emit('ready');
+    } else {
+      socket.emit('Full', room);
+    }
+  });
 });
 
 http.listen(port, () => {

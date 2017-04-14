@@ -30,6 +30,7 @@ class Video extends React.Component {
       pc1: '',
       pc2: ''
     };
+    this.createRoom = this.createRoom.bind(this);
     this.gotStream = this.gotStream.bind(this);
     this.start = this.start.bind(this);
     this.createPeerConnection = this.createPeerConnection.bind(this);
@@ -51,6 +52,41 @@ class Video extends React.Component {
     const localVideo = document.getElementById('localVideo');
     const remoteVideo = document.getElementById('remoteVideo');
     this.start();
+    this.createRoom();
+  }
+
+  // CreateRoom method if required later
+  createRoom() {
+    let isInitiator
+
+    window.room = prompt('Enter room name:');
+
+    let socket = io.connect();
+
+    if (room !== '') {
+      console.log(`Message from client: Asking to join room ${room}`);
+      socket.emit('create or join', room);
+    }
+
+    socket.on('Created', (room, clientId) => {
+      isInitiator = true;
+    });
+
+    socket.on('Full', (room) => {
+      console.log(`Message from client: Room ${room} is full :^(')`);
+    });
+
+    socket.on('Ipaddr', (ipaddr) => {
+      console.log(`Message from client: Server IP address is ${ipaddr}`);
+    });
+
+    socket.on('Joined', (room, clientId) => {
+      isInitiator = false;
+    });
+
+    socket.on('Log', (array) => {
+      console.log.apply(console, array);
+    });
   }
 
   gotStream(stream) {
