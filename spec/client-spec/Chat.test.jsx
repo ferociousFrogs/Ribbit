@@ -1,6 +1,3 @@
-
-import { renderIntoDocument } from 'react-dom/test-utils';
-import { renderIntoDocument } from 'react-dom/test-utils';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Chat from '../../client/components/room/Chat';
