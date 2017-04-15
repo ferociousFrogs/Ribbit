@@ -24,7 +24,7 @@ class Chat extends React.Component {
     // Listeners for socket events go here
     const randomName = chance.first();
     console.log('randomName', randomName);
-    this.props.addUserName(randomName);
+    this.props.addUserName(`"${randomName}"`);
     this.props.socket.on('chat message', this.receiveMessage);
   }
 
