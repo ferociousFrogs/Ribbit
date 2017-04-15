@@ -7,8 +7,6 @@ import { sendMessage, addUserName } from './../../actions/actionCreators';
 // const port = process.env.PORT || 3000;
 // const server2 = 'https://tailbud-pr-17.herokuapp.com/';
 
-const chance = new Chance();
-
 class Chat extends React.Component {
   constructor(props) {
     super(props);
@@ -21,27 +19,16 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    // Listeners for socket events go here
-    const randomName = chance.first();
-    console.log('randomName', randomName);
-    this.props.addUserName(`"${randomName}"`);
     this.props.socket.on('chat message', this.receiveMessage);
   }
 
   componentDidUpdate() {
-    // There is a new message in the state, scroll to bottom of list
+    // If there is a new message in the state, scroll to bottom of list
     const objDiv = document.getElementById('chatWindow');
     objDiv.scrollTop = objDiv.scrollHeight;
   }
 
   receiveMessage(msg) {
-    // method for updating state with the new message.
-    // this commented out function is the effect of my sendMessage
-    // actionCreator and chatMessagesReducer
-
-    // const prevMessages = this.state.messages;
-    // prevMessages.push(msg);
-    // this.setState({ messages: prevMessages });
     this.props.sendMessage(msg);
   }
 
