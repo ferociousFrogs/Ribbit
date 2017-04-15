@@ -50,14 +50,13 @@ class Video extends React.Component {
     this.createPeerConnection = this.createPeerConnection.bind(this);
     this.handleIceCandidate = this.handleIceCandidate.bind(this);
     this.onSetSessionDescriptionError = this.onSetSessionDescriptionError.bind(this);
-    // this.requestTurn = this.requestTurn.bind(this);
     this.handleRemoteStreamAdded = this.handleRemoteStreamAdded.bind(this);
     this.handleRemoteStreamRemoved = this.handleRemoteStreamRemoved.bind(this);
     this.hangup = this.hangup.bind(this);
     this.handleRemoteHangup = this.handleRemoteHangup.bind(this);
     this.stop = this.stop.bind(this);
-    // this.handleVideoScreen = this.handleVideoScreen.bind(this);
-    // this.handleAudio = this.handleAudio.bind(this);
+    this.toggleVideo = this.toggleVideo.bind(this);
+    this.toggleAudio = this.toggleAudio.bind(this);
   }
 
   componentDidMount() {
@@ -68,11 +67,8 @@ class Video extends React.Component {
     this.connectSockets();
   }
 
-
-  // CreateRoom method if required later
   createRoom() {
     let room = 'foo';
-    // window.room = prompt('Enter room name:');
 
     let socket = io.connect();
 
@@ -123,7 +119,6 @@ class Video extends React.Component {
   start() {
     navigator.mediaDevices.getUserMedia(this.state.constraints)
       .then(this.gotStream)
-      // .then(this.createPeerConnection)
       .catch((error) => {
         alert(`getUserMedia() error: ${error.name}`);
       });
@@ -194,16 +189,12 @@ class Video extends React.Component {
   createPeerConnection() {
     try {
       pc = new RTCPeerConnection(null);
-      console.log('WHAT IS THIS PC', pc);
       pc.onicecandidate = this.handleIceCandidate;
-      console.log('This is pconice', pc.onicecandidate);
       pc.onaddstream = this.handleRemoteStreamAdded;
       pc.onremovestream = this.handleRemoteStreamRemoved;
       console.log('Created RTCPeerConnnection');
     } catch (event) {
       console.log(`Failed to create PeerConnection, exception: ${event.message}`);
-      alert('Cannot create RTCPeerConnection object.');
-      return;
     }
   }
 
@@ -270,7 +261,7 @@ class Video extends React.Component {
   hangup() {
     console.log('Hanging up.');
     this.stop();
-    sendMessage('bye');
+    this.sendMessage('bye');
   }
 
   handleRemoteHangup() {
@@ -289,28 +280,21 @@ class Video extends React.Component {
     pc = null;
   }
 
-  // handleVideoScreen() {
-  //   this.setState({
-  //     constraints: {
-  //       video: !this.state.constraints.video,
-  //       audio: this.state.constraints.audio
-  //     },
-  //     video: !this.state.constraints.video ? 'Video Off' : 'Video On'
-  //   }, () => (this.start()));
-  // }
+  toggleVideo() {
+    if(localStream.getVideoTracks()[0].enabled) {
+      localStream.getVideoTracks()[0].enabled = false;
+    } else {
+      localStream.getVideoTracks()[0].enabled = true;
+    }
+  }
 
-  // handleAudio() {
-  //   this.setState({
-  //     constraints: {
-  //       video: this.state.constraints.video,
-  //       audio: !this.state.constraints.audio
-  //     },
-  //     mute: !this.state.constraints.audio ? 'Mute' : 'Unmute'
-  //   }, () => (this.start()));
-  //   navigator.mediaDevices.getUserMedia(this.state.constraints)
-  //     .then(this.successCallback)
-  //     .catch(this.errorCallback);
-  // }
+  toggleAudio() {
+    if(localStream.getAudioTracks()[0].enabled) {
+      localStream.getAudioTracks()[0].enabled = false;
+    } else {
+      localStream.getAudioTracks()[0].enabled = true;
+    }
+  }
 
   render() {
     return (
@@ -318,8 +302,8 @@ class Video extends React.Component {
         <video id="localVideo" autoPlay />
         <video id="remoteVideo" autoPlay />
         <div>
-          <button className="videoOff" onClick={this.handleVideoScreen}>{this.state.video}</button>
-          <button className="mute" onClick={this.handleAudio}>{this.state.mute}</button>
+          <button className="videoOff" onClick={this.toggleVideo}>{this.state.video}</button>
+          <button className="mute" onClick={this.toggleAudio}>{this.state.mute}</button>
         </div>
       </div>
     );
