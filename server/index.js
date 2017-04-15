@@ -6,7 +6,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
-const url = require('url');
+// const url = require('url');
 
 const port = process.env.PORT || 3000;
 
@@ -48,14 +48,16 @@ app.get('/runCode', (req, res) => {
   res.status(200).send(result.toString());
 });
 
+
+// sockets
 io.on('connection', (socket) => {
   socket.on('join room', (room) => {
     console.log('joining room', room);
     socket.join(room);
   });
   socket.on('chat message', (message) => {
-    // io.to(message.roomName).emit('chat message', message);
     socket.broadcast.emit('chat message', message);
+    io.to(message.roomName).emit('chat message', message);
   });
   socket.on('disconnect', () => {
     // console.log('user disconnected');
