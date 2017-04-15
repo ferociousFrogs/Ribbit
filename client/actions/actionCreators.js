@@ -12,9 +12,15 @@
 // export the action.  I'm not sure if we can "export default" a bunch
 // of times, and instead may need to write "export const actionName ....."
 // for each one
-const sendMessage = message => ({
+
+export const addUserName = name => ({
+  type: 'ADD_USERNAME',
+  name
+});
+
+export const sendMessage = message => ({
   type: 'SEND_MESSAGE',
   message
 });
 
-export default sendMessage;
+// export default sendMessage;
