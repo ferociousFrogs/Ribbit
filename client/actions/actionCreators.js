@@ -13,14 +13,22 @@
 // of times, and instead may need to write "export const actionName ....."
 // for each one
 
-export const addUserName = name => ({
-  type: 'ADD_USERNAME',
-  name
-});
 
+// export default sendMessage;
 export const sendMessage = message => ({
   type: 'SEND_MESSAGE',
   message
 });
 
-// export default sendMessage;
+export const createRoomName = roomName => ({
+  type: 'CREATE_ROOM_NAME',
+  roomName
+});
+
+export const addUserName = (name) => {
+  console.log('action addUserName', name);
+  return {
+    type: 'ADD_USERNAME',
+    name
+  };
+};

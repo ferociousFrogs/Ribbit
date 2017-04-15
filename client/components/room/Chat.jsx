@@ -1,14 +1,12 @@
 import React from 'react';
-import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Chance from 'chance';
 import ChatWindow from './ChatWindow';
 import { sendMessage, addUserName } from './../../actions/actionCreators';
 
 // const port = process.env.PORT || 3000;
-const server = location.origin;
 // const server2 = 'https://tailbud-pr-17.herokuapp.com/';
-const socket = io(server);
+
 const chance = new Chance();
 
 class Chat extends React.Component {
@@ -24,9 +22,10 @@ class Chat extends React.Component {
 
   componentDidMount() {
     // Listeners for socket events go here
-    socket.on('chat message', this.receiveMessage);
     const randomName = chance.name();
+    console.log('randomName', randomName);
     this.props.addUserName(randomName);
+    this.props.socket.on('chat message', this.receiveMessage);
   }
 
   componentDidUpdate() {
@@ -56,11 +55,12 @@ class Chat extends React.Component {
     e.preventDefault();
     if (this.state.text !== '') {
       const messageObj = {
-        userName: 'Guest ' + this.props.userName,
+        userName: `Guest ${this.props.userName}`,
         text: this.state.text,
-        fromMe: false
+        fromMe: false,
+        roomName: location.pathname
       };
-      socket.emit('chat message', messageObj);
+      this.props.socket.emit('chat message', messageObj);
       // eventually, we will use the 'fromMe' property to tag messages
       // as from the sender so that they can render differently on the page.
     }
@@ -105,12 +105,12 @@ class Chat extends React.Component {
 // an object that has the key that I specify (in this case, messages), and
 // the value is the reducer itself, in this case coming from
 // chatMessage-reducer file (chatMessagesReducer)
-const mapStateToProps = (state) => {
-  return {
-    messages: state.messages,
-    userName: state.userName
-  };
-};
+
+const mapStateToProps = state => ({
+  messages: state.messages,
+  userName: state.userName
+});
+
 
 // it's this function that is allowing us to dispatch our actions.
 //  Pay close attention to what we're doing.  Similar to how we would pass
@@ -119,12 +119,10 @@ const mapStateToProps = (state) => {
 // next lower component, this.props.potato), we are calling this sendMessage,
 // and the function will be accessible as sendMessage through props.
 // See my "receiveMessage" function further up.
-const mapDispatchToProps = (dispatch) => {
-  return {
-    sendMessage: message => dispatch(sendMessage(message)),
-    addUserName: name => dispatch(addUserName(name))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  sendMessage: message => dispatch(sendMessage(message)),
+  addUserName: name => dispatch(addUserName(name))
+});
 
 // give mapstateToProps and mapDispatchToProps to the connect function in
 // order to provide access to the props to the component specified in
