@@ -44,7 +44,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createRoomName: roomName => dispatch(createRoomName(roomName))
+  createRoomName: roomName => dispatch(createRoomName(roomName)),
+  addUserName: name => dispatch(addUserName(name))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateRoute);
