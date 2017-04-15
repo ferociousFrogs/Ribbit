@@ -7,10 +7,8 @@ import Chat from './Chat';
 
 const Room = (props) => {
   const server = location.origin;
-  console.log('server', server);
   const socket = io(server);
   socket.emit('join room', location.pathname);
-  console.log('location', location);
 
   return (
     <div className="container-fluid">
