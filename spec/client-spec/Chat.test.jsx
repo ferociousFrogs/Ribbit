@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Chat from '../../client/components/room/Chat';
-import io from 'socket.io-client';
+import store from '../../client/store';
 
 // test('Chat component snapshot test', () => {
 //   const component = renderer.create(<Chat />);

@@ -65,6 +65,9 @@ video {
 .name-msg-offset {
   padding-left: 10px;
 }
+.from-me {
+  color: blue;
+}
 
 .bash {
   height: 17%;

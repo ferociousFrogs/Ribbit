@@ -6,6 +6,7 @@ const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
 
+
 const port = process.env.PORT || 3000;
 
 // Middleware
@@ -43,6 +44,10 @@ app.get('/runCode', (req, res) => {
 io.on('connection', (socket) => {
   socket.on('chat message', (message) => {
     // console.log('message: ', message);
+    if (message.userName === 'Guest') {
+      const idSlice = socket.id.slice(0, 5);
+      message.userName = `Guest(${idSlice}) :`;
+    }
     io.emit('chat message', message);
   });
   socket.on('disconnect', () => {

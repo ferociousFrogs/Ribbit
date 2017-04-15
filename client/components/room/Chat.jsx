@@ -1,13 +1,15 @@
-import { connect } from 'react-redux';
 import React from 'react';
 import io from 'socket.io-client';
+import { connect } from 'react-redux';
+import Chance from 'chance';
 import ChatWindow from './ChatWindow';
-import sendMessage from './../../actions/actionCreators';
+import { sendMessage, addUserName } from './../../actions/actionCreators';
 
 // const port = process.env.PORT || 3000;
 const server = location.origin;
 // const server2 = 'https://tailbud-pr-17.herokuapp.com/';
 const socket = io(server);
+const chance = new Chance();
 
 class Chat extends React.Component {
   constructor(props) {
@@ -23,11 +25,14 @@ class Chat extends React.Component {
   componentDidMount() {
     // Listeners for socket events go here
     socket.on('chat message', this.receiveMessage);
+    const randomName = chance.name();
+    this.props.addUserName(randomName);
   }
 
   componentDidUpdate() {
     // There is a new message in the state, scroll to bottom of list
     const objDiv = document.getElementById('chatWindow');
+    console.log(objDiv);
     objDiv.scrollTop = objDiv.scrollHeight;
   }
 
@@ -51,7 +56,7 @@ class Chat extends React.Component {
     e.preventDefault();
     if (this.state.text !== '') {
       const messageObj = {
-        userName: 'Guest',
+        userName: 'Guest ' + this.props.userName,
         text: this.state.text,
         fromMe: false
       };
@@ -102,7 +107,8 @@ class Chat extends React.Component {
 // chatMessage-reducer file (chatMessagesReducer)
 const mapStateToProps = (state) => {
   return {
-    messages: state.messages
+    messages: state.messages,
+    userName: state.userName
   };
 };
 
@@ -115,7 +121,8 @@ const mapStateToProps = (state) => {
 // See my "receiveMessage" function further up.
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendMessage: (message) => dispatch(sendMessage(message))
+    sendMessage: message => dispatch(sendMessage(message)),
+    addUserName: name => dispatch(addUserName(name))
   };
 };
 
