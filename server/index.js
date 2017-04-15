@@ -42,13 +42,17 @@ app.get('/runCode', (req, res) => {
 });
 
 io.on('connection', (socket) => {
+  socket.on('join room', (room) => {
+    console.log('joining room', room);
+    socket.join(room);
+  });
   socket.on('chat message', (message) => {
     // console.log('message: ', message);
     if (message.userName === 'Guest') {
       const idSlice = socket.id.slice(0, 5);
       message.userName = `Guest(${idSlice}) :`;
     }
-    io.emit('chat message', message);
+    io.to(message.roomName).emit('chat message', message);
   });
   socket.on('disconnect', () => {
     // console.log('user disconnected');

@@ -1,14 +1,12 @@
 import React from 'react';
-import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Chance from 'chance';
 import ChatWindow from './ChatWindow';
 import { sendMessage, addUserName } from './../../actions/actionCreators';
 
 // const port = process.env.PORT || 3000;
-const server = location.origin;
 // const server2 = 'https://tailbud-pr-17.herokuapp.com/';
-const socket = io(server);
+
 const chance = new Chance();
 
 class Chat extends React.Component {
@@ -24,9 +22,9 @@ class Chat extends React.Component {
 
   componentDidMount() {
     // Listeners for socket events go here
-    socket.on('chat message', this.receiveMessage);
     const randomName = chance.name();
     this.props.addUserName(randomName);
+    this.props.socket.on('chat message', this.receiveMessage);
   }
 
   componentDidUpdate() {
@@ -54,13 +52,15 @@ class Chat extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    console.log('location.pathname', location.pathname);
     if (this.state.text !== '') {
       const messageObj = {
         userName: 'Guest ' + this.props.userName,
         text: this.state.text,
-        fromMe: false
+        fromMe: false,
+        roomName: location.pathname
       };
-      socket.emit('chat message', messageObj);
+      this.props.socket.emit('chat message', messageObj);
       // eventually, we will use the 'fromMe' property to tag messages
       // as from the sender so that they can render differently on the page.
     }
