@@ -2,8 +2,8 @@ import React from 'react';
 import io from 'socket.io-client';
 import webrtc from 'webrtc-adapter';
 
-const server = location.origin;
-const socket = io(server);
+// const server = location.origin;
+// const socket = io(server);
 
 let localStream;
 let remoteStream;
@@ -37,6 +37,7 @@ class Video extends React.Component {
       isInitiator: false,
       isStarted: false
     };
+    console.log('props in video', this.props);
     this.createRoom = this.createRoom.bind(this);
     this.connectSockets = this.connectSockets.bind(this);
     this.gotStream = this.gotStream.bind(this);
@@ -68,9 +69,9 @@ class Video extends React.Component {
   }
 
   createRoom() {
-    let room = 'foo';
+    let room = location.pathname.slice(2);
 
-    let socket = io.connect();
+    let socket = this.props.socket;
 
     if (room !== '') {
       socket.emit('create or join', room);
@@ -113,7 +114,7 @@ class Video extends React.Component {
 
   sendMessage(message) {
     console.log(`Client sending message: ${message}`);
-    socket.emit('video message', message);
+    this.props.socket.emit('video message', message);
   }
 
   start() {
@@ -125,7 +126,7 @@ class Video extends React.Component {
   }
 
   connectSockets() {
-    socket.on('video message', (message) => {
+    this.props.socket.on('video message', (message) => {
       console.log(`Client received message: ${message}`);
       if (message === 'got user media') {
         this.maybeStart();
