@@ -5,6 +5,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
+const url = require('url');
+console.log(url);
 
 
 const port = process.env.PORT || 3000;
@@ -26,13 +28,19 @@ const codeParser = (code) => {
 };
 
 console.log(codeParser({
-  value:'function ribbit() { return 1+1;};ribbit();',
+  value: 'function ribbit() { return 1+1;};ribbit();',
   language: 'Javascript'
 }));
 
 // Routes
 app.get('/', (req, res) => {
   res.status(200).send();
+});
+
+app.get('*', (req, res) => {
+  // const pathName = req.url;
+  // res.pathName = pathName;
+  res.status(302).redirect('/');
 });
 
 app.get('/runCode', (req, res) => {

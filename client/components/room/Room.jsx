@@ -10,9 +10,11 @@ const Room = (props) => {
   console.log('server', server);
   const socket = io(server);
   socket.emit('join room', location.pathname);
+  console.log('location', location);
 
   return (
     <div className="container-fluid">
+      <h2>{location.pathname}</h2>
       <div className="col-md-8">
         <Workspace />
       </div>
