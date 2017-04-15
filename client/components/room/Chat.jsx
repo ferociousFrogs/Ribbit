@@ -22,16 +22,15 @@ class Chat extends React.Component {
 
   componentDidMount() {
     // Listeners for socket events go here
-    const randomName = chance.name();
+    const randomName = chance.first();
     console.log('randomName', randomName);
-    this.props.addUserName(randomName);
+    this.props.addUserName(`"${randomName}"`);
     this.props.socket.on('chat message', this.receiveMessage);
   }
 
   componentDidUpdate() {
     // There is a new message in the state, scroll to bottom of list
     const objDiv = document.getElementById('chatWindow');
-    console.log(objDiv);
     objDiv.scrollTop = objDiv.scrollHeight;
   }
 
@@ -61,8 +60,8 @@ class Chat extends React.Component {
         roomName: location.pathname
       };
       this.props.socket.emit('chat message', messageObj);
-      // eventually, we will use the 'fromMe' property to tag messages
-      // as from the sender so that they can render differently on the page.
+      messageObj.fromMe = true;
+      this.props.sendMessage(messageObj);
     }
     this.setState({ text: '' });
   }
