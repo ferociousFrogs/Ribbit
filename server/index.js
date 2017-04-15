@@ -73,6 +73,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('video message', message);
   });
   // Create Room socket connection
+  // Update this with new validated code from pull request: https://github.com/googlecodelabs/webrtc-web/issues/5
   socket.on('create or join', (room) => {
     const clientsInRoom = io.nsps['/'].adapter.rooms[room];
     const numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
@@ -99,12 +100,12 @@ io.on('connection', (socket) => {
   });
 
 
-  socket.on('Ipaddr', () => {
+  socket.on('ipaddr', () => {
     const ifaces = os.networkInterfaces();
     for (let dev in ifaces) {
       ifaces[dev].forEach((details) => {
         if (details.family === 'IPv4' && details.address !== '127.0.0.1') {
-          socket.emit('Ipaddr', details.address);
+          socket.emit('ipaddr', details.address);
         }
       });
     }

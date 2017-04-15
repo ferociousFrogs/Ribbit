@@ -10,21 +10,15 @@ let remoteStream;
 let turnReady;
 let pc;
 
-// Publicly available Google stun server
 const configuration = {
   'iceServers': [{
     'urls': 'stun:stun.l.google.com:19302'
   }]
 };
 
-const sdpConstraints = {
+let sdpConstraints = {
   offerToReceiveAudio: true,
   offerToReceiveVideo: true
-};
-
-const offerOptions = {
-  offerToReceiveAudio: 1,
-  offerToReceiveVideo: 1
 };
 
 class Video extends React.Component {
@@ -55,11 +49,6 @@ class Video extends React.Component {
     this.setLocalAndSendMessage = this.setLocalAndSendMessage.bind(this);
     this.createPeerConnection = this.createPeerConnection.bind(this);
     this.handleIceCandidate = this.handleIceCandidate.bind(this);
-    // this.getName = this.getName.bind(this);
-    // this.onCreateOfferSuccess = this.onCreateOfferSuccess.bind(this);
-    // this.onCreateAnswerSuccess = this.onCreateAnswerSuccess.bind(this);
-    // this.onSetLocalSuccess = this.onSetLocalSuccess.bind(this);
-    // this.onSetRemoteSuccess = this.onSetRemoteSuccess.bind(this);
     this.onSetSessionDescriptionError = this.onSetSessionDescriptionError.bind(this);
     // this.requestTurn = this.requestTurn.bind(this);
     this.handleRemoteStreamAdded = this.handleRemoteStreamAdded.bind(this);
@@ -67,16 +56,77 @@ class Video extends React.Component {
     this.hangup = this.hangup.bind(this);
     this.handleRemoteHangup = this.handleRemoteHangup.bind(this);
     this.stop = this.stop.bind(this);
-    this.handleVideoScreen = this.handleVideoScreen.bind(this);
-    this.handleAudio = this.handleAudio.bind(this);
+    // this.handleVideoScreen = this.handleVideoScreen.bind(this);
+    // this.handleAudio = this.handleAudio.bind(this);
   }
 
   componentDidMount() {
     let localVideo = document.getElementById('localVideo');
     let remoteVideo = document.getElementById('remoteVideo');
     this.start();
-    this.connectSockets();
     this.createRoom();
+    this.connectSockets();
+  }
+
+
+  // CreateRoom method if required later
+  createRoom() {
+    let room = 'foo';
+    // window.room = prompt('Enter room name:');
+
+    let socket = io.connect();
+
+    if (room !== '') {
+      socket.emit('create or join', room);
+      console.log(`Creating or joining room ${room}`);
+    }
+
+    socket.on('Created', (room) => {
+      console.log(`Created room ${room}`);
+      this.setState({
+        isInitiator: true
+      });
+    });
+
+    socket.on('Full', (room) => {
+      console.log(`Room ${room} is full :^(')`);
+    });
+
+    socket.on('ipaddr', (ipaddr) => {
+      console.log(`Server IP address is ${ipaddr}`);
+    });
+
+    socket.on('Join', (room) => {
+      console.log(`Another peer made a request to join room ${room}`);
+      this.setState({
+        isChannelReady: true
+      });
+    });
+
+    socket.on('Joined', (room) => {
+      console.log(`You just joined: ${room}`);
+      this.setState({
+        isChannelReady: true
+      });
+    });
+
+    socket.on('Log', (array) => {
+      console.log.apply(console, array);
+    });
+  }
+
+  sendMessage(message) {
+    console.log(`Client sending message: ${message}`);
+    socket.emit('video message', message);
+  }
+
+  start() {
+    navigator.mediaDevices.getUserMedia(this.state.constraints)
+      .then(this.gotStream)
+      // .then(this.createPeerConnection)
+      .catch((error) => {
+        alert(`getUserMedia() error: ${error.name}`);
+      });
   }
 
   connectSockets() {
@@ -104,68 +154,24 @@ class Video extends React.Component {
     });
   }
 
-  // CreateRoom method if required later
-  createRoom() {
-    let room = 'foo';
-    // window.room = prompt('Enter room name:');
-
-    let socket = io.connect();
-
-    if (room !== '') {
-      socket.emit('create or join', room);
-      console.log(`Creating or joining room ${room}`);
-    }
-
-    socket.on('Created', (room) => {
-      console.log(`Created room ${room}`);
-      this.setState({
-        isInitiator: true
-      });
-    });
-
-    socket.on('Full', (room) => {
-      console.log(`Room ${room} is full :^(')`);
-    });
-
-    socket.on('Ipaddr', (ipaddr) => {
-      console.log(`Server IP address is ${ipaddr}`);
-    });
-
-    socket.on('Join', (room) => {
-      console.log(`Another peer made a request to join room ${room}`);
-      console.log(`This peer is the initiator of room ${room}!`);
-      this.setState({
-        isChannelReady: true
-      });
-    });
-
-    socket.on('Joined', (room) => {
-      console.log(`You just joined: ${room}`);
-      this.setState({
-        isChannelReady: false
-      });
-    });
-
-    socket.on('Log', (array) => {
-      console.log.apply(console, array);
-    });
-  }
-
-  sendMessage(message) {
-    console.log(`Client sending message: ${message}`);
-    socket.emit('video message', message);
-  }
-
+  // Initiates video from the local camera by creating an object blob URL (https://www.html5rocks.com/en/tutorials/workers/basics/#toc-inlineworkers-bloburis) from camera data stream and setting that URL as the source for the element
   gotStream(stream) {
     console.log('This adds a local stream');
     localVideo.srcObject = stream;
-    localStream = stream;
-    this.sendMessage('We got the user media YAAAS');
+    localStream = stream; 
+    console.log('This is the local stream', localStream);
+    this.sendMessage('got user media');
+    console.log('We want this to be true for peer', this.state.isInitiator);
+    // This should be set to true until the caller session is terminated
     if (this.state.isInitiator) {
       this.maybeStart();
     }
   }
 
+  // This is invoked in multiple places but only runs based on a detailed set of conditionals
+  // If no connection, local stream is available, and channel is ready for signaling
+  // A connection is created and passed the local video stream.
+  // Started state is set to true to avoid a connection starting multiple times
   maybeStart() {
     console.log('>>>>>>> maybeStart() ', this.state.isStarted, localStream, this.state.isChannelReady);
     if (!this.state.isStarted && typeof localStream !== 'undefined' && this.state.isChannelReady) {
@@ -175,22 +181,34 @@ class Video extends React.Component {
       this.setState({
         isStarted: true
       });
-      console.log('isInitiator', this.state.isInitiator);
+      console.log('This is the second time so isInitiator should still be true', this.state.isInitiator);
       if (this.state.isInitiator) {
         this.doCall();
       }
     }
   }
 
-  start() {
-    navigator.mediaDevices.getUserMedia(this.state.constraints)
-      .then(this.gotStream)
-      .then(this.createPeerConnection)
-      .catch((error) => {
-        alert(`getUserMedia() error: ${error.name}`);
-      });
+  // Create a connection using a STUN server
+  // Set log handlers for peer connection events
+  // Except remote stream handler which sets the source for the remoteVideo element
+  createPeerConnection() {
+    try {
+      pc = new RTCPeerConnection(null);
+      console.log('WHAT IS THIS PC', pc);
+      pc.onicecandidate = this.handleIceCandidate;
+      console.log('This is pconice', pc.onicecandidate);
+      pc.onaddstream = this.handleRemoteStreamAdded;
+      pc.onremovestream = this.handleRemoteStreamRemoved;
+      console.log('Created RTCPeerConnnection');
+    } catch (event) {
+      console.log(`Failed to create PeerConnection, exception: ${event.message}`);
+      alert('Cannot create RTCPeerConnection object.');
+      return;
+    }
   }
 
+  // Once connection is created, since the initiator state should still be true, a call we begin
+  // An offer is sent from the local stream to the callee
   doCall() {
     console.log('Sending offer to peer');
     pc.createOffer(this.setLocalAndSendMessage, this.handleCreateOfferError);
@@ -204,9 +222,9 @@ class Video extends React.Component {
     );
   }
 
+  // Message sent to remote peer giving a serialised Session Description for the offer
   setLocalAndSendMessage(sessionDescription) {
-    // Set Opus as the preferred codec in SDP if Opus is present.
-    // sessionDescription.sdp = this.preferOpus(sessionDescription.sdp);
+    console.log('This is the session description', sessionDescription);
     pc.setLocalDescription(sessionDescription);
     console.log(`setLocalAndSendMessage sending message ${sessionDescription}`);
     this.sendMessage(sessionDescription);
@@ -216,77 +234,14 @@ class Video extends React.Component {
     console.log(`createOffer() error: ${event}`);
   }
 
-  createPeerConnection() {
-    try {
-      pc = new RTCPeerConnection(null);
-      pc.onicecandidate = this.handleIceCandidate;
-      pc.onaddstream = this.handleRemoteStreamAdded;
-      pc.onremovestream = this.handleRemoteStreamRemoved;
-      console.log('Created RTCPeerConnnection');
-    } catch (e) {
-      console.log(`Failed to create PeerConnection, exception: ${e.message}`);
-      alert('Cannot create RTCPeerConnection object.');
-      return;
-    }
-  }
-
-  // onCreateOfferSuccess(desc) {
-  //   console.log('Check this out', desc)
-  //   console.log(`Offer from pc1\n ${desc.sdp}`);
-  //   console.log('Start pc1 setLocalDescription');
-  //   pc1.setLocalDescription(desc).then(
-  //     () => {
-  //       this.onSetLocalSuccess(pc1);
-  //     },
-  //       this.onSetSessionDescriptionError
-  //   );
-  //   console.log('pc2 setRemoteDescription start');
-  //   pc2.setRemoteDescription(desc).then(
-  //     () => {
-  //       this.onSetRemoteSuccess(pc2);
-  //     },
-  //     this.onSetSessionDescriptionError
-  //   );
-  //   console.log('pc2 createAnswer start');
-  //   pc2.createAnswer().then(
-  //     this.onCreateAnswerSuccess,
-  //     this.onSetSessionDescriptionError
-  //   );
-  // }
-
-  // onCreateAnswerSuccess(desc) {
-  //   console.log(`Answer from pc2:\n ${desc.sdp}`);
-  //   console.log('pc2 setLocalDescription start');
-  //   pc2.setLocalDescription(desc).then(
-  //     () => {
-  //       this.onSetLocalSuccess(pc2);
-  //     },
-  //     this.onSetSessionDescriptionError
-  //   );
-
-  //   console.log('pc1 setRemoteDescription start');
-  //   pc1.setRemoteDescription(desc).then(
-  //     () => {
-  //       this.onSetRemoteSuccess(pc1);
-  //     },
-  //     this.onSetSessionDescriptionError
-  //   );
-  // }
-
-  // onSetLocalSuccess(pc) {
-  //   console.log(`${this.getName(pc)} setLocalDescription complete`);
-  // }
-
-  // onSetRemoteSuccess(pc) {
-  //   console.log(`${this.getName(pc)} setRemoteDescription complete`);
-  // }
-
   onSetSessionDescriptionError(error) {
    console.log(`Failed to set session description: ${error.toString()}`);
   }
 
 
-  handleIceCandidate(pc, event) {
+  /////////////////////////////
+  // Request handlers for RTCPeerConnection events
+  handleIceCandidate(event) {
     console.log(`ICEcandidate event: ${event}`);
     if (event.candidate) {
       this.sendMessage({
@@ -300,35 +255,6 @@ class Video extends React.Component {
     }
   }
 
-  // requestTurn(turnURL) {
-  //   let turnExists = false;
-  //   for (const i in configuration.iceServers) {
-  //     if (configuration.iceServers[i].url.substr(0, 5) === 'turn:') {
-  //       turnExists = true;
-  //       turnReady = true;
-  //       break;
-  //     }
-  //   }
-  //   if (!turnExists) {
-  //     console.log(`Getting TURN server from ${turnURL}`);
-  //     // No TURN server. Get one from computeengineondemand.appspot.com:
-  //     const xhr = new XMLHttpRequest();
-  //     xhr.onreadystatechange = () => {
-  //       if (xhr.readyState === 4 && xhr.status === 200) {
-  //         const turnServer = JSON.parse(xhr.responseText);
-  //         console.log('Got TURN server: ', turnServer);
-  //         configuration.iceServers.push({
-  //           'url': 'turn:' + turnServer.username + '@' + turnServer.turn,
-  //           'credential': turnServer.password
-  //         });
-  //         turnReady = true;
-  //       }
-  //     };
-  //     xhr.open('GET', turnURL, true);
-  //     xhr.send();
-  //   }
-  // }
-
   handleRemoteStreamAdded(event) {
     window.remoteStream = remoteVideo.srcObject;
     remoteVideo.srcObject = event.stream;
@@ -338,6 +264,8 @@ class Video extends React.Component {
   handleRemoteStreamRemoved(event) {
     console.log(`Remote stream removed. Event: ${event}`);
   }
+
+  /////////////////////////////////
 
   hangup() {
     console.log('Hanging up.');
@@ -357,34 +285,32 @@ class Video extends React.Component {
     this.setState({
       isStarted: false
     });
-    // isAudioMuted = false;
-    // isVideoMuted = false;
     pc.close();
     pc = null;
   }
 
-  handleVideoScreen() {
-    this.setState({
-      constraints: {
-        video: !this.state.constraints.video,
-        audio: this.state.constraints.audio
-      },
-      video: !this.state.constraints.video ? 'Video Off' : 'Video On'
-    }, () => (this.start()));
-  }
+  // handleVideoScreen() {
+  //   this.setState({
+  //     constraints: {
+  //       video: !this.state.constraints.video,
+  //       audio: this.state.constraints.audio
+  //     },
+  //     video: !this.state.constraints.video ? 'Video Off' : 'Video On'
+  //   }, () => (this.start()));
+  // }
 
-  handleAudio() {
-    this.setState({
-      constraints: {
-        video: this.state.constraints.video,
-        audio: !this.state.constraints.audio
-      },
-      mute: !this.state.constraints.audio ? 'Mute' : 'Unmute'
-    }, () => (this.start()));
-    navigator.mediaDevices.getUserMedia(this.state.constraints)
-      .then(this.successCallback)
-      .catch(this.errorCallback);
-  }
+  // handleAudio() {
+  //   this.setState({
+  //     constraints: {
+  //       video: this.state.constraints.video,
+  //       audio: !this.state.constraints.audio
+  //     },
+  //     mute: !this.state.constraints.audio ? 'Mute' : 'Unmute'
+  //   }, () => (this.start()));
+  //   navigator.mediaDevices.getUserMedia(this.state.constraints)
+  //     .then(this.successCallback)
+  //     .catch(this.errorCallback);
+  // }
 
   render() {
     return (
