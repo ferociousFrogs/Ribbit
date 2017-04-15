@@ -17,6 +17,7 @@ const Room = (props) => {
         <Workspace />
       </div>
       <div className="col-md-4">
+        <Video />
       </div>
       <div className="col-md-4">
         <Chat socket={socket} />
@@ -24,6 +25,5 @@ const Room = (props) => {
     </div>
   );
 };
-        // <Video />
 
 export default connect()(Room);

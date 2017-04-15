@@ -12,9 +12,7 @@ import App from './components/App';
 render(
   <Provider store={store}>
     <Router>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <App />
     </Router>
   </Provider>
   , document.getElementById('app'));
