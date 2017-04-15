@@ -41,7 +41,7 @@ class Chat extends React.Component {
     e.preventDefault();
     if (this.state.text !== '') {
       const messageObj = {
-        userName: `Guest "${this.props.userName}"`,
+        userName: `Guest ${this.props.userName}`,
         text: this.state.text,
         fromMe: false,
         roomName: location.pathname

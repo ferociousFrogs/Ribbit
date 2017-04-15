@@ -26,7 +26,6 @@ export const createRoomName = roomName => ({
 });
 
 export const addUserName = (name) => {
-  console.log('action addUserName', name);
   return {
     type: 'ADD_USERNAME',
     name
