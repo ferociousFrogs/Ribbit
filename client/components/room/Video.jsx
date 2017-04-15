@@ -2,17 +2,23 @@ import React from 'react';
 import io from 'socket.io-client';
 import webrtc from 'webrtc-adapter';
 
-// const port = process.env.PORT || 3000;
 const server = location.origin;
-// const server2 = 'https://tailbud-pr-17.herokuapp.com/';
 const socket = io(server);
 
 let localStream;
-let pc1;
-let pc2;
-let offerOptions = {
-  offerToReceiveAudio: 1,
-  offerToReceiveVideo: 1
+let remoteStream;
+let turnReady;
+let pc;
+
+const configuration = {
+  'iceServers': [{
+    'urls': 'stun:stun.l.google.com:19302'
+  }]
+};
+
+let sdpConstraints = {
+  offerToReceiveAudio: true,
+  offerToReceiveVideo: true
 };
 
 class Video extends React.Component {
@@ -27,132 +33,205 @@ class Video extends React.Component {
       mute: 'Mute',
       videoScreen: true,
       startButton: false,
-      pc1: '',
-      pc2: ''
+      isChannelReady: false,
+      isInitiator: false,
+      isStarted: false
     };
+    this.createRoom = this.createRoom.bind(this);
+    this.connectSockets = this.connectSockets.bind(this);
     this.gotStream = this.gotStream.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+    this.maybeStart = this.maybeStart.bind(this);
     this.start = this.start.bind(this);
+    this.doCall = this.doCall.bind(this);
+    this.doAnswer = this.doAnswer.bind(this);
+    this.handleCreateOfferError = this.handleCreateOfferError.bind(this);
+    this.setLocalAndSendMessage = this.setLocalAndSendMessage.bind(this);
     this.createPeerConnection = this.createPeerConnection.bind(this);
     this.handleIceCandidate = this.handleIceCandidate.bind(this);
-    this.getName = this.getName.bind(this);
-    this.getOtherPc = this.getOtherPc.bind(this);
-    this.onCreateOfferSuccess = this.onCreateOfferSuccess.bind(this);
-    this.onCreateAnswerSuccess = this.onCreateAnswerSuccess.bind(this);
-    this.onSetLocalSuccess = this.onSetLocalSuccess.bind(this);
-    this.onSetRemoteSuccess = this.onSetRemoteSuccess.bind(this);
     this.onSetSessionDescriptionError = this.onSetSessionDescriptionError.bind(this);
-    this.gotRemoteStream = this.gotRemoteStream.bind(this);
-    this.handleVideoScreen = this.handleVideoScreen.bind(this);
-    this.handleAudio = this.handleAudio.bind(this);
+    // this.requestTurn = this.requestTurn.bind(this);
+    this.handleRemoteStreamAdded = this.handleRemoteStreamAdded.bind(this);
+    this.handleRemoteStreamRemoved = this.handleRemoteStreamRemoved.bind(this);
+    this.hangup = this.hangup.bind(this);
+    this.handleRemoteHangup = this.handleRemoteHangup.bind(this);
+    this.stop = this.stop.bind(this);
+    // this.handleVideoScreen = this.handleVideoScreen.bind(this);
+    // this.handleAudio = this.handleAudio.bind(this);
   }
 
   componentDidMount() {
-    socket.emit('Hello', 'Hello');
-    const localVideo = document.getElementById('localVideo');
-    const remoteVideo = document.getElementById('remoteVideo');
+    let localVideo = document.getElementById('localVideo');
+    let remoteVideo = document.getElementById('remoteVideo');
     this.start();
+    this.createRoom();
+    this.connectSockets();
   }
 
-  gotStream(stream) {
-    localVideo.srcObject = stream;
-    localStream = stream;
+
+  // CreateRoom method if required later
+  createRoom() {
+    let room = 'foo';
+    // window.room = prompt('Enter room name:');
+
+    let socket = io.connect();
+
+    if (room !== '') {
+      socket.emit('create or join', room);
+      console.log(`Creating or joining room ${room}`);
+    }
+
+    socket.on('Created', (room) => {
+      console.log(`Created room ${room}`);
+      this.setState({
+        isInitiator: true
+      });
+    });
+
+    socket.on('Full', (room) => {
+      console.log(`Room ${room} is full :^(')`);
+    });
+
+    socket.on('ipaddr', (ipaddr) => {
+      console.log(`Server IP address is ${ipaddr}`);
+    });
+
+    socket.on('Join', (room) => {
+      console.log(`Another peer made a request to join room ${room}`);
+      this.setState({
+        isChannelReady: true
+      });
+    });
+
+    socket.on('Joined', (room) => {
+      console.log(`You just joined: ${room}`);
+      this.setState({
+        isChannelReady: true
+      });
+    });
+
+    socket.on('Log', (array) => {
+      console.log.apply(console, array);
+    });
+  }
+
+  sendMessage(message) {
+    console.log(`Client sending message: ${message}`);
+    socket.emit('video message', message);
   }
 
   start() {
-    navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia ||
-      navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
-
-    return navigator.mediaDevices.getUserMedia(this.state.constraints)
+    navigator.mediaDevices.getUserMedia(this.state.constraints)
       .then(this.gotStream)
-      .then(this.createPeerConnection)
+      // .then(this.createPeerConnection)
       .catch((error) => {
         alert(`getUserMedia() error: ${error.name}`);
       });
   }
 
+  connectSockets() {
+    socket.on('video message', (message) => {
+      console.log(`Client received message: ${message}`);
+      if (message === 'got user media') {
+        this.maybeStart();
+      } else if (message.type === 'offer') {
+        if (!this.state.isInitiator && !this.state.isStarted) {
+          this.maybeStart();
+        }
+        pc.setRemoteDescription(new RTCSessionDescription(message));
+        this.doAnswer();
+      } else if (message.type === 'answer' && this.state.isStarted) {
+        pc.setRemoteDescription(new RTCSessionDescription(message));
+      } else if (message.type === 'candidate' && this.state.isStarted) {
+        const candidate = new RTCIceCandidate({
+          sdpMLineIndex: message.label,
+          candidate: message.candidate
+        });
+        pc.addIceCandidate(candidate);
+      } else if (message === 'bye' && this.state.isStarted) {
+        this.handleRemoteHangup();
+      }
+    });
+  }
+
+  // Initiates video from the local camera by creating an object blob URL (https://www.html5rocks.com/en/tutorials/workers/basics/#toc-inlineworkers-bloburis) from camera data stream and setting that URL as the source for the element
+  gotStream(stream) {
+    console.log('This adds a local stream');
+    localVideo.srcObject = stream;
+    localStream = stream; 
+    console.log('This is the local stream', localStream);
+    this.sendMessage('got user media');
+    console.log('We want this to be true for peer', this.state.isInitiator);
+    // This should be set to true until the caller session is terminated
+    if (this.state.isInitiator) {
+      this.maybeStart();
+    }
+  }
+
+  // This is invoked in multiple places but only runs based on a detailed set of conditionals
+  // If no connection, local stream is available, and channel is ready for signaling
+  // A connection is created and passed the local video stream.
+  // Started state is set to true to avoid a connection starting multiple times
+  maybeStart() {
+    console.log('>>>>>>> maybeStart() ', this.state.isStarted, localStream, this.state.isChannelReady);
+    if (!this.state.isStarted && typeof localStream !== 'undefined' && this.state.isChannelReady) {
+      console.log('>>>>>> creating peer connection');
+      this.createPeerConnection();
+      pc.addStream(localStream);
+      this.setState({
+        isStarted: true
+      });
+      console.log('This is the second time so isInitiator should still be true', this.state.isInitiator);
+      if (this.state.isInitiator) {
+        this.doCall();
+      }
+    }
+  }
+
+  // Create a connection using a STUN server
+  // Set log handlers for peer connection events
+  // Except remote stream handler which sets the source for the remoteVideo element
   createPeerConnection() {
-    // Publicly available Google stun server
-    const configuration = {
-      'iceServers': [{
-        'urls': 'stun:stun.l.google.com:19302'
-      }]
-    };
-    // Establish a new RTCPeerConnection object using STUN server
-    pc1 = new RTCPeerConnection(configuration);
-    console.log('Created a P2P connection for PC1!');
-    pc1.onicecandidate = (event) => {
-      this.handleIceCandidate(pc1, event);
-    };
-    console.log('Added a local stream to pc1!', localStream);
-
-    pc2 = new RTCPeerConnection(configuration);
-    console.log('Created a P2P connection for PC2!');
-
-    pc2.onicecandidate = (event) => {
-      this.handleIceCandidate(pc2, event);
-    };
-    console.log('Added a local stream to pc2!', localStream);
-
-    pc2.onaddstream = this.gotRemoteStream;
-
-    pc1.addStream(localStream);
-    console.log('Time to create an offer!');
-    pc1.createOffer(
-      offerOptions
-    ).then(
-      this.onCreateOfferSuccess,
-      this.onCreateSessionDescriptionError
-    );
+    try {
+      pc = new RTCPeerConnection(null);
+      console.log('WHAT IS THIS PC', pc);
+      pc.onicecandidate = this.handleIceCandidate;
+      console.log('This is pconice', pc.onicecandidate);
+      pc.onaddstream = this.handleRemoteStreamAdded;
+      pc.onremovestream = this.handleRemoteStreamRemoved;
+      console.log('Created RTCPeerConnnection');
+    } catch (event) {
+      console.log(`Failed to create PeerConnection, exception: ${event.message}`);
+      alert('Cannot create RTCPeerConnection object.');
+      return;
+    }
   }
 
-  onCreateOfferSuccess(desc) {
-    console.log('Check this out', desc)
-    console.log(`Offer from pc1\n ${desc.sdp}`);
-    console.log('Start pc1 setLocalDescription');
-    pc1.setLocalDescription(desc).then(
-      () => {
-        this.onSetLocalSuccess(pc1);
-      },
-        this.onSetSessionDescriptionError
-    );
-    console.log('pc2 setRemoteDescription start');
-    pc2.setRemoteDescription(desc).then(
-      () => {
-        this.onSetRemoteSuccess(pc2);
-      },
-      this.onSetSessionDescriptionError
-    );
-    console.log('pc2 createAnswer start');
-    pc2.createAnswer().then(
-      this.onCreateAnswerSuccess,
-      this.onCreateSessionDescriptionError
-    );
+  // Once connection is created, since the initiator state should still be true, a call we begin
+  // An offer is sent from the local stream to the callee
+  doCall() {
+    console.log('Sending offer to peer');
+    pc.createOffer(this.setLocalAndSendMessage, this.handleCreateOfferError);
   }
 
-  onCreateAnswerSuccess(desc) {
-    console.log(`Answer from pc2:\n ${desc.sdp}`);
-    console.log('pc2 setLocalDescription start');
-    pc2.setLocalDescription(desc).then(
-      () => {
-        this.onSetLocalSuccess(pc2);
-      },
-      this.onSetSessionDescriptionError
-    );
-    console.log('pc1 setRemoteDescription start');
-    pc1.setRemoteDescription(desc).then(
-      () => {
-        this.onSetRemoteSuccess(pc1);
-      },
+  doAnswer() {
+    console.log('Sending answer to peer.');
+    pc.createAnswer().then(
+      this.setLocalAndSendMessage,
       this.onSetSessionDescriptionError
     );
   }
 
-  onSetLocalSuccess(pc) {
-    console.log(`${this.getName(pc)} setLocalDescription complete`);
+  // Message sent to remote peer giving a serialised Session Description for the offer
+  setLocalAndSendMessage(sessionDescription) {
+    console.log('This is the session description', sessionDescription);
+    pc.setLocalDescription(sessionDescription);
+    console.log(`setLocalAndSendMessage sending message ${sessionDescription}`);
+    this.sendMessage(sessionDescription);
   }
 
-  onSetRemoteSuccess(pc) {
-    console.log(`${this.getName(pc)} setRemoteDescription complete`);
+  handleCreateOfferError(event) {
+    console.log(`createOffer() error: ${event}`);
   }
 
   onSetSessionDescriptionError(error) {
@@ -160,58 +239,78 @@ class Video extends React.Component {
   }
 
 
-  handleIceCandidate(pc, event) {
+  /////////////////////////////
+  // Request handlers for RTCPeerConnection events
+  handleIceCandidate(event) {
+    console.log(`ICEcandidate event: ${event}`);
     if (event.candidate) {
-      this.getOtherPc(pc).addIceCandidate(
-        new RTCIceCandidate(event.candidate)
-      ).then(
-        () => {
-          console.log(`${this.getName(pc)} addIceCandidate success!`);
-        },
-        (error) => {
-          console.error(`${this.getName(pc)} failed to add ICE Candidate: ${error.toString()}`);
-        }
-      );
-      console.log(`${this.getName(pc)} ICE candidate: ${event.candidate.candidate}`);
+      this.sendMessage({
+        type: 'candidate',
+        label: event.candidate.sdpMLineIndex,
+        id: event.candidate.sdpMid,
+        candidate: event.candidate.candidate
+      });
+    } else {
+      console.log('End of candidates.');
     }
   }
 
-  gotRemoteStream(event) {
+  handleRemoteStreamAdded(event) {
     window.remoteStream = remoteVideo.srcObject;
     remoteVideo.srcObject = event.stream;
-    console.log('The pc2 received remote stream');
+    console.log('Remote stream added');
   }
 
-  getName(pc) {
-    return (pc === pc1) ? pc1 : pc2;
+  handleRemoteStreamRemoved(event) {
+    console.log(`Remote stream removed. Event: ${event}`);
   }
 
-  getOtherPc(pc) {
-    return (pc === pc1) ? pc2 : pc1;
+  /////////////////////////////////
+
+  hangup() {
+    console.log('Hanging up.');
+    this.stop();
+    sendMessage('bye');
   }
 
-  handleVideoScreen() {
+  handleRemoteHangup() {
+    console.log('Session terminated.');
+    this.stop();
     this.setState({
-      constraints: {
-        video: !this.state.constraints.video,
-        audio: this.state.constraints.audio
-      },
-      video: !this.state.constraints.video ? 'Video Off' : 'Video On'
-    }, () => (this.start()));
+      isInitiator: false
+    });
   }
 
-  handleAudio() {
+  stop() {
     this.setState({
-      constraints: {
-        video: this.state.constraints.video,
-        audio: !this.state.constraints.audio
-      },
-      mute: !this.state.constraints.audio ? 'Mute' : 'Unmute'
-    }, () => (this.start()));
-    navigator.mediaDevices.getUserMedia(this.state.constraints)
-      .then(this.successCallback)
-      .catch(this.errorCallback);
+      isStarted: false
+    });
+    pc.close();
+    pc = null;
   }
+
+  // handleVideoScreen() {
+  //   this.setState({
+  //     constraints: {
+  //       video: !this.state.constraints.video,
+  //       audio: this.state.constraints.audio
+  //     },
+  //     video: !this.state.constraints.video ? 'Video Off' : 'Video On'
+  //   }, () => (this.start()));
+  // }
+
+  // handleAudio() {
+  //   this.setState({
+  //     constraints: {
+  //       video: this.state.constraints.video,
+  //       audio: !this.state.constraints.audio
+  //     },
+  //     mute: !this.state.constraints.audio ? 'Mute' : 'Unmute'
+  //   }, () => (this.start()));
+  //   navigator.mediaDevices.getUserMedia(this.state.constraints)
+  //     .then(this.successCallback)
+  //     .catch(this.errorCallback);
+  // }
 
   render() {
     return (
