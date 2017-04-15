@@ -36,18 +36,17 @@ app.get('/', (req, res) => {
   res.status(200).send();
 });
 
-app.get('*', (req, res) => {
-  // const pathName = req.url;
-  // res.pathName = pathName;
-  res.status(302).redirect('/');
-});
-
 app.get('/runCode', (req, res) => {
   const result = codeParser(req.query);
   console.log(result);
   res.status(200).send(result.toString());
 });
 
+app.get('*', (req, res) => {
+  // const pathName = req.url;
+  // res.pathName = pathName;
+  res.status(302).redirect('/');
+});
 
 // sockets
 io.on('connection', (socket) => {
