@@ -62,11 +62,37 @@ video {
   background-color: #e5e5e5;
 }
 
-.name-msg-offset {
-  padding-left: 10px;
+.chat-message-container-me {
+  margin: 10px;
+  background-color: #1D77EF;
+  border-radius: 5px;
+  width: 95%;
+  color: floralwhite;
 }
-.from-me {
-  color: blue;
+
+.chat-message-container-other {
+  margin: 10px;
+  background-color: #F7F7F7;
+  border-radius: 5px;
+  width: 95%;
+}
+
+.chat-name-from-me {
+  text-align: right;
+}
+
+.chat-text-from-me {
+  margin-right: 3%;
+  text-align: right;
+}
+
+.chat-text-from-other {
+  margin-left: 3%;
+  text-align: left;
+}
+.chat-message-name {
+  margin-right: 1%;
+  margin-left: 1%;
 }
 
 .bash {
