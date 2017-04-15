@@ -6,7 +6,6 @@ const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
 const url = require('url');
-console.log(url);
 
 
 const port = process.env.PORT || 3000;
