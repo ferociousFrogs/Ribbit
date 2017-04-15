@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import actions from './../../actions/actionCreators';
-
-const createRoomName = actions.createRoomName;
+import { createRoomName } from './../../actions/actionCreators';
 
 class CreateRoute extends React.Component {
   constructor(props) {

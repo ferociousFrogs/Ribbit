@@ -23,6 +23,7 @@ class Chat extends React.Component {
   componentDidMount() {
     // Listeners for socket events go here
     const randomName = chance.name();
+    console.log('randomName', randomName);
     this.props.addUserName(randomName);
     this.props.socket.on('chat message', this.receiveMessage);
   }
@@ -52,10 +53,9 @@ class Chat extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('location.pathname', location.pathname);
     if (this.state.text !== '') {
       const messageObj = {
-        userName: 'Guest ' + this.props.userName,
+        userName: `Guest ${this.props.userName}`,
         text: this.state.text,
         fromMe: false,
         roomName: location.pathname
@@ -107,7 +107,8 @@ class Chat extends React.Component {
 // chatMessage-reducer file (chatMessagesReducer)
 
 const mapStateToProps = state => ({
-  messages: state.messages
+  messages: state.messages,
+  userName: state.userName
 });
 
 
@@ -118,12 +119,10 @@ const mapStateToProps = state => ({
 // next lower component, this.props.potato), we are calling this sendMessage,
 // and the function will be accessible as sendMessage through props.
 // See my "receiveMessage" function further up.
-const mapDispatchToProps = (dispatch) => {
-  return {
-    sendMessage: message => dispatch(sendMessage(message)),
-    addUserName: name => dispatch(addUserName(name))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  sendMessage: message => dispatch(sendMessage(message)),
+  addUserName: name => dispatch(addUserName(name))
+});
 
 // give mapstateToProps and mapDispatchToProps to the connect function in
 // order to provide access to the props to the component specified in
