@@ -17,20 +17,30 @@ class CreateRoute extends React.Component {
   render() {
     return (
       <div className="border">
-        <input
-          type="text"
-          value={this.props.roomName}
-          placeholder="Enter a Room Name"
-          onChange={this.handleNameChange}
-        />
-        <Link to={`/:${this.props.roomName}`}>This is our room creation div</Link>
+        <div>
+          <input
+            type="text"
+            value={this.props.roomName}
+            placeholder="Enter a Room Name"
+            onChange={this.handleNameChange}
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            value=""
+            placeholder="Enter a username"
+          />
+          <Link to={`/:${this.props.roomName}`}>This is our room creation div</Link>
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  roomName: state.roomName
+  roomName: state.roomName,
+  userName: state.userName
 });
 
 const mapDispatchToProps = dispatch => ({

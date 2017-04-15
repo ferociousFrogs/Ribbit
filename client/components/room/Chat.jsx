@@ -22,9 +22,9 @@ class Chat extends React.Component {
 
   componentDidMount() {
     // Listeners for socket events go here
-    const randomName = chance.first();
-    console.log('randomName', randomName);
-    this.props.addUserName(`"${randomName}"`);
+    // const randomName = chance.first();
+    // console.log('randomName', randomName);
+    // this.props.addUserName(`"${randomName}"`);
     this.props.socket.on('chat message', this.receiveMessage);
   }
 
@@ -35,13 +35,6 @@ class Chat extends React.Component {
   }
 
   receiveMessage(msg) {
-    // method for updating state with the new message.
-    // this commented out function is the effect of my sendMessage
-    // actionCreator and chatMessagesReducer
-
-    // const prevMessages = this.state.messages;
-    // prevMessages.push(msg);
-    // this.setState({ messages: prevMessages });
     this.props.sendMessage(msg);
   }
 
