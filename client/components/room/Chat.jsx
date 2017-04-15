@@ -32,6 +32,7 @@ class Chat extends React.Component {
   componentDidUpdate() {
     // There is a new message in the state, scroll to bottom of list
     const objDiv = document.getElementById('chatWindow');
+    console.log(objDiv);
     objDiv.scrollTop = objDiv.scrollHeight;
   }
 

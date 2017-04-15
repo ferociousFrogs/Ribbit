@@ -9,6 +9,7 @@ import store from '../../client/store';
 //   expect(tree).toMatchSnapshot();
 // });
 
+
 test('Chat component should be a stateful class component', () => {
   expect(React.Component.isPrototypeOf(Chat)).toEqual(true);
 });
