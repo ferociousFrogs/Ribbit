@@ -7,8 +7,6 @@ import { sendMessage, addUserName } from './../../actions/actionCreators';
 // const port = process.env.PORT || 3000;
 // const server2 = 'https://tailbud-pr-17.herokuapp.com/';
 
-const chance = new Chance();
-
 class Chat extends React.Component {
   constructor(props) {
     super(props);
@@ -21,15 +19,11 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    // Listeners for socket events go here
-    // const randomName = chance.first();
-    // console.log('randomName', randomName);
-    // this.props.addUserName(`"${randomName}"`);
     this.props.socket.on('chat message', this.receiveMessage);
   }
 
   componentDidUpdate() {
-    // There is a new message in the state, scroll to bottom of list
+    // If there is a new message in the state, scroll to bottom of list
     const objDiv = document.getElementById('chatWindow');
     objDiv.scrollTop = objDiv.scrollHeight;
   }
@@ -47,7 +41,7 @@ class Chat extends React.Component {
     e.preventDefault();
     if (this.state.text !== '') {
       const messageObj = {
-        userName: `Guest ${this.props.userName}`,
+        userName: `Guest "${this.props.userName}"`,
         text: this.state.text,
         fromMe: false,
         roomName: location.pathname

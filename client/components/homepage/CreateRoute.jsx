@@ -1,17 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { createRoomName } from './../../actions/actionCreators';
+import { createRoomName, addUserName } from './../../actions/actionCreators';
 
 class CreateRoute extends React.Component {
   constructor(props) {
     super(props);
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleUserNameChange = this.handleUserNameChange.bind(this);
   }
 
   handleNameChange(e) {
-    console.log(e.target.value);
     this.props.createRoomName(e.target.value);
+  }
+
+  handleUserNameChange(e) {
+    this.props.addUserName(e.target.value);
   }
 
   render() {
@@ -28,8 +32,9 @@ class CreateRoute extends React.Component {
         <div>
           <input
             type="text"
-            value=""
+            value={this.props.userName}
             placeholder="Enter a username"
+            onChange={this.handleUserNameChange}
           />
           <Link to={`/:${this.props.roomName}`}>This is our room creation div</Link>
         </div>
