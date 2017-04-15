@@ -1,5 +1,6 @@
 // express server
 const app = require('express')();
+const os = require('os');
 const express = require('express');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -27,7 +28,7 @@ const codeParser = (code) => {
 };
 
 console.log(codeParser({
-  value: 'function ribbit() { return 1+1;};ribbit();',
+  value: 'function ribbit() { return "Ribbit";};ribbit();',
   language: 'Javascript'
 }));
 
@@ -69,30 +70,47 @@ io.on('connection', (socket) => {
   });
   socket.on('video message', (message) => {
     console.log(`Client said: ${message}`);
-    socket.broadcast.emit('message', message);
+    socket.broadcast.emit('video message', message);
   });
   // Create Room socket connection
   socket.on('create or join', (room) => {
-    console.log(`Request to create or join room received for ${room}`);
+    const clientsInRoom = io.nsps['/'].adapter.rooms[room];
+    const numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
 
-    const numClients = io.sockets.sockets.length;
-    console.log(`Room ${room} now has ${numClients} client(s)`);
+    // max two clients
+    if (numClients === 2) {
+      socket.emit('full', room);
+      return;
+    }
 
-    if (numClients === 1) {
+    console.log(`Room ${room} now has ${numClients + 1} client(s)`);
+
+    if (numClients === 0) {
       socket.join(room);
       console.log(`Client ID ${socket.id} created room ${room}`);
       socket.emit('Created', room, socket.id);
-    } else if (numClients === 2) {
+    } else {
       console.log(`Client ID ${socket.id} joined room ${room}`);
-      io.sockets.in(room).emit('join', room);
+      io.sockets.in(room).emit('Join', room);
       socket.join(room);
       socket.emit('Joined', room, socket.id);
-      io.sockets.in(room).emit('ready');
-    } else {
-      socket.emit('Full', room);
+      io.sockets.in(room).emit('Ready');
+    }
+  });
+
+
+  socket.on('Ipaddr', () => {
+    const ifaces = os.networkInterfaces();
+    for (let dev in ifaces) {
+      ifaces[dev].forEach((details) => {
+        if (details.family === 'IPv4' && details.address !== '127.0.0.1') {
+          socket.emit('Ipaddr', details.address);
+        }
+      });
     }
   });
 });
+
 
 http.listen(port, () => {
   console.log(`Ribbit app listening on port ${port}!`);
