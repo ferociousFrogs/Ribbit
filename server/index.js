@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
     socket.join(room);
   });
   socket.on('chat message', (message) => {
-    io.to(message.roomName).emit('chat message', message);
+    // io.to(message.roomName).emit('chat message', message);
     socket.broadcast.emit('chat message', message);
   });
   socket.on('disconnect', () => {
