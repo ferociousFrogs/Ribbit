@@ -8,7 +8,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const url = require('url');
 
-
 const port = process.env.PORT || 3000;
 
 // Middleware
@@ -55,12 +54,8 @@ io.on('connection', (socket) => {
     socket.join(room);
   });
   socket.on('chat message', (message) => {
-    // console.log('message: ', message);
-    if (message.userName === 'Guest') {
-      const idSlice = socket.id.slice(0, 5);
-      message.userName = `Guest(${idSlice}) :`;
-    }
     io.to(message.roomName).emit('chat message', message);
+    socket.broadcast.emit('chat message', message);
   });
   socket.on('disconnect', () => {
     // console.log('user disconnected');
