@@ -12,7 +12,7 @@ const Room = (props) => {
 
   return (
     <div className="container-fluid">
-      <h2>{location.pathname}</h2>
+      <h2>{location.pathname.slice(2)}</h2>
       <div className="col-md-8">
         <Workspace />
       </div>
