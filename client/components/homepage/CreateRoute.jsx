@@ -20,24 +20,32 @@ class CreateRoute extends React.Component {
 
   render() {
     return (
-      <div className="border">
-        <div>
+      <div>
+        <form className="form-inline margin-top sign-up-form">
           <input
+            id="email_intro"
             type="text"
+            placeholder="Enter a room name"
             value={this.props.roomName}
-            placeholder="Enter a Room Name"
             onChange={this.handleNameChange}
+            className="form-control"
           />
-        </div>
-        <div>
           <input
-            type="text"
+            type="email_intro"
             value={this.props.userName}
             placeholder="Enter a username"
             onChange={this.handleUserNameChange}
+            className="form-control"
           />
-          <Link to={`/:${this.props.roomName}`}>This is our room creation div</Link>
-        </div>
+          <Link to={`/:${this.props.roomName}`}>
+            <input
+              id="submit_intro"
+              type="submit"
+              value="Create room"
+              className="btn btn-primary"
+            />
+          </Link>
+        </form>
       </div>
     );
   }
