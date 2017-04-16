@@ -3,7 +3,7 @@ import { connect, getState } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Chance from 'chance';
 import ChatWindow from './ChatWindow';
-import { sendMessage, addUserName } from './../../actions/actionCreators';
+import { sendMessage, addUserName, getMessageText } from './../../actions/actionCreators';
 
 // const port = process.env.PORT || 3000;
 // const server2 = 'https://tailbud-pr-17.herokuapp.com/';
@@ -11,9 +11,6 @@ import { sendMessage, addUserName } from './../../actions/actionCreators';
 class Chat extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      text: ''
-    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.receiveMessage = this.receiveMessage.bind(this);
@@ -35,25 +32,25 @@ class Chat extends React.Component {
 
 
   handleInput(e) {
-    this.setState({ text: e.target.value });
+    //add an action here to take the text
+    // this.setState({ text: e.target.value });
+    this.props.getMessageText(e.target.value);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.text !== '') {
+    if (this.props.text !== '') {
       let room = this.props.roomName;
-      console.log('room in chat', room);
       const messageObj = {
-        userName: this.props.userName,
-        text: this.state.text,
+        userName: `Guest ${this.props.userName}`,
+        text: this.props.text,
         fromMe: false,
         roomName: room
       };
       this.props.socket.emit('chat message', messageObj);
       messageObj.fromMe = true;
       this.props.sendMessage(messageObj);
-    }
-    this.setState({ text: '' });
+    }  
   }
 
   render() {
@@ -71,7 +68,7 @@ class Chat extends React.Component {
                 type="text"
                 className="col-md-10 col-sm-10 col-xs-10"
                 placeholder="Type your message here."
-                value={this.state.text}
+                value={this.props.text}
                 onChange={this.handleInput}
               />
               <button className="btn-info col-md-2  col-sm-2 col-xs-2">Send</button>
@@ -98,7 +95,8 @@ class Chat extends React.Component {
 const mapStateToProps = state => ({
   messages: state.messages,
   userName: state.userName,
-  roomName: state.roomName
+  roomName: state.roomName,
+  text: state.text
 });
 
 
@@ -111,7 +109,8 @@ const mapStateToProps = state => ({
 // See my "receiveMessage" function further up.
 const mapDispatchToProps = dispatch => ({
   sendMessage: message => dispatch(sendMessage(message)),
-  addUserName: name => dispatch(addUserName(name))
+  addUserName: name => dispatch(addUserName(name)),
+  getMessageText: text => dispatch(getMessageText(text))
 });
 
 // give mapstateToProps and mapDispatchToProps to the connect function in
