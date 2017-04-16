@@ -1,6 +1,7 @@
 import React from 'react';
 import io from 'socket.io-client';
 import webrtc from 'webrtc-adapter';
+import { connect } from 'react-redux';
 
 // const server = location.origin;
 // const socket = io(server);
@@ -69,7 +70,7 @@ class Video extends React.Component {
   }
 
   createRoom() {
-    let room = location.pathname.slice(2);
+    let room = this.props.roomName;
 
     let socket = this.props.socket;
 
@@ -311,4 +312,9 @@ class Video extends React.Component {
   }
 }
 
-export default Video;
+const mapStateToProps = state => ({
+  roomName: state.roomName,
+  userName: state.userName
+});
+
+export default connect(mapStateToProps)(Video);
