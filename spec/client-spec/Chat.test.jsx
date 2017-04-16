@@ -1,15 +1,30 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import Chat from '../../client/components/room/Chat';
-import store from '../../client/store';
+import { shallow } from 'enzyme';
+import { Chat } from '../../client/components/room/Chat';
 
-// test('Chat component snapshot test', () => {
-//   const component = renderer.create(<Chat />);
-//   const tree = component.toJSON();
-//   expect(tree).toMatchSnapshot();
-// });
+function setup() {
+  const props = {
+    sendMessage: jest.fn(),
+    addUserName: jest.fn(),
+    addTodo: jest.fn()
+  };
 
+  const enzymeWrapper = shallow(<Chat {...props} />);
 
-test('Chat component should be a stateful class component', () => {
-  expect(React.Component.isPrototypeOf(Chat)).toEqual(true);
+  return {
+    props,
+    enzymeWrapper
+  };
+}
+
+describe('components', () => {
+  describe('Chat', () => {
+    it('should render ChatWindow and form and input', () => {
+      const { enzymeWrapper } = setup();
+      expect(enzymeWrapper.find('ChatWindow').length).toEqual(1);
+      expect(enzymeWrapper.find('form').length).toEqual(1);
+      expect(enzymeWrapper.find('input').length).toEqual(1);
+      expect(enzymeWrapper.find('button').length).toEqual(1);
+    });
+  });
 });
