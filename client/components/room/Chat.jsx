@@ -41,10 +41,10 @@ class Chat extends React.Component {
     e.preventDefault();
     if (this.state.text !== '') {
       const messageObj = {
-        userName: `Guest ${this.props.userName}`,
+        userName: this.props.userName,
         text: this.state.text,
         fromMe: false,
-        roomName: location.pathname
+        roomName: location.pathname.slice(2)
       };
       this.props.socket.emit('chat message', messageObj);
       messageObj.fromMe = true;
