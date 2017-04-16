@@ -5,26 +5,44 @@ import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
 
-const Room = (props) => {
-  const server = location.origin;
-  const socket = io(server);
-  console.log('props in room', props);
-  socket.emit('join room', location.pathname.slice(2));
+const server = location.origin;
+const socket = io(server);
 
-  return (
-    <div className="container-fluid">
-      <h2>{location.pathname.slice(2)}</h2>
-      <div className="col-md-8">
-        <Workspace socket={socket} />
-      </div>
-      <div className="col-md-4">
-        <Video socket={socket} />
-      </div>
-      <div className="col-md-4">
-        <Chat socket={socket} />
-      </div>
-    </div>
-  );
-};
+class Room extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-export default connect()(Room);
+  componentDidMount() {
+    socket.emit('join room', this.props.roomName);
+  }
+
+  componentWillUnmount() {
+    socket.emit('leave room', this.props.roomName);
+  }
+
+  render() {
+    return (
+      <div className="container-fluid">
+        <h2>{this.props.roomName}</h2>
+        <div className="col-md-8">
+          <Workspace socket={socket} />
+        </div>
+        <div className="col-md-4">
+          <Video socket={socket} />
+        </div>
+        <div className="col-md-4">
+          <Chat socket={socket} />
+        </div>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  roomName: state.roomName,
+  userName: state.userName
+});
+
+export default connect(mapStateToProps)(Room);
+

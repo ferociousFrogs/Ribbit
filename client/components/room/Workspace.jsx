@@ -35,7 +35,8 @@ class Workspace extends React.Component {
         id: 1,
         user: this.state.user,
         value: cm.getValue(),
-        language: 'Javascript'
+        language: 'Javascript',
+        room: this.props.roomName
       };
       this.setState({
         code: editedCode.value
