@@ -50,37 +50,16 @@ app.get('*', (req, res) => {
 
 // sockets
 io.on('connection', (socket) => {
+
   socket.on('join room', (room) => {
-    console.log('joining room', room);
-    socket.join(room);
-  });
-  socket.on('chat message', (message) => {
-    socket.to(message.roomName).emit('chat message', message);
-  });
-  socket.on('disconnect', () => {
-    // console.log('user disconnected');
-  });
-  socket.on('code-edit', (code) => {
-    socket.broadcast.emit('newCode', code);
-  });
-  socket.on('video message', (message) => {
-    console.log(`Client said: ${message}`);
-    socket.broadcast.emit('video message', message);
-  });
-  // Create Room socket connection
-  // Update this with new validated code from pull request: https://github.com/googlecodelabs/webrtc-web/issues/5
-  socket.on('create or join', (room) => {
     const clientsInRoom = io.nsps['/'].adapter.rooms[room];
     const numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
-
     // max two clients
     if (numClients === 2) {
       socket.emit('full', room);
       return;
     }
-
     console.log(`Room ${room} now has ${numClients + 1} client(s)`);
-
     if (numClients === 0) {
       socket.join(room);
       console.log(`Client ID ${socket.id} created room ${room}`);
@@ -94,6 +73,26 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('leave room', (room) => {
+    socket.leave(room);
+  });
+
+  socket.on('chat message', (message) => {
+    console.log(`user ${message.userName} sent message to room ${message.roomName}`);
+    socket.to(message.roomName).emit('chat message', message);
+  });
+
+
+  socket.on('code-edit', (code) => {
+    socket.to(code.room).emit('newCode', code);
+  });
+
+  socket.on('video message', (message) => {
+    console.log(`Client said: ${message}`);
+    socket.broadcast.emit('video message', message);
+  });
+  // Create Room socket connection
+  // Update this with new validated code from pull request: https://github.com/googlecodelabs/webrtc-web/issues/5
 
   socket.on('ipaddr', () => {
     const ifaces = os.networkInterfaces();
@@ -104,6 +103,10 @@ io.on('connection', (socket) => {
         }
       });
     }
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
   });
 });
 

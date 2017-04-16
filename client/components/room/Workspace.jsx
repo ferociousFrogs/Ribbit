@@ -1,7 +1,7 @@
 import React from 'react';
 import CodeMirror from 'react-codemirror';
-import io from 'socket.io-client';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 // require('codemirror/lib/codemirror.css');
 require('codemirror/mode/javascript/javascript');
@@ -11,8 +11,6 @@ require('codemirror/mode/python/python');
 require('codemirror/mode/ruby/ruby');
 require('codemirror/keymap/sublime');
 
-const server = location.origin;
-const socket = io(server);
 let cm;
 
 class Workspace extends React.Component {
@@ -29,6 +27,7 @@ class Workspace extends React.Component {
   }
 
   componentDidMount() {
+    const socket = this.props.socket;
     cm = this.refs.cm.getCodeMirror();
 
     cm.on('keyup', () => {
@@ -36,7 +35,8 @@ class Workspace extends React.Component {
         id: 1,
         user: this.state.user,
         value: cm.getValue(),
-        language: 'Javascript'
+        language: 'Javascript',
+        room: this.props.roomName
       };
       this.setState({
         code: editedCode.value
@@ -102,4 +102,10 @@ class Workspace extends React.Component {
   }
 }
 
-export default Workspace;
+const mapStateToProps = state => ({
+  roomName: state.roomName,
+  userName: state.userName
+});
+
+export default connect(mapStateToProps)(Workspace);
+
