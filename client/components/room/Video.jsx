@@ -299,7 +299,7 @@ class Video extends React.Component {
   render() {
     return (
       <div className="row border right-side">
-        <video id="localVideo" autoPlay />
+        <video id="localVideo" autoPlay muted="muted" />
         <video id="remoteVideo" autoPlay />
         <div>
           <button className="videoOff" onClick={this.toggleVideo}>{this.state.video}</button>
