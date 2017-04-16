@@ -5,14 +5,30 @@ exports[`App component snapshot test 1`] = `
   <div
     className="container-fluid border"
   >
-    <a
-      href="/"
-      onClick={[Function]}
+    <div
+      className="row"
     >
-      <h1>
-        Ribbit
-      </h1>
-    </a>
+      <a
+        href="/"
+        onClick={[Function]}
+      >
+        <h1
+          className="col-md-10 col-sm-8 col-xs-6"
+        >
+          Ribbit
+        </h1>
+      </a>
+      <a
+        href="/login"
+        onClick={[Function]}
+      >
+        <h2
+          className="col-md-2 col-sm-4 col-xs-6"
+        >
+          signup/login
+        </h2>
+      </a>
+    </div>
   </div>
 </div>
 `;
