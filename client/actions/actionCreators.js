@@ -34,3 +34,8 @@ export const getMessageText = text => ({
   type: 'GET_MESSAGE_TEXT',
   text
 });
+
+export const addUserEmail = email => ({
+  type: 'ADD_EMAIL',
+  email
+});
