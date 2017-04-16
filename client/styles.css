@@ -10,6 +10,66 @@
   height: 350px;
 }
 
+/* =========================================
+ *  BUTTONS
+ *  =======================================*/
+
+.btn {
+  font-weight: 400;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  padding: 6px 12px;
+  font-size: 16px;
+  line-height: 1.55;
+  border-radius: ;
+}
+.btn-primary {
+  color: #ffffff;
+  background-color: #ff7473;
+  border-color: #ff7473;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  color: #ffffff;
+  background-color: #ff4b4a;
+  border-color: #ff3736;
+}
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  background-image: none;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+  background-color: #ff7473;
+  border-color: #ff7473;
+}
+.btn-primary .badge {
+  color: #ff7473;
+  background-color: #ffffff;
+}
+
+
+/* =========================================
+ *  VIDEO
+ *  =======================================*/
+
+
 video {
   max-width: 100%;
   width: 100%;
@@ -42,6 +102,10 @@ video {
   top: 1%;
   margin-left: 20%;
 }
+
+/* =========================================
+ *  CHAT
+ *  =======================================*/
 
 .chat-header {
   height: 10%;
@@ -102,7 +166,9 @@ video {
   font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }
 
-/* CODEMIRROR BASICS */
+/* =========================================
+ *  CODEMIRROR COLLABORATIVE CODING
+ *  =======================================*/
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
