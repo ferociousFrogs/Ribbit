@@ -74,6 +74,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat message', (message) => {
+    console.log(`user ${message.userName} said ${message.text}`);
     socket.to(message.roomName).emit('chat message', message);
   });
 
