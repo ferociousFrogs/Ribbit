@@ -117,4 +117,5 @@ const mapDispatchToProps = dispatch => ({
 // give mapstateToProps and mapDispatchToProps to the connect function in
 // order to provide access to the props to the component specified in
 // the () after the function call.
+export { Chat };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Chat));

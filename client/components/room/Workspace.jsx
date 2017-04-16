@@ -107,5 +107,6 @@ const mapStateToProps = state => ({
   userName: state.userName
 });
 
+export { Workspace };
 export default connect(mapStateToProps)(Workspace);
 
