@@ -1,5 +1,4 @@
 import React from 'react';
-import io from 'socket.io-client';
 import webrtc from 'webrtc-adapter';
 import { connect } from 'react-redux';
 

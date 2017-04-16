@@ -73,17 +73,18 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('leave room', (room) => {
+    socket.leave(room);
+  });
+
   socket.on('chat message', (message) => {
     console.log(`user ${message.userName} sent message to room ${message.roomName}`);
     socket.to(message.roomName).emit('chat message', message);
   });
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
 
   socket.on('code-edit', (code) => {
-    socket.broadcast.emit('newCode', code);
+    socket.to(code.room).emit('newCode', code);
   });
 
   socket.on('video message', (message) => {
@@ -102,6 +103,10 @@ io.on('connection', (socket) => {
         }
       });
     }
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
   });
 });
 
