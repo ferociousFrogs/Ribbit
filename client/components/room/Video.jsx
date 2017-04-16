@@ -296,10 +296,11 @@ class Video extends React.Component {
     }
   }
 
+  // Added 'muted' here to help reduce audio feedback but not entirely sure it will work
   render() {
     return (
       <div className="row border right-side">
-        <video id="localVideo" autoPlay />
+        <video id="localVideo" autoPlay muted="muted" />
         <video id="remoteVideo" autoPlay />
         <div>
           <button className="videoOff" onClick={this.toggleVideo}>{this.state.video}</button>
