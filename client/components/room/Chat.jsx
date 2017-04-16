@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect, getState } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Chance from 'chance';
 import ChatWindow from './ChatWindow';
 import { sendMessage, addUserName, getMessageText } from './../../actions/actionCreators';
 
@@ -32,8 +31,6 @@ class Chat extends React.Component {
 
 
   handleInput(e) {
-    //add an action here to take the text
-    // this.setState({ text: e.target.value });
     this.props.getMessageText(e.target.value);
   }
 
@@ -50,7 +47,8 @@ class Chat extends React.Component {
       this.props.socket.emit('chat message', messageObj);
       messageObj.fromMe = true;
       this.props.sendMessage(messageObj);
-    }  
+      this.props.getMessageText('');
+    }
   }
 
   render() {
