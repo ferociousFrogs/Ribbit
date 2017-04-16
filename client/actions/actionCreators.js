@@ -29,3 +29,8 @@ export const addUserName = name => ({
   type: 'ADD_USERNAME',
   name
 });
+
+export const getMessageText = text => ({
+  type: 'GET_MESSAGE_TEXT',
+  text
+});
