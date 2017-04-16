@@ -25,9 +25,7 @@ export const createRoomName = roomName => ({
   roomName
 });
 
-export const addUserName = (name) => {
-  return {
-    type: 'ADD_USERNAME',
-    name
-  };
-};
+export const addUserName = name => ({
+  type: 'ADD_USERNAME',
+  name
+});
