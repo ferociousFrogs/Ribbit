@@ -1,5 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, getState } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Chance from 'chance';
 import ChatWindow from './ChatWindow';
 import { sendMessage, addUserName } from './../../actions/actionCreators';
@@ -40,11 +41,13 @@ class Chat extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.text !== '') {
+      let room = this.props.roomName;
+      console.log('room in chat', room);
       const messageObj = {
         userName: this.props.userName,
         text: this.state.text,
         fromMe: false,
-        roomName: location.pathname.slice(2)
+        roomName: room
       };
       this.props.socket.emit('chat message', messageObj);
       messageObj.fromMe = true;
@@ -94,7 +97,8 @@ class Chat extends React.Component {
 
 const mapStateToProps = state => ({
   messages: state.messages,
-  userName: state.userName
+  userName: state.userName,
+  roomName: state.roomName
 });
 
 
@@ -113,4 +117,4 @@ const mapDispatchToProps = dispatch => ({
 // give mapstateToProps and mapDispatchToProps to the connect function in
 // order to provide access to the props to the component specified in
 // the () after the function call.
-export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Chat));
