@@ -14,8 +14,8 @@ describe('Workspace should exist and render', () => {
     expect(enzymeWrapper.find('CodeMirror').length).toEqual(1);
   });
 
-  // test('Workspace should have an initial value', () => {
-  //   const cmValue = shallow(<Provider><Workspace /></Provider>).node.props.children[0].props.value;
-  //   expect(cmValue).toEqual('// Ribbit\nfunction ribbit() {\n return "Ribbit";\n};\nribbit();');
-  // });
+  test('Workspace should have an initial value', () => {
+    const cmValue = shallow(<Workspace />).node.props.children[0].props.value;
+    expect(cmValue).toEqual('// Ribbit\nfunction ribbit() {\n return "Ribbit";\n};\nribbit();');
+  });
 });
