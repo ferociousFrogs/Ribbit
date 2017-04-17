@@ -12,7 +12,6 @@ const chatMessagesReducer = (state = [], action) => {
     case 'SEND_MESSAGE':
       return [
         ...state,
-        // chatMessage(undefined, action)
         action.message
       ];
     default:
