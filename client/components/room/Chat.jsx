@@ -39,7 +39,7 @@ class Chat extends React.Component {
     if (this.props.text !== '') {
       let room = this.props.roomName;
       const messageObj = {
-        userName: `Guest ${this.props.userName}`,
+        userName: `${this.props.userName}`,
         text: this.props.text,
         fromMe: false,
         roomName: room
@@ -90,8 +90,11 @@ class Chat extends React.Component {
 // the value is the reducer itself, in this case coming from
 // chatMessage-reducer file (chatMessagesReducer)
 
+const filterMessages = (messages, roomName) =>
+  messages.filter(message => message.roomName === roomName);
+
 const mapStateToProps = state => ({
-  messages: state.messages,
+  messages: filterMessages(state.messages, state.roomName),
   userName: state.userName,
   roomName: state.roomName,
   text: state.text
