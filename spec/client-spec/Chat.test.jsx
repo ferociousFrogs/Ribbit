@@ -17,14 +17,16 @@ function setup() {
   };
 }
 
-describe('components', () => {
-  describe('Chat', () => {
-    it('should render ChatWindow and form and input', () => {
-      const { enzymeWrapper } = setup();
-      expect(enzymeWrapper.find('ChatWindow').length).toEqual(1);
-      expect(enzymeWrapper.find('form').length).toEqual(1);
-      expect(enzymeWrapper.find('input').length).toEqual(1);
-      expect(enzymeWrapper.find('button').length).toEqual(1);
-    });
+describe('Chat', () => {
+  it('should be a stateful class component', () => {
+    expect(React.Component.isPrototypeOf(Chat)).toEqual(true);
+  });
+
+  it('should render ChatWindow and form and input', () => {
+    const { enzymeWrapper } = setup();
+    expect(enzymeWrapper.find('ChatWindow').length).toEqual(1);
+    expect(enzymeWrapper.find('form').length).toEqual(1);
+    expect(enzymeWrapper.find('input').length).toEqual(1);
+    expect(enzymeWrapper.find('button').length).toEqual(1);
   });
 });
