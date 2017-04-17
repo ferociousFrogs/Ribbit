@@ -1,11 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { addUserName, addUserEmail } from './../../actions/actionCreators';
 
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
+const Login = (props) => {
     return (
       <div className="container-fluid">
         <div className="col-md-8 col-md-offset-2">
@@ -15,26 +13,40 @@ class Login extends React.Component {
               className="col-md-12"
               type="text"
               placeholder="Enter a username"
+              onChange={(e) => { props.addUserName(e.target.value); }}
             />
             <input
               className="col-md-12"
               type="text"
               placeholder="Enter an e-mail address"
+              onChange={(e) => { props.addUserEmail(e.target.value); }}
             />
-            <input
-              className="col-md-12"
-              type="text"
-              placeholder="Enter a password"
-            />
-            <button>Sign me up!</button>
+            <Link to="/">Sign me up!</Link>
           </form>
-          <h3 className="text-center">Or...</h3>
-          <button>Sign in with google button</button>
-          <button>Sign in with facebook button</button>
         </div>
       </div>
     );
-  }
-}
+};
 
-export default Login;
+
+const mapStateToProps = state => ({
+  userName: state.userName,
+  email: state.email
+});
+
+const mapDispatchToProps = dispatch => ({
+  addUserName: name => dispatch(addUserName(name)),
+  addUserEmail: email => dispatch(addUserEmail(email))
+});
+
+export { Login };
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+            // <input
+            //   className="col-md-12"
+            //   type="text"
+            //   placeholder="Enter a password"
+            // />
+          // <h3 className="text-center">Or...</h3>
+          // <button>Sign in with google button</button>
+          // <button>Sign in with facebook button</button>

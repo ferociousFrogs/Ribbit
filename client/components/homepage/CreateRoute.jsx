@@ -1,21 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { createRoomName, addUserName } from './../../actions/actionCreators';
+import { createRoomName } from './../../actions/actionCreators';
 
 class CreateRoute extends React.Component {
   constructor(props) {
     super(props);
     this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleUserNameChange = this.handleUserNameChange.bind(this);
   }
 
   handleNameChange(e) {
     this.props.createRoomName(e.target.value);
-  }
-
-  handleUserNameChange(e) {
-    this.props.addUserName(e.target.value);
   }
 
   render() {
@@ -28,13 +23,6 @@ class CreateRoute extends React.Component {
             placeholder="Enter a room name"
             value={this.props.roomName}
             onChange={this.handleNameChange}
-            className="form-control"
-          />
-          <input
-            type="email_intro"
-            value={this.props.userName}
-            placeholder="Enter a username"
-            onChange={this.handleUserNameChange}
             className="form-control"
           />
           <Link to={`/:${this.props.roomName}`}>
@@ -52,13 +40,11 @@ class CreateRoute extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  roomName: state.roomName,
-  userName: state.userName
+  roomName: state.roomName
 });
 
 const mapDispatchToProps = dispatch => ({
-  createRoomName: roomName => dispatch(createRoomName(roomName)),
-  addUserName: name => dispatch(addUserName(name))
+  createRoomName: roomName => dispatch(createRoomName(roomName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateRoute);

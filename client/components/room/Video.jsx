@@ -68,6 +68,10 @@ class Video extends React.Component {
     this.connectSockets();
   }
 
+  componentWillUnmount() {
+    // this.stop()
+  }
+
   createRoom() {
     let room = this.props.roomName;
 
