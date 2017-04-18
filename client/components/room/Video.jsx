@@ -2,9 +2,6 @@ import React from 'react';
 import webrtc from 'webrtc-adapter';
 import { connect } from 'react-redux';
 
-// const server = location.origin;
-// const socket = io(server);
-
 let localStream;
 let remoteStream;
 let turnReady;
@@ -35,9 +32,11 @@ class Video extends React.Component {
       startButton: false,
       isChannelReady: false,
       isInitiator: false,
-      isStarted: false
+      isStarted: false,
+      hasRemote: false,
+      value: '',
+      copied: false
     };
-    console.log('props in video', this.props);
     this.createRoom = this.createRoom.bind(this);
     this.connectSockets = this.connectSockets.bind(this);
     this.gotStream = this.gotStream.bind(this);
@@ -56,25 +55,28 @@ class Video extends React.Component {
     this.hangup = this.hangup.bind(this);
     this.handleRemoteHangup = this.handleRemoteHangup.bind(this);
     this.stop = this.stop.bind(this);
+    this.requestTurn = this.requestTurn.bind(this);
     this.toggleVideo = this.toggleVideo.bind(this);
     this.toggleAudio = this.toggleAudio.bind(this);
+    this.handleCopy = this.handleCopy.bind(this);
   }
 
   componentDidMount() {
     let localVideo = document.getElementById('localVideo');
     let remoteVideo = document.getElementById('remoteVideo');
+    if (location.hostname !== 'localhost') {
+      this.requestTurn(
+        'http://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor'
+      );
+    }
+    this.handleCopy();
     this.start();
     this.createRoom();
     this.connectSockets();
   }
 
-  componentWillUnmount() {
-    // this.stop()
-  }
-
   createRoom() {
     let room = this.props.roomName;
-
     let socket = this.props.socket;
 
     if (room !== '') {
@@ -158,7 +160,7 @@ class Video extends React.Component {
   gotStream(stream) {
     console.log('This adds a local stream');
     localVideo.srcObject = stream;
-    localStream = stream; 
+    localStream = stream;
     console.log('This is the local stream', localStream);
     this.sendMessage('got user media');
     console.log('We want this to be true for peer', this.state.isInitiator);
@@ -254,14 +256,18 @@ class Video extends React.Component {
   handleRemoteStreamAdded(event) {
     window.remoteStream = remoteVideo.srcObject;
     remoteVideo.srcObject = event.stream;
+    this.setState({
+      hasRemote: true
+    });
     console.log('Remote stream added');
   }
 
   handleRemoteStreamRemoved(event) {
+    this.setState({
+      hasRemote: false
+    });
     console.log(`Remote stream removed. Event: ${event}`);
   }
-
-  /////////////////////////////////
 
   hangup() {
     console.log('Hanging up.');
@@ -301,8 +307,67 @@ class Video extends React.Component {
     }
   }
 
-  // Added 'muted' here to help reduce audio feedback but not entirely sure it will work
+  requestTurn() {
+    const turnURL = 'https://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor';
+    let turnExists = false;
+    for (let i in configuration.iceServers) {
+      if (configuration.iceServers[i].urls.substr(0, 5) === 'turn:') {
+        turnExists = true;
+        turnReady = true;
+        break;
+      }
+    }
+    if (!turnExists) {
+      console.log('Getting TURN server from ', turnURL);
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var turnServer = JSON.parse(xhr.responseText);
+          console.log('Got TURN server: ', turnServer);
+          configuration.iceServers.push({
+            'url': 'turn:' + turnServer.username + '@' + turnServer.turn,
+            'credential': turnServer.password
+          });
+          turnReady = true;
+        }
+      };
+      xhr.open('GET', turnURL, true);
+      xhr.send();
+    }
+  }
+
+  copyTextToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      const msg = successful ? 'successful' : 'unsuccessful';
+      console.log(`Copying text command was ${msg}`);
+    } catch (err) {
+      console.log('Oops, unable to copy');
+    }
+    document.body.removeChild(textArea);
+  }
+
+  handleCopy() {
+    document.querySelector('.js-textareacopybtn').addEventListener('click', (event) => {
+      this.copyTextToClipboard(window.location.href);
+    });
+  }
+
   render() {
+    let sharing = null;
+    if (!this.state.hasRemote) {
+      sharing = <div className="shareLink">
+        <p>Invite by sharing the link:</p>
+        <p className="js-copytextarea">{window.location.href}</p>
+        <button className="js-textareacopybtn">Copy Link</button>
+      </div>;
+    }
+
     return (
       <div className="row border right-side">
         <video id="localVideo" autoPlay muted="muted" />
@@ -311,6 +376,7 @@ class Video extends React.Component {
           <button className="videoOff" onClick={this.toggleVideo}>{this.state.video}</button>
           <button className="mute" onClick={this.toggleAudio}>{this.state.mute}</button>
         </div>
+        {sharing}
       </div>
     );
   }
@@ -320,5 +386,5 @@ const mapStateToProps = state => ({
   roomName: state.roomName,
   userName: state.userName
 });
-
+export { Video };
 export default connect(mapStateToProps)(Video);
