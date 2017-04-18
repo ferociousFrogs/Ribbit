@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 let localStream;
 let remoteStream;
 let turnReady;
-let pc; 
+let pc;
 // = new RTCPeerConnection(null);
 
 const configuration = {
@@ -33,7 +33,9 @@ class Video extends React.Component {
       startButton: false,
       isChannelReady: false,
       isInitiator: false,
-      isStarted: false
+      isStarted: false,
+      value: '',
+      copied: false
     };
     this.createRoom = this.createRoom.bind(this);
     this.connectSockets = this.connectSockets.bind(this);
@@ -56,18 +58,18 @@ class Video extends React.Component {
     this.requestTurn = this.requestTurn.bind(this);
     this.toggleVideo = this.toggleVideo.bind(this);
     this.toggleAudio = this.toggleAudio.bind(this);
+    this.handleCopy = this.handleCopy.bind(this);
   }
 
   componentDidMount() {
     let localVideo = document.getElementById('localVideo');
     let remoteVideo = document.getElementById('remoteVideo');
-    console.log('This', location.hostname);
     if (location.hostname !== 'localhost') {
       this.requestTurn(
         'http://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor'
       );
     }
-
+    this.handleCopy();
     this.start();
     this.createRoom();
     this.connectSockets();
@@ -335,6 +337,28 @@ class Video extends React.Component {
     }
   }
 
+  copyTextToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      const msg = successful ? 'successful' : 'unsuccessful';
+      console.log(`Copying text command was ${msg}`);
+    } catch (err) {
+      console.log('Oops, unable to copy');
+    }
+    document.body.removeChild(textArea);
+  }
+
+  handleCopy() {
+    document.querySelector('.js-textareacopybtn').addEventListener('click', (event) => {
+      this.copyTextToClipboard(window.location.href);
+    });
+  }
+
   // Added 'muted' here to help reduce audio feedback but not entirely sure it will work
   render() {
     return (
@@ -344,6 +368,11 @@ class Video extends React.Component {
         <div>
           <button className="videoOff" onClick={this.toggleVideo}>{this.state.video}</button>
           <button className="mute" onClick={this.toggleAudio}>{this.state.mute}</button>
+        </div>
+        <div className="shareLink">
+          <p>Invite by sharing the link:</p>
+          <p className="js-copytextarea">{window.location.href}</p>
+          <button className="js-textareacopybtn">Copy Link</button>
         </div>
       </div>
     );
