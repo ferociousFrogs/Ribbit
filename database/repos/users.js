@@ -1,8 +1,8 @@
 'use strict';
 
-const sql = require('../sql').users;
+const sql = require('../queries').users;
 
-module.exports = (rep, pgp) => {
+module.exports = (db, pgp) => {
 
     /*
      This repository mixes hard-coded and dynamic SQL,
@@ -13,38 +13,38 @@ module.exports = (rep, pgp) => {
 
         // Creates the table;
         create: () =>
-            rep.none(sql.create),
+            db.none(sql.create),
 
         // Initializes the table with some user records, and return their id-s;
         init: () =>
-            rep.map(sql.init, [], row => row.id),
+            db.map(sql.init, [], row => row.id),
 
         // Drops the table;
         drop: () =>
-            rep.none(sql.drop),
+            db.none(sql.drop),
 
         // Removes all records from the table;
         empty: () =>
-            rep.none(sql.empty),
+            db.none(sql.empty),
 
         // Adds a new user, and returns the new id;
         add: name =>
-            rep.one(sql.add, name, user => user.id),
+            db.one(sql.add, name, user => user.id),
 
         // Tries to delete a user by id, and returns the number of records deleted;
         remove: id =>
-            rep.result('DELETE FROM Users WHERE id = $1', id, r => r.rowCount),
+            db.result('DELETE FROM Users WHERE id = $1', id, r => r.rowCount),
 
         // Tries to find a user from id;
         find: id =>
-            rep.oneOrNone('SELECT * FROM Users WHERE id = $1', id),
+            db.oneOrNone('SELECT * FROM Users WHERE id = $1', id),
 
         // Returns all user records;
         all: () =>
-            rep.any('SELECT * FROM Users'),
+            db.any('SELECT * FROM Users'),
 
         // Returns the total number of users;
         total: () =>
-            rep.one('SELECT count(*) FROM Users', [], a => +a.count)
+            db.one('SELECT count(*) FROM Users', [], a => +a.count)
     };
 };

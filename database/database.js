@@ -14,10 +14,10 @@ db.task(task => {
               .then(() => {
                 return task.any(`SELECT * FROM rooms`);
               });
-  })
-  .then((data) => {
-    console.log('success! we have data', data);
-  })
-  .catch((err) => { console.log('no results', err); });
+})
+.then((data) => {
+  console.log('success! we have data', data);
+})
+.catch((err) => { console.log('no results', err); });
 
 module.exports = db;
