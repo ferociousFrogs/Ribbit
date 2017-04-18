@@ -2,13 +2,11 @@ import React from 'react';
 import webrtc from 'webrtc-adapter';
 import { connect } from 'react-redux';
 
-// const server = location.origin;
-// const socket = io(server);
-
 let localStream;
 let remoteStream;
 let turnReady;
-let pc;
+let pc; 
+// = new RTCPeerConnection(null);
 
 const configuration = {
   'iceServers': [{
@@ -37,7 +35,6 @@ class Video extends React.Component {
       isInitiator: false,
       isStarted: false
     };
-    console.log('props in video', this.props);
     this.createRoom = this.createRoom.bind(this);
     this.connectSockets = this.connectSockets.bind(this);
     this.gotStream = this.gotStream.bind(this);
@@ -56,6 +53,7 @@ class Video extends React.Component {
     this.hangup = this.hangup.bind(this);
     this.handleRemoteHangup = this.handleRemoteHangup.bind(this);
     this.stop = this.stop.bind(this);
+    this.requestTurn = this.requestTurn.bind(this);
     this.toggleVideo = this.toggleVideo.bind(this);
     this.toggleAudio = this.toggleAudio.bind(this);
   }
@@ -63,6 +61,13 @@ class Video extends React.Component {
   componentDidMount() {
     let localVideo = document.getElementById('localVideo');
     let remoteVideo = document.getElementById('remoteVideo');
+    console.log('This', location.hostname);
+    if (location.hostname !== 'localhost') {
+      this.requestTurn(
+        'http://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor'
+      );
+    }
+
     this.start();
     this.createRoom();
     this.connectSockets();
@@ -74,7 +79,6 @@ class Video extends React.Component {
 
   createRoom() {
     let room = this.props.roomName;
-
     let socket = this.props.socket;
 
     if (room !== '') {
@@ -158,7 +162,7 @@ class Video extends React.Component {
   gotStream(stream) {
     console.log('This adds a local stream');
     localVideo.srcObject = stream;
-    localStream = stream; 
+    localStream = stream;
     console.log('This is the local stream', localStream);
     this.sendMessage('got user media');
     console.log('We want this to be true for peer', this.state.isInitiator);
@@ -301,6 +305,36 @@ class Video extends React.Component {
     }
   }
 
+  requestTurn() {
+    const turnURL = 'https://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor';
+    let turnExists = false;
+    for (let i in configuration.iceServers) {
+      if (configuration.iceServers[i].urls.substr(0, 5) === 'turn:') {
+        turnExists = true;
+        turnReady = true;
+        break;
+      }
+    }
+    if (!turnExists) {
+      console.log('Getting TURN server from ', turnURL);
+      // No TURN server. Get one from computeengineondemand.appspot.com:
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var turnServer = JSON.parse(xhr.responseText);
+          console.log('Got TURN server: ', turnServer);
+          configuration.iceServers.push({
+            'url': 'turn:' + turnServer.username + '@' + turnServer.turn,
+            'credential': turnServer.password
+          });
+          turnReady = true;
+        }
+      };
+      xhr.open('GET', turnURL, true);
+      xhr.send();
+    }
+  }
+
   // Added 'muted' here to help reduce audio feedback but not entirely sure it will work
   render() {
     return (
@@ -320,5 +354,5 @@ const mapStateToProps = state => ({
   roomName: state.roomName,
   userName: state.userName
 });
-
+export { Video };
 export default connect(mapStateToProps)(Video);
