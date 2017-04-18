@@ -6,7 +6,6 @@ let localStream;
 let remoteStream;
 let turnReady;
 let pc;
-// = new RTCPeerConnection(null);
 
 const configuration = {
   'iceServers': [{
@@ -73,10 +72,6 @@ class Video extends React.Component {
     this.start();
     this.createRoom();
     this.connectSockets();
-  }
-
-  componentWillUnmount() {
-    // this.stop()
   }
 
   createRoom() {
@@ -267,8 +262,6 @@ class Video extends React.Component {
     console.log(`Remote stream removed. Event: ${event}`);
   }
 
-  /////////////////////////////////
-
   hangup() {
     console.log('Hanging up.');
     this.stop();
@@ -319,7 +312,6 @@ class Video extends React.Component {
     }
     if (!turnExists) {
       console.log('Getting TURN server from ', turnURL);
-      // No TURN server. Get one from computeengineondemand.appspot.com:
       const xhr = new XMLHttpRequest();
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
