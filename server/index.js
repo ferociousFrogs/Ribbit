@@ -37,6 +37,7 @@ app.use('/', express.static(path.join(__dirname, '../client')));
 app.use(passport.initialize());
 // app.use(passport.session()); Must be preceded with express.sessions if utilised
 
+
 // Routes
 app.get('/', (req, res) => {
   res.status(200).send();
