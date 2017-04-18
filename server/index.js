@@ -14,23 +14,6 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, '../client')));
 
-const codeParser = (code) => {
-  code.value = code.value.replace(/\\n/gi, '');
-  if (code.language === 'Javascript') {
-    return eval(code.value);
-  } else if (code.language === 'Python') {
-    return 'Python coming soon!';
-  } else if (code.language === 'Ruby') {
-    return 'Ruby coming soon!';
-  }
-  return null;
-};
-
-console.log(codeParser({
-  value:'function ribbit() { return 1+1;};ribbit();',
-  language: 'Javascript'
-}));
-
 // Routes
 app.get('/', (req, res) => {
   res.status(200).send();
