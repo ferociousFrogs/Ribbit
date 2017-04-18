@@ -1,9 +1,9 @@
 #to build (run in the codeEvalServer folder): 
-#docker build -t code_server .
+#docker build -t code_server ./server/codeEvalServer
 #to debug in the codeEvalServer folder: 
 #docker run -it -p 8080:8080 -v $(pwd):/src/app --name code_server --rm code_server
 #to run in the codeEvalServer folder: 
-#docker run -d -p 8080:8080 -v $(pwd):/src/app --name code_server --rm code_server
+#docker run -d -p 8080:8080 --name code_server --rm code_server
 #or just run docker-compose up in Ribbit root
 FROM node:7.6-alpine
 
