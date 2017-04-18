@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 let localStream;
 let remoteStream;
 let turnReady;
-let pc = new RTCPeerConnection(null);
+let pc; 
+// = new RTCPeerConnection(null);
 
 // if (location.hostname !== 'localhost') {
 //   this.requestTurn(
@@ -195,7 +196,7 @@ class Video extends React.Component {
   // Except remote stream handler which sets the source for the remoteVideo element
   createPeerConnection() {
     try {
-      // pc = new RTCPeerConnection(null);
+      pc = new RTCPeerConnection(null);
       pc.onicecandidate = this.handleIceCandidate;
       pc.onaddstream = this.handleRemoteStreamAdded;
       pc.onremovestream = this.handleRemoteStreamRemoved;
@@ -306,7 +307,6 @@ class Video extends React.Component {
   requestTurn() {
     const turnURL = 'https://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor';
     let turnExists = false;
-    console.log(configuration)
     for (let i in configuration.iceServers) {
       if (configuration.iceServers[i].urls.substr(0, 5) === 'turn:') {
         turnExists = true;
@@ -353,5 +353,5 @@ const mapStateToProps = state => ({
   roomName: state.roomName,
   userName: state.userName
 });
-
+export { Video };
 export default connect(mapStateToProps)(Video);
