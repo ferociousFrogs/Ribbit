@@ -8,12 +8,6 @@ let turnReady;
 let pc; 
 // = new RTCPeerConnection(null);
 
-// if (location.hostname !== 'localhost') {
-//   this.requestTurn(
-//     'https://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor'
-//   );
-// }
-
 const configuration = {
   'iceServers': [{
     'urls': 'stun:stun.l.google.com:19302'
@@ -67,6 +61,13 @@ class Video extends React.Component {
   componentDidMount() {
     let localVideo = document.getElementById('localVideo');
     let remoteVideo = document.getElementById('remoteVideo');
+    console.log('This', location.hostname);
+    if (location.hostname !== 'localhost') {
+      this.requestTurn(
+        'http://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor'
+      );
+    }
+
     this.start();
     this.createRoom();
     this.connectSockets();
