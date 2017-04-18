@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  code_server:
+    build: server/codeEvalServer/
+    ports: 
+      - '8080:8080'
