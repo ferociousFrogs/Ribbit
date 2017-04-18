@@ -6,6 +6,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
+const db = require('../database/database.js');
 // const url = require('url');
 
 const port = process.env.PORT || 3000;

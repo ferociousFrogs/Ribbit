@@ -6,9 +6,6 @@ console.log('connection inside db', connection);
 
 const db = pgp(connection);
 
-
-module.exports = db;
-
 db.task(task => {
   return task.none('CREATE TABLE rooms (id serial PRIMARY KEY, name text NOT NULL);')
               .then(() => {
@@ -23,3 +20,4 @@ db.task(task => {
   })
   .catch((err) => { console.log('no results', err); });
 
+module.exports = db;
