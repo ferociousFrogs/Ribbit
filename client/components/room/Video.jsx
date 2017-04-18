@@ -33,6 +33,7 @@ class Video extends React.Component {
       isChannelReady: false,
       isInitiator: false,
       isStarted: false,
+      hasRemote: false,
       value: '',
       copied: false
     };
@@ -255,10 +256,16 @@ class Video extends React.Component {
   handleRemoteStreamAdded(event) {
     window.remoteStream = remoteVideo.srcObject;
     remoteVideo.srcObject = event.stream;
+    this.setState({
+      hasRemote: true
+    });
     console.log('Remote stream added');
   }
 
   handleRemoteStreamRemoved(event) {
+    this.setState({
+      hasRemote: false
+    });
     console.log(`Remote stream removed. Event: ${event}`);
   }
 
@@ -352,6 +359,15 @@ class Video extends React.Component {
   }
 
   render() {
+    let sharing = null;
+    if (!this.state.hasRemote) {
+      sharing = <div className="shareLink">
+        <p>Invite by sharing the link:</p>
+        <p className="js-copytextarea">{window.location.href}</p>
+        <button className="js-textareacopybtn">Copy Link</button>
+      </div>;
+    }
+
     return (
       <div className="row border right-side">
         <video id="localVideo" autoPlay muted="muted" />
@@ -360,11 +376,7 @@ class Video extends React.Component {
           <button className="videoOff" onClick={this.toggleVideo}>{this.state.video}</button>
           <button className="mute" onClick={this.toggleAudio}>{this.state.mute}</button>
         </div>
-        <div className="shareLink">
-          <p>Invite by sharing the link:</p>
-          <p className="js-copytextarea">{window.location.href}</p>
-          <button className="js-textareacopybtn">Copy Link</button>
-        </div>
+        {sharing}
       </div>
     );
   }
