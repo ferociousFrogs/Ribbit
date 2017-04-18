@@ -359,7 +359,6 @@ class Video extends React.Component {
     });
   }
 
-  // Added 'muted' here to help reduce audio feedback but not entirely sure it will work
   render() {
     return (
       <div className="row border right-side">
