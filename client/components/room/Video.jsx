@@ -56,6 +56,7 @@ class Video extends React.Component {
     this.hangup = this.hangup.bind(this);
     this.handleRemoteHangup = this.handleRemoteHangup.bind(this);
     this.stop = this.stop.bind(this);
+    this.requestTurn = this.requestTurn.bind(this);
     this.toggleVideo = this.toggleVideo.bind(this);
     this.toggleAudio = this.toggleAudio.bind(this);
   }
@@ -63,6 +64,11 @@ class Video extends React.Component {
   componentDidMount() {
     let localVideo = document.getElementById('localVideo');
     let remoteVideo = document.getElementById('remoteVideo');
+    if (location.hostname !== 'localhost') {
+      this.requestTurn(
+        'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
+      );
+    }
     this.start();
     this.createRoom();
     this.connectSockets();
@@ -294,6 +300,35 @@ class Video extends React.Component {
       localStream.getAudioTracks()[0].enabled = false;
     } else {
       localStream.getAudioTracks()[0].enabled = true;
+    }
+  }
+
+  requestTurn(turnURL) {
+    let turnExists = false;
+    for (let i in pc.iceServers) {
+      if (pc.iceServers[i].url.substr(0, 5) === 'turn:') {
+        turnExists = true;
+        turnReady = true;
+        break;
+      }
+    }
+    if (!turnExists) {
+      console.log('Getting TURN server from ', turnURL);
+      // No TURN server. Get one from computeengineondemand.appspot.com:
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var turnServer = JSON.parse(xhr.responseText);
+          console.log('Got TURN server: ', turnServer);
+          pc.iceServers.push({
+            'url': 'turn:' + turnServer.username + '@' + turnServer.turn,
+            'credential': turnServer.password
+          });
+          turnReady = true;
+        }
+      };
+      xhr.open('GET', turnURL, true);
+      xhr.send();
     }
   }
 
