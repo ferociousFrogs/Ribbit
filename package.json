@@ -5,12 +5,13 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "postinstall": "npm run build",
+    "postinstall": "npm run docker && npm run build",
     "test": "NODE_ENV=test jest",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
     "react-dev": "webpack -d --watch",
     "build": "webpack -p",
+    "docker": "docker-compose up -d",
     "server-dev": "nodemon server/index.js"
   },
   "keywords": [],
