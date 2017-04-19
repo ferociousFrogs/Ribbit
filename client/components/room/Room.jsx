@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import React from 'react';
+import io from 'socket.io-client';
+import generateSillyName from 'sillyname';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
+import { addUserName } from './../../actions/actionCreators';
 
-import io from 'socket.io-client';
 const server = location.origin;
 const socket = io(server);
 
@@ -23,6 +25,8 @@ class Room extends React.Component {
       console.log(`${room} is full`);
       this.setState({ redirect: true });
     });
+
+    !this.props.userName ? this.props.addUserName(generateSillyName()) : null;
   }
 
   componentWillUnmount() {
@@ -53,5 +57,9 @@ const mapStateToProps = state => ({
   userName: state.userName
 });
 
-export default connect(mapStateToProps)(Room);
+const mapDispatchToProps = dispatch => ({
+  addUserName: name => dispatch(addUserName(name))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Room);
 
