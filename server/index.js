@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 app.get('/runCode', (req, res) => {
   const result = codeParser(req.query);
   console.log(result);
-  res.status(200).send(result.toString());
+  res.status(200).send(JSON.stringify(result));
 });
 
 app.get('*', (req, res) => {
