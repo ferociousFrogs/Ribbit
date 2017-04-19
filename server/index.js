@@ -44,24 +44,7 @@ app.get('/runCode', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  // const pathName = req.url;
-  // res.pathName = pathName;
-  const roomObj = {
-    roomName: 'boomtown',
-    user1_Id: 13,
-    user2_Id: 31
-  };
-  console.log('db', db);
-  return db.rooms.create()
-  .then(() => (
-    db.rooms.insert(roomObj))
-  )
-  .then(db.rooms.all)
-  .then((data) => {
-    console.log('after db.all', data);
-    res.status(302).redirect('/');
-  })
-  .catch(err => console.error(err));
+  res.status(302).redirect('/');
 });
 
 // sockets

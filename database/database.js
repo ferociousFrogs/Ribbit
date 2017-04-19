@@ -1,7 +1,8 @@
 const connection = process.env.DATABASE_URL || 'psql://localhost:5432/ribbit';
 
 const repos = {
-  rooms: require('./repos/rooms.js')
+  rooms: require('./repos/rooms.js'),
+  users: require('./repos/users.js')
 };
 
 const options = {

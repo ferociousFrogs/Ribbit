@@ -1,5 +1,3 @@
-'use strict';
-
 const sql = require('../queries').rooms;
 
 module.exports = (repo, pgp) => {
@@ -15,21 +13,13 @@ module.exports = (repo, pgp) => {
     create: () =>
         repo.none(sql.create),
 
-    // Initializes the table with some user records, and return their id-s;
-    // init: () =>
-    //     repo.map(sql.init, [], row => row.id),
-
-    // // Drops the table;
-    // drop: () =>
-    //     repo.none(sql.drop),
-
     // // Removes all records from the table;
     // empty: () =>
     //     repo.none(sql.empty),
 
     // // Adds a new user, and returns the new id;
-    insert: roomObj =>
-      repo.one(sql.insert, roomObj, room => room.id),
+    add: roomObj =>
+      repo.one(sql.add, roomObj, room => room.id),
 
     // // Tries to delete a user by id, and returns the number of records deleted;
     // remove: id =>
