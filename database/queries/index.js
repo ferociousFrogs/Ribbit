@@ -27,10 +27,11 @@ module.exports = {
   //     add: sql('users/add.sql')
   // },
   rooms: {
-    create: sql('products/create.sql'),
+    create: sql('rooms/create.sql'),
+    insert: sql('rooms/insert.sql')
     // empty: sql('products/empty.sql'),
     // drop: sql('products/drop.sql'),
-    insert: sql('products/add.sql')
+    // insert: sql('products/add.sql')
   }
 };
 
