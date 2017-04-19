@@ -32,15 +32,11 @@ class Workspace extends React.Component {
 
     cm.on('keyup', () => {
       const editedCode = {
-        id: 1,
         user: this.state.user,
         value: cm.getValue(),
         language: 'Javascript',
         room: this.props.roomName
       };
-      this.setState({
-        code: editedCode.value
-      });
       socket.emit('code-edit', editedCode);
     });
     socket.on('newCode', this.updateCodeHandler);
@@ -55,14 +51,19 @@ class Workspace extends React.Component {
   }
 
   runCodeButtonListener() {
+    this.setState({
+      code: cm.getValue()
+    });
+
     axios.get('/runCode', {
       params: {
-        value: this.state.code,
+        value: cm.getValue(),
         language: 'Javascript'
       }
     })
     .then((response) => {
       console.log(response.request.responseText);
+      console.log(JSON.parse(response.request.responseText));
       this.setState({
         result: `Docker-Container: Ribbit user$ ${response.request.responseText}`
       });
