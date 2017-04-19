@@ -19,7 +19,7 @@ class Workspace extends React.Component {
     // mock user value for now
     this.state = {
       user: Math.floor(999 * Math.random()),
-      code: '// Ribbit\nfunction ribbit() {\n return "Ribbit";\n};\nribbit();',
+      code: '// Ribbit\nfunction ribbit() {\n return 1 * 100000 + "Ribbits";\n};\nribbit();',
       result: ''
     };
     this.updateCodeHandler = this.updateCodeHandler.bind(this);

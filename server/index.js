@@ -1,35 +1,18 @@
 // express server
 const app = require('express')();
-const os = require('os');
 const express = require('express');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const axios = require('axios');
 const path = require('path');
 const bodyParser = require('body-parser');
-// const url = require('url');
 
+const url = process.env.url || 'http://localhost';
 const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, '../client')));
-
-const codeParser = (code) => {
-  code.value = code.value.replace(/\\n/gi, '');
-  if (code.language === 'Javascript') {
-    return eval(code.value);
-  } else if (code.language === 'Python') {
-    return 'Python coming soon!';
-  } else if (code.language === 'Ruby') {
-    return 'Ruby coming soon!';
-  }
-  return null;
-};
-
-console.log(codeParser({
-  value: 'function ribbit() { return "Ribbit";};ribbit();',
-  language: 'Javascript'
-}));
 
 // Routes
 app.get('/', (req, res) => {
@@ -37,18 +20,24 @@ app.get('/', (req, res) => {
 });
 
 app.get('/runCode', (req, res) => {
-  const result = codeParser(req.query);
-  console.log(result);
-  res.status(200).send(result.toString());
+  // call the seperate server
+  const codeToEval = req.query;
+  console.log(codeToEval);
+  axios.get(`${url}:8080/evalCode`, {
+    params: {
+      code: codeToEval
+    }
+  })
+  .then((result) => {
+    console.log(result.data);
+    res.status(200).send(result.data);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send(err);
+  });
 });
 
-app.get('*', (req, res) => {
-  // const pathName = req.url;
-  // res.pathName = pathName;
-  res.status(302).redirect('/');
-});
-
-// sockets
 io.on('connection', (socket) => {
 
   socket.on('join room', (room) => {
@@ -109,7 +98,6 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 });
-
 
 http.listen(port, () => {
   console.log(`Ribbit app listening on port ${port}!`);
