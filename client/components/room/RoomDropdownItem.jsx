@@ -7,7 +7,7 @@ import { createRoomName } from './../../actions/actionCreators';
 const RoomDropdownItem = props => {
   const setRoomName = () => props.createRoomName(props.room);
   return (
-    <div className="check" >
+    <div className="dropdown-item" >
       <Link to={`/:${props.room}`} onClick={setRoomName}>{props.room}</Link>
     </div>
   );
