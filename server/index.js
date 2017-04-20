@@ -6,11 +6,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
-const db = require('./database/dbutils');
 // const url = require('url');
-
-// initialize DB
-db.chained.initializeDB();
 
 const port = process.env.PORT || 3000;
 
@@ -47,6 +43,8 @@ app.get('/runCode', (req, res) => {
 });
 
 app.get('*', (req, res) => {
+  // const pathName = req.url;
+  // res.pathName = pathName;
   res.status(302).redirect('/');
 });
 
@@ -66,14 +64,12 @@ io.on('connection', (socket) => {
       socket.join(room);
       console.log(`Client ID ${socket.id} created room ${room}`);
       socket.emit('Created', room, socket.id);
-      db.rooms.add(room);
     } else {
       console.log(`Client ID ${socket.id} joined room ${room}`);
       io.sockets.in(room).emit('Join', room);
       socket.join(room);
       socket.emit('Joined', room, socket.id);
       io.sockets.in(room).emit('Ready');
-      db.rooms.addUser2(room);
     }
   });
 
