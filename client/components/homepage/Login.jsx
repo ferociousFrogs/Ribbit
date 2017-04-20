@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addUserName, addUserEmail } from './../../actions/actionCreators';
+import Facebook from './Facebook';
 
 const Login = (props) => {
     return (
@@ -22,6 +23,7 @@ const Login = (props) => {
               onChange={(e) => { props.addUserEmail(e.target.value); }}
             />
             <Link to="/">Sign me up!</Link>
+            <Facebook />
           </form>
         </div>
       </div>
