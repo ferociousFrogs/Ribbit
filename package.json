@@ -51,6 +51,7 @@
     "os": "^0.1.1",
     "pg": "^6.1.5",
     "pg-promise": "^5.6.4",
+    "passport-facebook": "^2.1.1",
     "prop-types": "^15.5.6",
     "react": "^15.5.3",
     "react-codemirror": "^0.3.0",
