@@ -39,3 +39,7 @@ export const addUserEmail = email => ({
   type: 'ADD_EMAIL',
   email
 });
+
+export const toggleDropdown = () => ({
+  type: 'TOGGLE_DROPDOWN'
+});
