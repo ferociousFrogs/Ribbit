@@ -59,6 +59,7 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "react-test-renderer": "^15.5.3",
     "redux": "^3.6.0",
+    "sillyname": "^0.1.0",
     "socket.io": "^1.7.3",
     "socket.io-client": "^1.7.3",
     "style-loader": "^0.16.1",
