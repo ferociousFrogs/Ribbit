@@ -1,8 +1,10 @@
 // As of right now, this file defines and limits the db calls
 // that can be made from the server
+// it's pretty redundant at the moment, and the system
+// can be refactored so that this file isn't required
 
-// Eventually, I would like to extra all of the socket routes
-// out from the server file as well
+// Eventually, it would be beneficial to extract all of the socket 
+// routes out from the server file as well
 
 const db = require('../../database/database.js');
 

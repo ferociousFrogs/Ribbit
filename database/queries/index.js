@@ -15,8 +15,9 @@ function sql(file) {
   return qf;
 }
 
+// exports an object of all the queries converted to
+// strings with the queries' filenames used as keys
 module.exports = {
-
   rooms: {
     create: sql('rooms/create.sql'),
     add: sql('rooms/add.sql'),
@@ -33,6 +34,11 @@ module.exports = {
     all: sql('users/all.sql'),
     findName: sql('users/findName.sql'),
     findId: sql('users/findId.sql')
-
+  },
+  messages: {
+    create: sql('messages/create.sql'),
+    add: sql('messages/add.sql'),
+    all: sql('messages/all.sql'),
+    messagesInRoom: sql('messages/messagesInRoom.sql')
   }
 };
