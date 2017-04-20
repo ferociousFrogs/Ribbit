@@ -28,11 +28,6 @@ exports[`App component snapshot test 1`] = `
                 className="hidden-xs hidden-sm"
                 src="../ribbit.png"
               />
-              <span
-                className="sr-only"
-              >
-                Go to homepage
-              </span>
             </a>
             <div
               className="navbar-buttons"
@@ -57,6 +52,64 @@ exports[`App component snapshot test 1`] = `
             <ul
               className="nav navbar-nav"
             >
+              <li>
+                <a
+                  className="dropdown"
+                  onClick={[Function]}
+                >
+                  <p>
+                    My Rooms 
+                    <span
+                      className="glyphicon glyphicon-chevron-down"
+                    />
+                  </p>
+                  <div
+                    className="dropdown-content hide"
+                    id="myDropdown"
+                  >
+                    <div
+                      className="dropdown-item"
+                    >
+                      <a
+                        href="/:The%20Grill"
+                        onClick={[Function]}
+                      >
+                        The Grill
+                      </a>
+                    </div>
+                    <div
+                      className="dropdown-item"
+                    >
+                      <a
+                        href="/:Taj%20Mahal"
+                        onClick={[Function]}
+                      >
+                        Taj Mahal
+                      </a>
+                    </div>
+                    <div
+                      className="dropdown-item"
+                    >
+                      <a
+                        href="/:The%20High%20Castle"
+                        onClick={[Function]}
+                      >
+                        The High Castle
+                      </a>
+                    </div>
+                    <div
+                      className="dropdown-item"
+                    >
+                      <a
+                        href="/:Your%20Mother's%20Bedroom"
+                        onClick={[Function]}
+                      >
+                        Your Mother's Bedroom
+                      </a>
+                    </div>
+                  </div>
+                </a>
+              </li>
               <li>
                 <a
                   className="scroll-to"
