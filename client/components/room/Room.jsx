@@ -7,6 +7,7 @@ import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
 import { addUserName } from './../../actions/actionCreators';
+import RoomDropdown from './RoomDropdown';
 
 const server = location.origin;
 const socket = io(server);
@@ -33,6 +34,7 @@ class Room extends React.Component {
     !this.props.userName ? this.props.addUserName(generateSillyName()) : null;
   }
 
+
   componentWillUnmount() {
     socket.emit('leave room', this.props.roomName);
   }
@@ -41,7 +43,6 @@ class Room extends React.Component {
     return this.state.redirect ? (<Redirect to="/" />) :
       (
         <div className="container-fluid">
-          <h2>{this.props.roomName}</h2>
           <div className="col-md-8">
             <Workspace socket={socket} />
           </div>
