@@ -18,6 +18,6 @@ module.exports = (repo, pgp) => {
 
     // Finds all messages in a room given a roomId
     messagesInRoom: roomId =>
-      repo.any(sql.messagesInRoom)
+      repo.any(sql.messagesInRoom, roomId)
   };
 };
