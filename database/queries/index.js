@@ -23,7 +23,8 @@ module.exports = {
     addUser2: sql('rooms/addUser2.sql'),
     all: sql('rooms/all.sql'),
     findName: sql('rooms/findName.sql'),
-    findId: sql('rooms/findId.sql')
+    findId: sql('rooms/findId.sql'),
+    usersInRoom: sql('rooms/usersInRoom.sql')
   },
   users: {
     create: sql('users/create.sql'),

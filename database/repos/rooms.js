@@ -28,10 +28,11 @@ module.exports = (repo, pgp) => {
     // // Tries to find a user from id;
     // find: id =>
     //     repo.oneOrNone('SELECT * FROM Users WHERE id = $1', id),
-
+    usersInRoom: roomId =>
+      repo.any(sql.usersInRoom, roomId),
     // Returns all user records;
     all: () =>
-        repo.any('SELECT * FROM rooms;')
+        repo.any(sql.add)
 
     // // Returns the total number of users;
     // total: () =>

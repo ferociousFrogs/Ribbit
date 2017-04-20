@@ -9,6 +9,9 @@ const bodyParser = require('body-parser');
 const db = require('./database/dbutils');
 // const url = require('url');
 
+// initialize DB
+db.chained.initializeDB();
+
 const port = process.env.PORT || 3000;
 
 // Middleware

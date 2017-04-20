@@ -14,7 +14,8 @@ module.exports = {
     addUser2: db.rooms.addUser2,
     all: db.rooms.all,
     findName: db.rooms.findName, // takes a room_id
-    findId: db.rooms.findId // takes a roomName
+    findId: db.rooms.findId, // takes a roomName
+    usersInRoom: db.rooms.usersInRoom // finds user Id's for the room
   },
   users: {
     create: db.users.create,
@@ -22,6 +23,10 @@ module.exports = {
     all: db.users.all,
     findName: db.users.findName, // takes a user_id
     findId: db.rooms.findId // takes a userName
+  },
+  chained: {
+    createRoom: db.chained.createRoom,
+    initializeDB: db.chained.initializeDB
   }
 
   // createAndQuery: db.task(task => (
