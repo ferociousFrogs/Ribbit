@@ -26,3 +26,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomDropdown);
+
+
+// handling errors created when I tried to connect the roomname displayed by the dummy data with the actual roomname in state
