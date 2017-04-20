@@ -2,4 +2,4 @@ SELECT name
 
 FROM rooms
 
-WHERE rooms.id = ${room_id}
+WHERE rooms.id = ${roomId}

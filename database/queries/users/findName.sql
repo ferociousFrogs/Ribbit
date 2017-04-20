@@ -2,4 +2,4 @@ SELECT name
 
 FROM users
 
-WHERE users.id = ${user_id}
+WHERE users.id = ${userId}

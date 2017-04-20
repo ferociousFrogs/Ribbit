@@ -1,5 +1,5 @@
 UPDATE rooms
 
-SET user2_Id = ${userId}
+SET code = ${code}
 
 WHERE rooms.name = ${roomName}

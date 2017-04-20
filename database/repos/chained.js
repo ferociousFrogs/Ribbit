@@ -3,7 +3,9 @@ const tables = {
   rooms: require('../queries').rooms
 };
 
-
+// Exporting chained queries that run as tasks or transactions
+// Both offer the opportunity to query the db multiple times
+// while on the same DB connection
 module.exports = (repo, pgp) => ({
   initializeDB: () => (
       repo.tx((t) => {
@@ -33,5 +35,4 @@ module.exports = (repo, pgp) => ({
       })
       .catch(err => console.error('Error creating room', err))
     )
-
 });

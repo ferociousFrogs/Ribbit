@@ -6,6 +6,10 @@ module.exports = (repo, pgp) => ({
   add: name =>
     repo.one(sql.add, name, user => user.id),
   all: () =>
-      repo.any(sql.all)
+    repo.any(sql.all),
+  findId: userName =>
+    repo.one(sql.findId, userName, user => user.id),
+  findName: userId =>
+    repo.one(sql.findName, userId, user => user.name)
 });
 
