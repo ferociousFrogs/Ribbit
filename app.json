@@ -4,6 +4,9 @@
   "scripts": {
   },
   "env": {
+    "DATABASE_URL": {
+      "required": true
+    }
   },
   "formation": {
   },
