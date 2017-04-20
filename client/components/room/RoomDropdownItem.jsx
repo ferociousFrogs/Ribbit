@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createRoomName } from './../../actions/actionCreators';
 
-
 const RoomDropdownItem = props => {
   const setRoomName = () => props.createRoomName(props.room);
   return (
@@ -12,7 +11,6 @@ const RoomDropdownItem = props => {
     </div>
   );
 };
-
 
 const mapDispatchToProps = dispatch => ({
   createRoomName: roomName => dispatch(createRoomName(roomName))

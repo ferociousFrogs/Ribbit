@@ -12,9 +12,6 @@ const RoomDropdown = props => (
     </div>
   </a>
 );
-// style button appropriately
-// make it so that, on click of the button, state is set "dropdown hidden" from false to true
-//
 
 const mapStateToProps = state => ({
   roomName: state.roomName,
@@ -26,6 +23,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomDropdown);
-
-
-// handling errors created when I tried to connect the roomname displayed by the dummy data with the actual roomname in state
