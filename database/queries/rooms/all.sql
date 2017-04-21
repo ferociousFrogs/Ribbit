@@ -1,1 +1,1 @@
-SELECT * FROM rooms
+SELECT * FROM rooms;
