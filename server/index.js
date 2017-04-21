@@ -7,6 +7,7 @@ const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
 const db = require('./database/dbutils');
+const passport = require('./initPassport');
 // const url = require('url');
 
 // initialize DB
@@ -17,6 +18,8 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, '../client')));
+app.use(passport.initialize());
+// app.use(passport.session());
 
 const codeParser = (code) => {
   code.value = code.value.replace(/\\n/gi, '');
@@ -50,12 +53,26 @@ app.get('*', (req, res) => {
   res.status(302).redirect('/');
 });
 
-
 const countClients = (room) => {
   const clientsInRoom = io.nsps['/'].adapter.rooms[room];
   const numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
   return numClients;
 };
+
+// Facebook Routes
+app.get('/fblogin', passport.authenticate('facebook'));
+
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/fbcheck',
+  passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  }));
+
+
 // sockets
 io.on('connection', (socket) => {
   socket.on('join room', (room) => {

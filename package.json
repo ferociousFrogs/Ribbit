@@ -46,6 +46,7 @@
     "codemirror": "^5.25.0",
     "css-loader": "^0.28.0",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "jquery": "^3.2.1",
     "os": "^0.1.1",
