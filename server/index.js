@@ -19,7 +19,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, '../client')));
 app.use(passport.initialize());
-// app.use(passport.session());
+// app.use(passport.session()); Must be preceded with express.sessions if utilised
 
 const codeParser = (code) => {
   code.value = code.value.replace(/\\n/gi, '');
@@ -43,15 +43,12 @@ app.get('/', (req, res) => {
   res.status(200).send();
 });
 
-app.get('/runCode', (req, res) => {
+app.get('/runCode', passport.authenticate('facebook'), (req, res) => {
   const result = codeParser(req.query);
   console.log(result);
   res.status(200).send(JSON.stringify(result));
 });
 
-app.get('*', (req, res) => {
-  res.status(302).redirect('/');
-});
 
 const countClients = (room) => {
   const clientsInRoom = io.nsps['/'].adapter.rooms[room];
@@ -72,6 +69,12 @@ app.get('/fbcheck',
     failureRedirect: '/login'
   }));
 
+<<<<<<< HEAD
+=======
+app.get('*', passport.authenticate('facebook'), (req, res) => {
+  res.status(302).redirect('/');
+});
+>>>>>>> Add authentication to routes
 
 // sockets
 io.on('connection', (socket) => {
