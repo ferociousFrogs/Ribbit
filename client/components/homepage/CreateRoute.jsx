@@ -15,14 +15,14 @@ class CreateRoute extends React.Component {
   }
 
   componentDidMount() {
-    socket.on('full', (room) => {
+    socket.on('full', () => {
       const submitbtn = document.getElementById('submit_intro');
       submitbtn.disabled = true;
       submitbtn.classList.remove('btn-primary');
       submitbtn.className += ' btn-disable';
       submitbtn.value = 'Room full!';
     });
-    socket.on('not full', (room) => {
+    socket.on('not full', () => {
       const submitbtn = document.getElementById('submit_intro');
       submitbtn.disabled = false;
       submitbtn.className += ' btn-primary';
@@ -36,7 +36,7 @@ class CreateRoute extends React.Component {
   }
 
   isRoomFull() {
-      socket.emit('any room left', this.props.roomName);
+    socket.emit('any room left', this.props.roomName);
   }
 
   render() {
