@@ -6,6 +6,12 @@
   "env": {
     "DATABASE_URL": {
       "required": true
+    },
+    "FB_APPID": {
+      "required": true
+    },
+    "FB_APPSECRET": {
+      "required": true
     }
   },
   "formation": {
