@@ -35,6 +35,7 @@ class Facebook extends React.Component {
       console.log(`Successful login for: ${response.name}`);
       document.getElementById('status').innerHTML =
         `Thanks for logging in, ${response.name} !`;
+      this.props.history.push('/profile');
     });
   }
 
@@ -45,6 +46,7 @@ class Facebook extends React.Component {
       console.log('this is the token', response.authResponse.accessToken);
       this.testAPI();
       axios.defaults.headers.common['Authorization'] = response.authResponse.accessToken;
+      this.props.setToken(response.authResponse.accessToken);
       this.props.history.push('/profile');
     } else if (response.status === 'not_authorized') {
       this.props.history.push('/login');
