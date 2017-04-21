@@ -2,4 +2,4 @@ SELECT id
 
 FROM rooms
 
-WHERE rooms.id = ${roomName}
+WHERE rooms.name = ${roomName};

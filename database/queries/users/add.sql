@@ -1,9 +1,9 @@
 INSERT INTO users
 
-(name, email)
+(name, email, fb_token)
 
 VALUES 
 (
-  ${name}, ${email}
+  ${name}, ${email}, ${fbToken}
 )
 RETURNING ID;

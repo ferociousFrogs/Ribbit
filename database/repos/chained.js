@@ -1,6 +1,7 @@
 const tables = {
   users: require('../queries').users,
-  rooms: require('../queries').rooms
+  rooms: require('../queries').rooms,
+  messages: require('../queries').messages
 };
 
 // Exporting chained queries that run as tasks or transactions
@@ -14,11 +15,12 @@ module.exports = (repo, pgp) => ({
         return t.batch(queries);
       })
     )
-    .then(() => console.log('Tables created!')),
+    .then(() => console.log('Tables created!'))
+    .catch(err => console.error('Error creating tables', err)),
 
   createRoom: roomObj => (
   // Assumes user is in system
-    // roomObj should equal {roomName: roomName, userName: userName}
+  // roomObj should equal {roomName: roomName, userName: userName}
     repo.task(task => (
         task.oneOrNone(tables.users.findId, roomObj.userName, user => user && user.id)
             .then((userId) => {
