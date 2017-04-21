@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class Facebook extends React.Component {
   constructor(props) {
@@ -41,11 +42,9 @@ class Facebook extends React.Component {
     console.log('statusChangeCallback');
     console.log(response);
     if (response.status === 'connected') {
+      console.log('this is the token', response.authResponse.accessToken);
       this.testAPI();
-    } else {
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
-    }
+      axios.defaults.headers.common['Authorization'] = response.authResponse.accessToken;
   }
 
   handleClick(e) {
