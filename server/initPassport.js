@@ -1,9 +1,10 @@
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
+const dotenv = require('dotenv');
 
 passport.use(new FacebookStrategy({
-    clientID: process.env.FB_APPID,
-    clientSecret: process.env.FB_APPSECRET
+    clientID: '1871157256463548' || process.env.FB_APPID,
+    clientSecret: '52835e89abe4d1b8386007a918f0a37c' || process.env.FB_APPSECRET
     // callbackURL: "http://www.example.com/auth/facebook/callback"
 },
   (accessToken, refreshToken, profile, done) => {
