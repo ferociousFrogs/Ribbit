@@ -28,3 +28,6 @@ client/public/
 node_modules/
 bower_components/
 *.DS_Store
+
+# ENV
+.env
