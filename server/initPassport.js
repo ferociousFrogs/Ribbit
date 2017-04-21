@@ -4,15 +4,11 @@ require('dotenv').config();
 
 passport.use(new FacebookStrategy({
     clientID: '1871157256463548' || process.env.FB_APPID,
-    clientSecret: process.env.FB_APPSECRET
-    // callbackURL: "http://www.example.com/auth/facebook/callback"
+    clientSecret: process.env.FB_APPSECRET,
+    callbackURL: 'http://www.google.com'
 },
   (accessToken, refreshToken, profile, done) => {
-    // Enter database query looking for specified userID
-    User.findOrCreate((err, user) => {
-      if (err) { return done(err); }
-      done(null, user);
-    });
+    console.log('hello');
   }
 ));
 
