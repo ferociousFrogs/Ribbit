@@ -1,18 +1,29 @@
-let passport = require('passport');
-let FacebookStrategy = require('passport-facebook').Strategy;
+const passport = require('passport');
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 passport.use(new FacebookStrategy({
-    clientID: FACEBOOK_APP_ID,
-    clientSecret: FACEBOOK_APP_SECRET
+    clientID: '1871157256463548' || process.env.FB_APPID,
+    clientSecret: '52835e89abe4d1b8386007a918f0a37c' || process.env.FB_APPSECRET
     // callbackURL: "http://www.example.com/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
+},
+  (accessToken, refreshToken, profile, done) => {
     // Enter database query looking for specified userID
-    User.findOrCreate(..., function(err, user) {
+    User.findOrCreate((err, user) => {
       if (err) { return done(err); }
       done(null, user);
     });
   }
 ));
+
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
 
 module.exports = passport;
