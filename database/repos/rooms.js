@@ -10,7 +10,7 @@ module.exports = (repo, pgp) => {
 
     // Adds room to rooms
     add: roomName =>
-      repo.one(sql.add, roomWithUserName, room => room.id),
+      repo.one(sql.add, roomName, room => room.id),
 
     // Returns all records for rooms;
     all: () =>
