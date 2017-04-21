@@ -5,7 +5,7 @@ module.exports = (repo, pgp) => ({
     repo.none(sql.create),
 
   // add user to db
-  // nameObj = {name, email}
+  // nameObj =  {name, email, fbToken}
   add: userObj =>
     repo.one(sql.add, userObj, user => user.id),
 

@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS messages_code
   room_Id VARCHAR(40) UNIQUE NOT NULL,
   type VARCHAR(40),
   data TEXT,
-  TIMESTAMP
+  datetime TIMESTAMP
 );

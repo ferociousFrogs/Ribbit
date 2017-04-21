@@ -1,4 +1,4 @@
-const sql = require('../queries').messages;
+const sql = require('../queries').messages_code;
 
 module.exports = (repo, pgp) => {
 
@@ -8,16 +8,12 @@ module.exports = (repo, pgp) => {
     create: () =>
         repo.none(sql.create),
 
-    // Adds message with messageObj = {userId, roomId, message}
+    // Adds message with messageObj = {user1Id, user2Id, roomId, type, data}
     add: messageObj =>
       repo.one(sql.add, messageObj, message => message.id),
 
     // Returns all records for messages;
     all: () =>
-      repo.any(sql.add),
-
-    // Finds all messages in a room given a roomId
-    messagesInRoom: roomId =>
-      repo.any(sql.messagesInRoom, roomId)
+      repo.any(sql.add)
   };
 };

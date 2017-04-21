@@ -21,24 +21,25 @@ module.exports = {
   rooms: {
     create: sql('rooms/create.sql'),
     add: sql('rooms/add.sql'),
-    addUser2: sql('rooms/addUser2.sql'),
     all: sql('rooms/all.sql'),
     findName: sql('rooms/findName.sql'),
-    findId: sql('rooms/findId.sql'),
-    usersInRoom: sql('rooms/usersInRoom.sql'),
-    addCode: sql('rooms/addCode.sql')
+    findId: sql('rooms/findId.sql')
   },
   users: {
     create: sql('users/create.sql'),
     add: sql('users/add.sql'),
     all: sql('users/all.sql'),
-    findName: sql('users/findName.sql'),
-    findId: sql('users/findId.sql')
+    findId: sql('users/findId.sql'),
+    findName: sql('users/findName.sql')
   },
-  messages: {
-    create: sql('messages/create.sql'),
-    add: sql('messages/add.sql'),
-    all: sql('messages/all.sql'),
-    messagesInRoom: sql('messages/messagesInRoom.sql')
+  messages_code: {
+    create: sql('messages_code/create.sql'),
+    add: sql('messages_code/add.sql'),
+    all: sql('messages_code/all.sql')
+  },
+  rooms_users: {
+    create: sql('rooms_users/create.sql'),
+    add: sql('rooms_users/add.sql'),
+    all: sql('rooms_users/all.sql')
   }
 };

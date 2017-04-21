@@ -6,12 +6,13 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
-const db = require('./database/dbutils');
 const passport = require('./initPassport');
+const db = require('../database/database.js');
+
 // const url = require('url');
 
 // initialize DB
-db.chained.initializeDB();
+db.complex.initializeDB();
 
 const port = process.env.PORT || 3000;
 
