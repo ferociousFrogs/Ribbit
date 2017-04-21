@@ -23,7 +23,7 @@ const Login = (props) => {
               onChange={(e) => { props.addUserEmail(e.target.value); }}
             />
             <Link to="/">Sign me up!</Link>
-            <Facebook />
+            <Facebook history={props.history} />
           </form>
         </div>
       </div>

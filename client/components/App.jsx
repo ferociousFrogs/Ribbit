@@ -11,7 +11,7 @@ const App = props => (
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/login" component={Login} />
-      <Route path={`/:${props.roomName}`} component={Room} />
+      <Route path={`/:${props.roomName}`} history={props.history} component={Room} />
     </Switch>
   </div>
 );
