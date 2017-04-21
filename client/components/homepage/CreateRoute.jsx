@@ -1,16 +1,42 @@
 import React from 'react';
+import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createRoomName } from './../../actions/actionCreators';
+
+const server = location.origin;
+const socket = io(server);
 
 class CreateRoute extends React.Component {
   constructor(props) {
     super(props);
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.isRoomFull = this.isRoomFull.bind(this);
+  }
+
+  componentDidMount() {
+    socket.on('full', (room) => {
+      const submitbtn = document.getElementById('submit_intro');
+      submitbtn.disabled = true;
+      submitbtn.classList.remove('btn-primary');
+      submitbtn.className += ' btn-disable';
+      submitbtn.value = 'Room full!';
+    });
+    socket.on('not full', (room) => {
+      const submitbtn = document.getElementById('submit_intro');
+      submitbtn.disabled = false;
+      submitbtn.className += ' btn-primary';
+      submitbtn.classList.remove('btn-disable');
+      submitbtn.value = 'Create room';
+    });
   }
 
   handleNameChange(e) {
     this.props.createRoomName(e.target.value);
+  }
+
+  isRoomFull() {
+      socket.emit('any room left', this.props.roomName);
   }
 
   render() {
@@ -23,6 +49,7 @@ class CreateRoute extends React.Component {
             placeholder="Enter a room name"
             value={this.props.roomName}
             onChange={this.handleNameChange}
+            onKeyUp={this.isRoomFull}
             className="form-control"
           />
           <Link to={`/:${this.props.roomName}`}>

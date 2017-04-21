@@ -50,12 +50,16 @@ app.get('*', (req, res) => {
   res.status(302).redirect('/');
 });
 
+
+const countClients = (room) => {
+  const clientsInRoom = io.nsps['/'].adapter.rooms[room];
+  const numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
+  return numClients;
+};
 // sockets
 io.on('connection', (socket) => {
-
   socket.on('join room', (room) => {
-    const clientsInRoom = io.nsps['/'].adapter.rooms[room];
-    const numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
+    const numClients = countClients(room);
     // max two clients
     if (numClients === 2) {
       socket.emit('full', room);
@@ -74,6 +78,15 @@ io.on('connection', (socket) => {
       socket.emit('Joined', room, socket.id);
       io.sockets.in(room).emit('Ready');
       db.rooms.addUser2(room);
+    }
+  });
+
+  socket.on('any room left', (room) => {
+    const numClients = countClients(room);
+    if (numClients >= 2) {
+      socket.emit('full', room);
+    } else {
+      socket.emit('not full', room);
     }
   });
 
