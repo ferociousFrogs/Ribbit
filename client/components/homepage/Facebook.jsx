@@ -12,12 +12,11 @@ class Facebook extends React.Component {
   componentDidMount() {
     window.fbAsyncInit = () => {
       FB.init({
-        appId      : '1871157256463548',
+        appId      : process.env.APP_ID,
         cookie     : true,
         xfbml      : true,
         version    : 'v2.8'
       });
-      console.log('What is this', FB);
       this.checkLoginState;
     };
   }
@@ -51,15 +50,7 @@ class Facebook extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    window.fbAsyncInit = () => {
-      FB.init({
-        appId      : '1871157256463548',
-        cookie     : true,
-        xfbml      : true,
-        version    : 'v2.8'
-      });
-      FB.login(this.statusChangeCallback.bind(this), { scope: 'public_profile, email' });
-    };
+    FB.login(this.statusChangeCallback.bind(this), { scope: 'public_profile, email' });
   }
 
 
