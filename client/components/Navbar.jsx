@@ -13,13 +13,11 @@ const Navbar = () => (
             </div>
           </div>
             
-          <div id=
-          "navigation" className="collapse navbar-collapse navbar-right">
+          <div id="navigation" className="collapse navbar-collapse navbar-right">
 
             <ul className="nav navbar-nav">
               <li><RoomDropdown /></li>
               <li><a href="#features" className="scroll-to">Features</a></li>
-              <li><a href="#integrations" className="scroll-to">Integrations</a></li>
               <li><a href="#testimonials" className="scroll-to">Testimonials</a></li>
               <li><a href="#contact" className="scroll-to">Contact</a></li>
             </ul><Link to="/login" data-toggle="modal" data-target="#get-started" className="btn navbar-btn btn-ghost">Sign Up</Link>
