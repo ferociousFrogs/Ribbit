@@ -14,14 +14,14 @@ module.exports = (repo, pgp) => {
 
     // Returns all records for rooms;
     all: () =>
-      repo.any(sql.add),
+      repo.any(sql.all),
 
     // Find the roomId based on roomName
     findId: roomName =>
-      repo.none(sql.findId, roomName),
+      repo.one(sql.findId, roomName),
 
     // Find the roomName given a roomId
     findName: roomId =>
-      repo.none(sql.findName, roomId)
+      repo.one(sql.findName, roomId)
   };
 };
