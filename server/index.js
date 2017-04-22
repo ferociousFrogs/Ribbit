@@ -88,14 +88,12 @@ io.on('connection', (socket) => {
       socket.join(room);
       console.log(`Client ID ${socket.id} created room ${room}`);
       socket.emit('Created', room, socket.id);
-      db.rooms.add(room);
     } else {
       console.log(`Client ID ${socket.id} joined room ${room}`);
       io.sockets.in(room).emit('Join', room);
       socket.join(room);
       socket.emit('Joined', room, socket.id);
       io.sockets.in(room).emit('Ready');
-      db.rooms.addUser2(room);
     }
   });
 
@@ -115,6 +113,13 @@ io.on('connection', (socket) => {
   socket.on('chat message', (message) => {
     console.log(`user ${message.userName} sent message to room ${message.roomName}`);
     socket.to(message.roomName).emit('chat message', message);
+    const dummyMsgObj = {
+      user1Name: message.userName,
+      user2Name: 'Dummy user2 name', // need to update front end
+      data: message.text,
+      type: 'message',
+      roomName: message.roomName
+    };
   });
 
 
