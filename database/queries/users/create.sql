@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS users
   name varchar(40) NOT NULL,
   email varchar(100),
   fb_token varchar(300),
-  datetime TIMESTAMP
+  time_stamp TIMESTAMP
 );

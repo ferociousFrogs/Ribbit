@@ -12,7 +12,10 @@ const db = require('../database/database.js');
 // const url = require('url');
 
 // initialize DB
-db.complex.initializeDB();
+db.complex.dropAllTables()
+.then(db.complex.initializeDB)
+.catch((err) => console.error('wtf', err));
+// .then(db.complex.dropAllTables);
 
 const port = process.env.PORT || 3000;
 

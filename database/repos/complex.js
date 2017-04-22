@@ -17,7 +17,18 @@ module.exports = (repo, pgp) => ({
       })
     )
     .then(() => console.log('Tables created!'))
-    .catch(err => console.error('Error creating tables', err))
+    .catch(err => console.error('Error creating tables', err)),
+
+  // drop all the tables in the db
+  dropAllTables: () => (
+      repo.tx((t) => {
+        const keys = Object.values(tables);
+        const queries = keys.map(table => t.none(table['drop']));
+        return t.batch(queries);
+      })
+    )
+    .then(() => console.log('Tables dropped!'))
+    .catch(err => console.error('Error dropping tables', err))
 
   // createRoom: roomObj => (
   // // Assumes user is in system

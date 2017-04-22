@@ -1,9 +1,9 @@
 INSERT INTO rooms
 
-(name)
+(name, time_stamp)
 
 VALUES 
 (
-  $1
+  $1, CURRENT_TIMESTAMP
 )
 RETURNING ID;

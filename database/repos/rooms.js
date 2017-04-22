@@ -22,6 +22,10 @@ module.exports = (repo, pgp) => {
 
     // Find the roomName given a roomId
     findName: roomId =>
-      repo.one(sql.findName, roomId)
+      repo.one(sql.findName, roomId),
+
+    // drop the table
+    drop: () =>
+      repo.any(sql.drop)
   };
 };
