@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
   res.status(200).send();
 });
 
-app.get('/runCode', passport.authenticate('facebook'), (req, res) => {
+app.get('/runCode', (req, res) => {
   const result = codeParser(req.query);
   console.log(result);
   res.status(200).send(JSON.stringify(result));

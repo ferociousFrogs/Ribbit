@@ -3,7 +3,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 require('dotenv').config();
 
 passport.use(new FacebookStrategy({
-    clientID: '1871157256463548' || process.env.FB_APPID,
+    clientID: process.env.FB_APPID || '1871157256463548',
     clientSecret: process.env.FB_APPSECRET,
     callbackURL: 'http://www.google.com'
 },
