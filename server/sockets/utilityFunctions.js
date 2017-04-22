@@ -9,8 +9,12 @@ module.exports = {
     .catch(err => console.error('Error dropping or creating tables', err));
   },
 
-  countClients: (room) => {
-    const clientsInRoom = io.nsps['/'].adapter.rooms[room];
+  namedRooms: io => (
+    io.nsps['/'].adapter.rooms
+  ),
+
+  countClients: (namedRooms, room) => {
+    const clientsInRoom = namedRooms[room];
     const numClients = clientsInRoom === undefined ? 0 : Object.keys(clientsInRoom.sockets).length;
     return numClients;
   }
