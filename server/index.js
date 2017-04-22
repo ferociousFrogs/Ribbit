@@ -7,10 +7,12 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const passport = require('./initPassport');
 const sockets = require('./sockets/paths');
+const utils = require('./utilities/utilityFunctions');
+
 // const url = require('url');
 
-
 const port = process.env.PORT || 3000;
+utils.dropNCreateDBTables();
 
 // Middleware
 app.use(bodyParser.json());

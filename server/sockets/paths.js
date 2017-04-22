@@ -1,9 +1,8 @@
 // socket paths
-const utils = require('./utilityFunctions');
+const utils = require('../utilities/utilityFunctions');
 
 module.exports = (http) => {
   const io = require('socket.io')(http);
-  utils.dropNCreateDBTables();
 
   io.on('connection', (socket) => {
     const namedRooms = utils.namedRooms(io);
