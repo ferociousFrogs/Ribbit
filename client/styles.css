@@ -459,6 +459,110 @@ INTRO
 }
 /*
 
+=====================
+CUSTOMERS
+=====================
+
+*/
+.customer {
+  text-align: center;
+}
+.customer img {
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.customer img:hover {
+  -webkit-filter: grayscale(0);
+  filter: grayscale(0);
+}
+/*
+
+
+=====================
+TESTIMONIALS LIGHTBOX
+=====================
+
+*/
+.testimonials {
+  padding: 0;
+  margin-bottom: 40px;
+}
+.testimonials .item {
+  list-style-type: none;
+  margin: 0 5px;
+  background: #fff;
+  padding-bottom: 60px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.testimonials .item .testimonial {
+  position: relative;
+  padding: 20px;
+}
+.testimonials .item .testimonial:before,
+.testimonials .item .testimonial:after {
+  content: " ";
+  display: table;
+}
+.testimonials .item .testimonial:after {
+  clear: both;
+}
+.testimonials .item .testimonial .text {
+  color: #999999;
+  margin-bottom: 50px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.testimonials .item .testimonial .bottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 20px;
+  height: 50px;
+}
+.testimonials .item .testimonial .bottom .testimonial-icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+  color: #41a6ca;
+  font-size: 40px;
+  float: left;
+  text-align: center;
+}
+.testimonials .item .testimonial .name-picture {
+  float: right;
+  width: 80%;
+  text-align: right;
+}
+.testimonials .item .testimonial .name-picture h5 {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.testimonials .item .testimonial .name-picture p {
+  color: #999999;
+  margin: 0;
+  font-size: 14px;
+}
+.testimonials .item .testimonial .name-picture img {
+  float: right;
+  width: 60px;
+  border-radius: 30px;
+  margin-left: 10px;
+}
+/*
+
+
 /* ========================================= */
 /* THEMING OF BOOTSTRAP COMPONENTS           */
 /* ========================================= */
