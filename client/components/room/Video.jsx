@@ -59,6 +59,7 @@ class Video extends React.Component {
     this.toggleVideo = this.toggleVideo.bind(this);
     this.toggleAudio = this.toggleAudio.bind(this);
     this.handleCopy = this.handleCopy.bind(this);
+    this.sendToMessenger = this.sendToMessenger.bind(this);
   }
 
   componentDidMount() {
@@ -358,6 +359,13 @@ class Video extends React.Component {
     });
   }
 
+  sendToMessenger() {
+    FB.ui({
+      method: 'send',
+      link: window.location.href
+    });
+  }
+
   render() {
     let sharing = null;
     if (!this.state.hasRemote) {
@@ -365,6 +373,7 @@ class Video extends React.Component {
         <p>Invite by sharing the link:</p>
         <p className="js-copytextarea">{window.location.href}</p>
         <button className="js-textareacopybtn">Copy Link</button>
+        <button onClick={this.sendToMessenger}>Send In Messenger</button>
       </div>;
     }
 
