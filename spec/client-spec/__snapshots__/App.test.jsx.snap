@@ -121,14 +121,6 @@ exports[`App component snapshot test 1`] = `
               <li>
                 <a
                   className="scroll-to"
-                  href="#integrations"
-                >
-                  Integrations
-                </a>
-              </li>
-              <li>
-                <a
-                  className="scroll-to"
                   href="#testimonials"
                 >
                   Testimonials
