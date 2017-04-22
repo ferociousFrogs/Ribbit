@@ -1,14 +1,15 @@
 // socket paths
 const utils = require('./utilityFunctions');
 
-module.exports = (app, http) => {
+module.exports = (http) => {
   const io = require('socket.io')(http);
   utils.dropNCreateDBTables();
 
   io.on('connection', (socket) => {
+    const namedRooms = utils.namedRooms(io);
     socket.on('join room', (room) => {
-    // room = string
-      const numClients = utils.countClients(room);
+      const numClients = utils.countClients(namedRooms, room);
+      // room = string
       // max two clients
       if (numClients === 2) {
         socket.emit('full', room);
@@ -29,7 +30,7 @@ module.exports = (app, http) => {
     });
 
     socket.on('any room left', (room) => {
-      const numClients = utils.countClients(room);
+      const numClients = utils.countClients(namedRooms, room);
       if (numClients >= 2) {
         socket.emit('full', room);
       } else {
