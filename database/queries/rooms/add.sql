@@ -4,6 +4,6 @@ INSERT INTO rooms
 
 VALUES 
 (
-  ${roomName}
+  $1
 )
 RETURNING ID;
