@@ -17,7 +17,7 @@ module.exports = (repo, pgp) => ({
       })
     )
     .then(() => console.log('Tables created!'))
-    .catch(err => console.error('Error creating tables', err)),
+    .catch(err => console.error('Error creating tables (repos/complex.js) ', err)),
 
   // drop all the tables in the db
   dropAllTables: () => (

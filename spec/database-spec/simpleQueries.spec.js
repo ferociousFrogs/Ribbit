@@ -1,12 +1,5 @@
 const db = require('../../database/database.js');
 
-beforeAll(() =>
-  // Clears the database
-  // Jest will wait for this promise to resolve before running tests.
-  db.complex.dropAllTables()
-    .then(db.complex.initializeDB)
-);
-
 
 // tests queries for rooms
 describe('Room table populates and returns data', () => {
