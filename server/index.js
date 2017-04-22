@@ -12,7 +12,10 @@ const db = require('../database/database.js');
 // const url = require('url');
 
 // initialize DB
-db.complex.initializeDB();
+db.complex.dropAllTables()
+.then(db.complex.initializeDB)
+.catch((err) => console.error('wtf', err));
+// .then(db.complex.dropAllTables);
 
 const port = process.env.PORT || 3000;
 
@@ -77,6 +80,7 @@ app.get('*', (req, res) => {
 // sockets
 io.on('connection', (socket) => {
   socket.on('join room', (room) => {
+    // room = string
     const numClients = countClients(room);
     // max two clients
     if (numClients === 2) {
@@ -95,6 +99,18 @@ io.on('connection', (socket) => {
       socket.emit('Joined', room, socket.id);
       io.sockets.in(room).emit('Ready');
     }
+    // sample working queries.
+
+    // db.rooms.findName({ roomId: 1 })
+    // .then(data => console.log('%$%$%$%$ ID %$%$%$%', data))
+    // .catch(error => console.log('error in .findname', error));
+      // db.rooms.all()
+      // .then(data => console.log('ALL THE DATA', data))
+      // .catch(error => console.log('error in .all', error));
+    // db.rooms.add(room)
+    // .then(() => db.rooms.findId(room))
+    //   .then(data => console.log('@@@@@ data @@@@@ ', data))
+    //   .catch(error => console.log('ERRORED', error));
   });
 
   socket.on('any room left', (room) => {

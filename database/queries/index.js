@@ -23,23 +23,27 @@ module.exports = {
     add: sql('rooms/add.sql'),
     all: sql('rooms/all.sql'),
     findName: sql('rooms/findName.sql'),
-    findId: sql('rooms/findId.sql')
+    findId: sql('rooms/findId.sql'),
+    drop: sql('rooms/dropTable.sql')
   },
   users: {
     create: sql('users/create.sql'),
     add: sql('users/add.sql'),
     all: sql('users/all.sql'),
     findId: sql('users/findId.sql'),
-    findName: sql('users/findName.sql')
+    findName: sql('users/findName.sql'),
+    drop: sql('users/dropTable.sql')
   },
   messages_code: {
     create: sql('messages_code/create.sql'),
     add: sql('messages_code/add.sql'),
-    all: sql('messages_code/all.sql')
+    all: sql('messages_code/all.sql'),
+    drop: sql('messages_code/dropTable.sql')
   },
   rooms_users: {
     create: sql('rooms_users/create.sql'),
     add: sql('rooms_users/add.sql'),
-    all: sql('rooms_users/all.sql')
+    all: sql('rooms_users/all.sql'),
+    drop: sql('rooms_users/dropTable.sql')
   }
 };

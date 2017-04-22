@@ -19,6 +19,10 @@ module.exports = (repo, pgp) => ({
 
   // find userName for a given userId
   findName: userId =>
-    repo.one(sql.findName, userId, user => user.name)
+    repo.one(sql.findName, userId, user => user.name),
+
+  // drop the table
+  drop: () =>
+    repo.any(sql.drop)
 });
 

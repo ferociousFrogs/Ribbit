@@ -11,6 +11,9 @@ module.exports = (repo, pgp) => ({
 
   // find all room_user records
   all: () =>
-    repo.any(sql.all)
+    repo.any(sql.all),
 
+  // drop the table
+  drop: () =>
+    repo.any(sql.drop)
 });

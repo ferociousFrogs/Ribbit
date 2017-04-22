@@ -14,6 +14,10 @@ module.exports = (repo, pgp) => {
 
     // Returns all records for messages;
     all: () =>
-      repo.any(sql.add)
+      repo.any(sql.all),
+
+    // drop the table
+    drop: () =>
+      repo.any(sql.drop)
   };
 };

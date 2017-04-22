@@ -1,9 +1,9 @@
 INSERT INTO rooms
 
-(name)
+(name, time_stamp)
 
 VALUES 
 (
-  ${roomName}
+  ${roomName}, CURRENT_TIMESTAMP
 )
 RETURNING ID;
