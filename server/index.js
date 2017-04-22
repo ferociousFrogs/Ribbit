@@ -69,12 +69,9 @@ app.get('/fbcheck',
     failureRedirect: '/login'
   }));
 
-<<<<<<< HEAD
-=======
-app.get('*', passport.authenticate('facebook'), (req, res) => {
+app.get('*', (req, res) => {
   res.status(302).redirect('/');
 });
->>>>>>> Add authentication to routes
 
 // sockets
 io.on('connection', (socket) => {
