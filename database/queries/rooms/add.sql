@@ -1,9 +1,9 @@
 INSERT INTO rooms
 
-(name, user1_Id)
+(name)
 
 VALUES 
 (
-  ${roomName}, ${userId}
+  ${roomName}
 )
 RETURNING ID;

@@ -2,12 +2,12 @@
 const connection = process.env.DATABASE_URL || 'psql://localhost:5432/ribbit';
 
 // create the paths to each set of unique queries
-// 
 const repos = {
   rooms: require('./repos/rooms.js'),
   users: require('./repos/users.js'),
-  messages: require('./repos/messages.js'),
-  chained: require('./repos/chained.js')
+  messages_code: require('./repos/messages_code.js'),
+  complex: require('./repos/complex.js'),
+  rooms_users: require('./repos/rooms_users.js')
 };
 
 // map over our queries to attach them to the options we

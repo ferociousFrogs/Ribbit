@@ -28,6 +28,6 @@ module.exports = {
   },
   chained: {
     createRoom: db.chained.createRoom,
-    initializeDB: db.chained.initializeDB,
+    initializeDB: db.chained.initializeDB
   }
 };
