@@ -6,7 +6,7 @@ SELECT
   m.data as data
 
 FROM rooms as room_id
-INNER JOIN messages_code as mc on rooms.id = mc.room_id
+INNER JOIN messagesNCode as mc on rooms.id = mc.room_id
 INNER JOIN users as u1 on mc.user1_id = u1.id
 INNER JOIN users as u2 on mc.user2_id = u2.id
 

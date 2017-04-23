@@ -1,4 +1,4 @@
-const sql = require('../queries').messages_code;
+const sql = require('../queries').messagesNCode;
 
 module.exports = (repo, pgp) => {
 
