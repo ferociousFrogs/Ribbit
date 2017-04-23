@@ -28,7 +28,7 @@ module.exports = {
         }
         return db.users.add((user));
       })
-      .catch(err => console.error(`Error checking or creating User ${user.userName} with error = ${err}`))
+      // .catch(err => console.error(`Error checking or creating User ${user.userName} with error = ${err}`))
   ),
 
   checkOrCreateRoom: (room) => {
@@ -36,17 +36,19 @@ module.exports = {
     console.log('inside checkOrCreateRoom');
     return db.rooms.findId(room)
       .then((roomId) => {
-        console.log('roomId after findId');
-        if (typeof roomId === 'number') {
-          return roomId;
+        console.log('roomId after findId', roomId);
+        if (roomId) {
+          return roomId.id;
         }
         return db.rooms.add((room));
       })
       .then((roomId) => {
+        console.log('typeof roomId after return or add room', typeof roomId);
+        console.log('roomId after return or add room', roomId);
         if (!room.userId) {
           return roomId;
         }
-        room.roomId = roomId;
+        room.roomId = roomId.id;
         return db.rooms_users.add(room);
       })
       .catch(err => console.error(`Error checking or creating Room ${room.roomName} with error = ${err}`));

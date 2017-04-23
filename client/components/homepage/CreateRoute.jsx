@@ -49,7 +49,7 @@ class CreateRoute extends React.Component {
             onKeyUp={this.isRoomFull}
             className="form-control"
           />
-          <Link to={`/:${this.props.roomName}` }>
+          <Link to={`/:${this.props.roomName}`}>
             <input
               id="submit_intro"
               type="submit"

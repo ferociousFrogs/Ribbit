@@ -18,7 +18,12 @@ class Room extends React.Component {
   }
 
   componentDidMount() {
-    socket.emit('join room', this.props.roomName);
+    const roomInfo = {
+      roomName: this.props.roomName,
+      userName: this.props.userName,
+      userId: this.props.userId
+    };
+    socket.emit('join room', roomInfo);
     socket.on('full', (room) => {
       console.log(`${room} is full`);
       this.setState({ redirect: true });
@@ -52,7 +57,8 @@ class Room extends React.Component {
 
 const mapStateToProps = state => ({
   roomName: state.roomName,
-  userName: state.userName
+  userName: state.userName,
+  userId: state.userId
 });
 
 const mapDispatchToProps = dispatch => ({
