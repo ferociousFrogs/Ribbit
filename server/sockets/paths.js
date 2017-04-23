@@ -78,6 +78,8 @@ module.exports = (http) => {
       }
     });
 
+    socket.on('userName Submitted', utils.checkOrCreateUser);
+
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });
