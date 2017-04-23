@@ -24,6 +24,19 @@ const Login = (props) => {
               onChange={(e) => { props.addUserEmail(e.target.value); }}
             />
             <Link to="/" onClick={(e) => { props.loggedIn(true); }}>Sign me up!</Link>
+            <button
+              onClick={() => {
+                socket.emit('userName Submitted', {
+                  userName:props.userName,
+                  email: props.email,
+                  fbToken: null
+                });
+              }}
+            >
+              <Link to="/">
+                Sign me up!
+              </Link>
+            </button>
             <Facebook history={props.history} />
           </form>
         </div>
