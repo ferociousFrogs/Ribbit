@@ -1,16 +1,13 @@
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import React from 'react';
-import io from 'socket.io-client';
 import generateSillyName from 'sillyname';
+import socket from '../../clientUtilities/sockets';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
 import { addUserName } from './../../actions/actionCreators';
 import RoomDropdown from './RoomDropdown';
-
-const server = location.origin;
-const socket = io(server);
 
 class Room extends React.Component {
   constructor(props) {
@@ -40,13 +37,13 @@ class Room extends React.Component {
       (
         <div className="container-fluid">
           <div className="col-md-8">
-            <Workspace socket={socket} />
+            <Workspace />
           </div>
           <div className="col-md-4">
-            <Video socket={socket} />
+            <Video />
           </div>
           <div className="col-md-4">
-            <Chat socket={socket} />
+            <Chat />
           </div>
         </div>
       );

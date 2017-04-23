@@ -1,11 +1,8 @@
 import React from 'react';
-import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createRoomName } from './../../actions/actionCreators';
-
-const server = location.origin;
-const socket = io(server);
+import socket from '../../clientUtilities/sockets';
 
 class CreateRoute extends React.Component {
   constructor(props) {

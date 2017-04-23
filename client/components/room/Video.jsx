@@ -1,6 +1,7 @@
 import React from 'react';
 import webrtc from 'webrtc-adapter';
 import { connect } from 'react-redux';
+import socket from '../../clientUtilities/sockets';
 
 let localStream;
 let remoteStream;
@@ -78,7 +79,6 @@ class Video extends React.Component {
 
   createRoom() {
     let room = this.props.roomName;
-    let socket = this.props.socket;
 
     if (room !== '') {
       socket.emit('create or join', room);
@@ -121,7 +121,7 @@ class Video extends React.Component {
 
   sendMessage(message) {
     console.log(`Client sending message: ${message}`);
-    this.props.socket.emit('video message', message);
+    socket.emit('video message', message);
   }
 
   start() {
@@ -133,7 +133,7 @@ class Video extends React.Component {
   }
 
   connectSockets() {
-    this.props.socket.on('video message', (message) => {
+    socket.on('video message', (message) => {
       console.log(`Client received message: ${message}`);
       if (message === 'got user media') {
         this.maybeStart();

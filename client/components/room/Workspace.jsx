@@ -2,6 +2,7 @@ import React from 'react';
 import CodeMirror from 'react-codemirror';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import socket from '../../clientUtilities/sockets';
 
 // require('codemirror/lib/codemirror.css');
 require('codemirror/mode/javascript/javascript');
@@ -27,7 +28,6 @@ class Workspace extends React.Component {
   }
 
   componentDidMount() {
-    const socket = this.props.socket;
     cm = this.refs.cm.getCodeMirror();
 
     cm.on('keyup', () => {
