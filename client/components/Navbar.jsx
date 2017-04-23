@@ -20,7 +20,8 @@ const Navbar = () => (
               <li><a href="#features" className="scroll-to">Features</a></li>
               <li><a href="#testimonials" className="scroll-to">Testimonials</a></li>
               <li><a href="#contact" className="scroll-to">Contact</a></li>
-            </ul><Link to="/login" data-toggle="modal" data-target="#get-started" className="btn navbar-btn btn-ghost">Sign Up</Link>
+            </ul><Link to="/profile" data-toggle="modal" data-target="#get-started" className="btn navbar-btn btn-ghost">Profile</Link>
+            <Link to="/login" data-toggle="modal" data-target="#get-started" className="btn navbar-btn btn-ghost">Sign Up</Link>
             <Link to="/login" data-toggle="modal" data-target="#get-started" className="btn navbar-btn btn-ghost">Login</Link>
           </div>
         </div>

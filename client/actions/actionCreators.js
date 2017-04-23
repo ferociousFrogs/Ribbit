@@ -43,3 +43,7 @@ export const addUserEmail = email => ({
 export const toggleDropdown = () => ({
   type: 'TOGGLE_DROPDOWN'
 });
+
+export const previousRoomNames = () => ({
+  type: 'GET_PREVIOUS_ROOM_NAMES'
+});
