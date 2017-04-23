@@ -43,3 +43,8 @@ export const addUserEmail = email => ({
 export const toggleDropdown = () => ({
   type: 'TOGGLE_DROPDOWN'
 });
+
+export const createSocket = socket => ({
+  type: 'CREATE_SOCKET',
+  socket
+});
