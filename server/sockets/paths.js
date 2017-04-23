@@ -26,6 +26,8 @@ module.exports = (http) => {
         socket.emit('Joined', room, socket.id);
         io.sockets.in(room).emit('Ready');
       }
+      const roomObj = { roomName: room };
+      utils.checkOrCreateRoom(roomObj);
     });
 
     socket.on('any room left', (room) => {

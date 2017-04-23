@@ -33,12 +33,14 @@ module.exports = {
 
   checkOrCreateRoom: (room) => {
     // room = {roomName, userId}
-    return db.rooms.findId(room.roomName)
+    console.log('inside checkOrCreateRoom');
+    return db.rooms.findId(room)
       .then((roomId) => {
+        console.log('roomId after findId');
         if (typeof roomId === 'number') {
           return roomId;
         }
-        return db.rooms.add((room.roomName));
+        return db.rooms.add((room));
       })
       .then((roomId) => {
         if (!room.userId) {
