@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addUserName, addUserEmail, loggedIn } from './../../actions/actionCreators';
 import Facebook from './Facebook';
+import socket from '../../clientUtilities/sockets';
 
 const Login = (props) => {
     return (

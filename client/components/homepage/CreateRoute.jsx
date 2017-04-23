@@ -49,12 +49,13 @@ class CreateRoute extends React.Component {
             onKeyUp={this.isRoomFull}
             className="form-control"
           />
-          <Link to={`/:${this.props.roomName}`}>
+          <Link to={`/:${this.props.roomName}` }>
             <input
               id="submit_intro"
               type="submit"
               value="Create room"
               className="btn btn-primary"
+              onClick={() => { socket.emit('room created', this.props.roomName)} }
             />
           </Link>
         </form>
