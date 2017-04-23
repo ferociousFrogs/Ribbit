@@ -34,16 +34,22 @@ module.exports = {
     findName: sql('users/findName.sql'),
     drop: sql('users/dropTable.sql')
   },
-  messages_code: {
-    create: sql('messages_code/create.sql'),
-    add: sql('messages_code/add.sql'),
-    all: sql('messages_code/all.sql'),
-    drop: sql('messages_code/dropTable.sql')
+  messagesNCode: {
+    create: sql('messagesNCode/create.sql'),
+    add: sql('messagesNCode/add.sql'),
+    all: sql('messagesNCode/all.sql'),
+    drop: sql('messagesNCode/dropTable.sql')
   },
   rooms_users: {
     create: sql('rooms_users/create.sql'),
     add: sql('rooms_users/add.sql'),
     all: sql('rooms_users/all.sql'),
     drop: sql('rooms_users/dropTable.sql')
+  },
+  messages_users: {
+    create: sql('messages_users/create.sql'),
+    add: sql('messages_users/add.sql'),
+    all: sql('messages_users/all.sql'),
+    drop: sql('messages_users/dropTable.sql')
   }
 };

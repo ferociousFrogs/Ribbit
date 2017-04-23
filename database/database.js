@@ -5,7 +5,7 @@ const connection = process.env.DATABASE_URL || 'psql://localhost:5432/ribbit';
 const repos = {
   rooms: require('./repos/rooms.js'),
   users: require('./repos/users.js'),
-  messages_code: require('./repos/messages_code.js'),
+  messagesNcode: require('./repos/messagesNCode.js'),
   complex: require('./repos/complex.js'),
   rooms_users: require('./repos/rooms_users.js')
 };

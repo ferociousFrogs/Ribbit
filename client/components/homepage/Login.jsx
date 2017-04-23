@@ -26,7 +26,7 @@ const Login = (props) => {
             <Link to="/" onClick={(e) => { props.loggedIn(true); }}>Sign me up!</Link>
             <button
               onClick={() => {
-                socket.emit('userName Submitted', {
+                socket.emit('userName submitted', {
                   userName:props.userName,
                   email: props.email,
                   fbToken: null
