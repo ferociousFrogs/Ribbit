@@ -7,27 +7,26 @@ module.exports = (http) => {
   io.on('connection', (socket) => {
     const namedRooms = utils.namedRooms(io);
     socket.on('join room', (room) => {
-      const numClients = utils.countClients(namedRooms, room);
-      // room = string
+      const numClients = utils.countClients(namedRooms, room.roomName);
+      // room = {roomName, userId}
       // max two clients
       if (numClients === 2) {
-        socket.emit('full', room);
+        socket.emit('full', room.roomName);
         return;
       }
-      console.log(`Room ${room} now has ${numClients + 1} client(s)`);
+      console.log(`Room ${room.roomName} now has ${numClients + 1} client(s)`);
       if (numClients === 0) {
-        socket.join(room);
-        console.log(`Client ID ${socket.id} created room ${room}`);
-        socket.emit('Created', room, socket.id);
+        socket.join(room.roomName);
+        console.log(`Client ID ${socket.id} created room ${room.roomName}`);
+        socket.emit('Created', room.roomName, socket.id);
       } else {
-        console.log(`Client ID ${socket.id} joined room ${room}`);
-        io.sockets.in(room).emit('Join', room);
-        socket.join(room);
-        socket.emit('Joined', room, socket.id);
-        io.sockets.in(room).emit('Ready');
+        console.log(`Client ID ${socket.id} joined room ${room.roomName}`);
+        io.sockets.in(room.roomName).emit('Join', room.roomName);
+        socket.join(room.roomName);
+        socket.emit('Joined', room.roomName, socket.id);
+        io.sockets.in(room.roomName).emit('Ready');
       }
-      const roomObj = { roomName: room };
-      utils.checkOrCreateRoom(roomObj);
+      utils.checkOrCreateRoom(room);
     });
 
     socket.on('any room left', (room) => {
@@ -84,6 +83,7 @@ module.exports = (http) => {
       return utils.checkOrCreateUser(user)
       .then((userId) => {
         userResponse.userId = userId;
+        console.log('userId in userName submitted', userId);
         return socket.emit('user created', userResponse);
       })
       .catch(err => console.error(`Error checking or creating User ${user.userName} with error = ${err}`));
