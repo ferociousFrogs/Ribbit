@@ -1,5 +1,7 @@
 const sql = require('../queries').messagesNCode;
 
+console.log('inside repo/messagesNCode');
+
 module.exports = (repo, pgp) => {
 
 

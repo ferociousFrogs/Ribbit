@@ -8,7 +8,7 @@ const repos = {
   complex: require('./repos/complex.js'),
   rooms_users: require('./repos/rooms_users.js'),
   messages_users: require('./repos/messages_users.js'),
-  messagesNCode: require('./repos/messagesNCode.js')
+  messagesNCode: require('./repos/messagesNcode.js')
 };
 
 // map over our queries to attach them to the options we
