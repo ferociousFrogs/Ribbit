@@ -1,4 +1,4 @@
-const db = require('../../database/database.js');
+const db = require('../../database/database');
 
 
 // tests queries for rooms

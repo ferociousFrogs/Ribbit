@@ -1,4 +1,4 @@
-const db = require('../../database/database.js');
+const db = require('../../database/database');
 
 describe('messagesNCode tests', () => {
   // add some test data before each test
