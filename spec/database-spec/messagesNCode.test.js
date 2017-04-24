@@ -15,8 +15,9 @@ describe('messagesNCode tests', () => {
     })
   ));
   it('should return an id of 2 when a second room is added', () => (
-    db.messagesNCode.add({ roomId: 13, type: 'code', data: 'const fifthElement = (elements) => elements.filter(element => element === "love"' }).then((results) => {
-      expect(results).toEqual(2);
-    })
+    db.messagesNCode.add({ roomId: 13, type: 'code', data: 'const fifthElement = (elements) => elements.filter(element => element === "love"' })
+      .then((results) => {
+        expect(results).toEqual(2);
+      })
   ));
 });
