@@ -5,7 +5,7 @@ deployment:
       appname: tailbud
 dependencies:
   pre:
-    - createdb ribbit
-  post:
     - dropdb ribbit
+  post:
+    - createdb ribbit
     
