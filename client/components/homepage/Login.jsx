@@ -23,7 +23,6 @@ const Login = (props) => {
               placeholder="Enter an e-mail address"
               onChange={(e) => { props.addUserEmail(e.target.value); }}
             />
-            <Link to="/" onClick={(e) => { props.loggedIn(true); }}>Sign me up!</Link>
             <button
               onClick={() => {
                 socket.emit('userName submitted', {
@@ -33,9 +32,7 @@ const Login = (props) => {
                 });
               }}
             >
-              <Link to="/">
-                Sign me up!
-              </Link>
+              <Link to="/" onClick={(e) => { props.loggedIn(true); }}>Sign me up!</Link>
             </button>
             <Facebook history={props.history} />
           </form>
