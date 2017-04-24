@@ -83,7 +83,6 @@ module.exports = (http) => {
       return utils.checkOrCreateUser(user)
       .then((userId) => {
         userResponse.userId = userId;
-        console.log('userId in userName submitted', userId);
         return socket.emit('user created', userResponse);
       })
       .catch(err => console.error(`Error checking or creating User ${user.userName} with error = ${err}`));
