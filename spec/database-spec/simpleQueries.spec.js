@@ -9,13 +9,13 @@ const db = require('../../database/database');
 // tests queries for rooms
 describe('Room table populates and returns data', () => {
   // add some test data before each test
-  beforeEach(() =>
+  beforeEach(() => (
     db.rooms.drop()
       .then(db.rooms.create)
       .then(() => (
         db.rooms.add({ roomName: 'Flosten Paradise' })
     ))
-  );
+  ));
 
   it('should have one entry populated', () => (
     db.rooms.all().then((results) => {
@@ -25,6 +25,7 @@ describe('Room table populates and returns data', () => {
 
   it('return an id of 2 when a second room is added', () => (
     db.rooms.add({ roomName: 'RoomName' }).then((results) => {
+      console.log('results in "return an id of 2 when a second room is added"', results);
       expect(results).toEqual(2);
     })
   ));
