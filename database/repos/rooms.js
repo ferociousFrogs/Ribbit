@@ -18,11 +18,11 @@ module.exports = (repo, pgp) => {
 
     // Find the roomId based on roomName
     findId: roomName =>
-      repo.one(sql.findId, roomName),
+      repo.oneOrNone(sql.findId, roomName, room => room ? room.id : 0),
 
     // Find the roomName given a roomId
     findName: roomId =>
-      repo.one(sql.findName, roomId),
+      repo.oneOrNone(sql.findName, roomId, room => room ? room.name : 0),
 
     // drop the table
     drop: () =>

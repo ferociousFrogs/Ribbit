@@ -1,55 +1,58 @@
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import React from 'react';
-import io from 'socket.io-client';
 import generateSillyName from 'sillyname';
+import socket from '../../clientUtilities/sockets';
+import { addUserName } from './../../actions/actionCreators';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
-import { addUserName } from './../../actions/actionCreators';
-import RoomDropdown from './RoomDropdown';
 
-const server = location.origin;
-const socket = io(server);
 
 class Room extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      redirect: false
-    };
+    this.createSillyName = this.createSillyName.bind(this);
   }
 
   componentDidMount() {
-    socket.emit('join room', this.props.roomName);
+    const roomInfo = {
+      roomName: this.props.roomName,
+      userName: this.props.userName,
+      userId: this.props.userId
+    };
+    socket.emit('join room', roomInfo);
     socket.on('full', (room) => {
       console.log(`${room} is full`);
       this.setState({ redirect: true });
     });
-
-    !this.props.userName ? this.props.addUserName(generateSillyName()) : null;
+    !this.props.userName ? this.createSillyName() : null;
   }
-
 
   componentWillUnmount() {
     socket.emit('leave room', this.props.roomName);
   }
 
+  createSillyName() {
+    const sillyName = generateSillyName();
+    socket.emit('userName ', sillyName);
+    this.props.addUserName(sillyName);
+    console.log('sillyname = ', sillyName);
+  }
+
   render() {
-    return this.state.redirect ? (<Redirect to="/" />) :
-      (
-        <div className="container-fluid">
-          <div className="col-md-8">
-            <Workspace socket={socket} />
-          </div>
-          <div className="col-md-4">
-            <Video socket={socket} />
-          </div>
-          <div className="col-md-4">
-            <Chat socket={socket} />
-          </div>
+    return (
+      <div className="container-fluid">
+        <div className="col-md-8">
+          <Workspace />
         </div>
-      );
+        <div className="col-md-4">
+          <Video />
+        </div>
+        <div className="col-md-4">
+          <Chat />
+        </div>
+      </div>
+    );
   }
 }
 

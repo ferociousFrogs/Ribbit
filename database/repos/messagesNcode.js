@@ -1,4 +1,4 @@
-const sql = require('../queries').messages_code;
+const sql = require('../queries').messagesNCode;
 
 module.exports = (repo, pgp) => {
 
@@ -9,8 +9,8 @@ module.exports = (repo, pgp) => {
         repo.none(sql.create),
 
     // Adds message with messageObj = {user1Id, user2Id, roomId, type, data}
-    add: messageObj =>
-      repo.one(sql.add, messageObj, message => message.id),
+    add: messageOrCode =>
+      repo.one(sql.add, messageOrCode, mC => mC.id),
 
     // Returns all records for messages;
     all: () =>

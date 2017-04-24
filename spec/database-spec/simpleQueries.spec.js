@@ -1,16 +1,21 @@
-const db = require('../../database/database.js');
+const db = require('../../database/database');
 
+// beforeAll(() =>
+//     db.complex.dropAllTables()
+//       .then(db.complex.initializeDB)
+//       .catch(err => console.error(err))
+// );
 
 // tests queries for rooms
 describe('Room table populates and returns data', () => {
   // add some test data before each test
-  beforeEach(() =>
+  beforeEach(() => (
     db.rooms.drop()
       .then(db.rooms.create)
       .then(() => (
         db.rooms.add({ roomName: 'Flosten Paradise' })
     ))
-  );
+  ));
 
   it('should have one entry populated', () => (
     db.rooms.all().then((results) => {
@@ -20,19 +25,20 @@ describe('Room table populates and returns data', () => {
 
   it('return an id of 2 when a second room is added', () => (
     db.rooms.add({ roomName: 'RoomName' }).then((results) => {
+      console.log('results in "return an id of 2 when a second room is added"', results);
       expect(results).toEqual(2);
     })
   ));
 
   it('should find the id for a given roomName', () => (
     db.rooms.findId({ roomName: 'Flosten Paradise' }).then((results) => {
-      expect(results.id).toEqual(1);
+      expect(results).toEqual(1);
     })
   ));
 
   it('should find the name for a given roomId', () => (
     db.rooms.findName({ roomId: 1 }).then((results) => {
-      expect(results.name).toEqual('Flosten Paradise');
+      expect(results).toEqual('Flosten Paradise');
     })
   ));
 });
@@ -46,7 +52,7 @@ describe('Users table populates and returns data', () => {
       .then(db.users.create)
       .then(() => (
         db.users.add({
-          name: 'Corbin',
+          userName: 'Corbin',
           email: 'Dallas',
           fbToken: 58008
         })
@@ -61,7 +67,7 @@ describe('Users table populates and returns data', () => {
 
   it('return an id of 2 when a second user is added', () => (
     db.users.add({
-      name: 'Multipass',
+      userName: 'Multipass',
       email: 'Multi-pass',
       fbToken: 58008
     })

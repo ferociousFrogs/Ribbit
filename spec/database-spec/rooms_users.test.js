@@ -1,4 +1,4 @@
-const db = require('../../database/database.js');
+const db = require('../../database/database');
 
 describe('rooms_users tests', () => {
   // add some test data before each test

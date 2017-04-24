@@ -15,11 +15,11 @@ module.exports = (repo, pgp) => ({
 
   // find userId for a given userName
   findId: userName =>
-    repo.one(sql.findId, userName, user => user.id),
+    repo.oneOrNone(sql.findId, userName, user => user ? user.id : 0),
 
   // find userName for a given userId
   findName: userId =>
-    repo.one(sql.findName, userId, user => user.name),
+    repo.oneOrNone(sql.findName, userId, user => user ? user.name : 0),
 
   // drop the table
   drop: () =>

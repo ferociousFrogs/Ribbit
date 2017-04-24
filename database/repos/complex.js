@@ -1,8 +1,9 @@
 const tables = {
   users: require('../queries').users,
   rooms: require('../queries').rooms,
-  messages_code: require('../queries').messages_code,
-  rooms_users: require('../queries').rooms_users
+  messagesNCode: require('../queries').messagesNCode,
+  rooms_users: require('../queries').rooms_users,
+  messages_users: require('../queries').messages_users
 };
 
 // Exporting chained queries that run as tasks or transactions

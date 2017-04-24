@@ -4,6 +4,6 @@ INSERT INTO users
 
 VALUES 
 (
-  ${name}, ${email}, ${fbToken}, CURRENT_TIMESTAMP
+  ${userName}, ${email}, ${fbToken}, CURRENT_TIMESTAMP
 )
 RETURNING ID;

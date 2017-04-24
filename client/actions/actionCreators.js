@@ -52,3 +52,8 @@ export const loggedIn = bool => ({
   type: 'LOGGED_IN',
   bool
 });
+
+export const addUserId = userId => ({
+  type: 'ADD_USER_ID',
+  userId
+});

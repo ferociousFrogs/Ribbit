@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { addUserName, addUserEmail, loggedIn } from './../../actions/actionCreators';
 import Facebook from './Facebook';
+import socket from '../../clientUtilities/sockets';
 
 const Login = (props) => {
     return (
@@ -22,12 +23,22 @@ const Login = (props) => {
               placeholder="Enter an e-mail address"
               onChange={(e) => { props.addUserEmail(e.target.value); }}
             />
-            <Link to="/" onClick={(e) => { props.loggedIn(true); }}>Sign me up!</Link>
+            <button
+              onClick={() => {
+                socket.emit('userName submitted', {
+                  userName:props.userName,
+                  email: props.email,
+                  fbToken: null
+                });
+              }}
+            >
+              <Link to="/" onClick={(e) => { props.loggedIn(true); }}>Sign me up!</Link>
+            </button>
             <Facebook history={props.history} />
           </form>
         </div>
       </div>
-    );
+  );
 };
 
 

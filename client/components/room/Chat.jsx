@@ -3,9 +3,7 @@ import { connect, getState } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ChatWindow from './ChatWindow';
 import { sendMessage, addUserName, getMessageText } from './../../actions/actionCreators';
-
-// const port = process.env.PORT || 3000;
-// const server2 = 'https://tailbud-pr-17.herokuapp.com/';
+import socket from '../../clientUtilities/sockets';
 
 class Chat extends React.Component {
   constructor(props) {
@@ -16,7 +14,7 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    this.props.socket.on('chat message', this.receiveMessage);
+    socket.on('chat message', this.receiveMessage);
   }
 
   componentDidUpdate() {
@@ -40,11 +38,12 @@ class Chat extends React.Component {
       let room = this.props.roomName;
       const messageObj = {
         userName: `${this.props.userName}`,
-        text: this.props.text,
+        type: 'message',
+        data: this.props.text,
         fromMe: false,
         roomName: room
       };
-      this.props.socket.emit('chat message', messageObj);
+      socket.emit('chat message', messageObj);
       messageObj.fromMe = true;
       this.props.sendMessage(messageObj);
       this.props.getMessageText('');

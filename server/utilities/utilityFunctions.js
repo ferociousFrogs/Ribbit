@@ -19,34 +19,54 @@ module.exports = {
     return numClients;
   },
 
-  checkOrCreateUser: (user) => (
+  checkOrCreateUser: user => (
     // user = {userName, etc.}
     db.users.findId(user)
       .then((userId) => {
-        if (typeof userId === 'number') {
+        if (userId) {
           return userId;
         }
         return db.users.add((user));
       })
-      .catch(err => console.error(`Error checking or creating User ${user.userName} with error = ${err}`))
   ),
 
-  checkOrCreateRoom: (room) => {
-    // room = {roomName, userId}
-    return db.rooms.findId(room.roomName)
+  checkOrCreateRoom: room => (
+    // room = {roomName, userName}
+    db.rooms.findId(room)
       .then((roomId) => {
-        if (typeof roomId === 'number') {
+        if (roomId) {
           return roomId;
         }
-        return db.rooms.add((room.roomName));
+        return db.rooms.add((room));
       })
       .then((roomId) => {
-        if (!room.userId) {
-          return roomId;
-        }
         room.roomId = roomId;
+        if (!room.userId) {
+          return db.users.findId(room);
+        }
+        return room.userId;
+      })
+      .then((userId) => {
+        room.userId = userId;
         return db.rooms_users.add(room);
       })
-      .catch(err => console.error(`Error checking or creating Room ${room.roomName} with error = ${err}`));
-  }
+      .catch(err => console.error(`Error checking or creating Room ${room.roomName} with error = ${err}`))
+  ),
+
+  sendMessageOrCode: messageOrCode => (
+    db.users.findId(messageOrCode)
+      .then((userId) => {
+        messageOrCode.userId = userId;
+        return db.rooms.findId(messageOrCode);
+      })
+      .then((roomId) => {
+        messageOrCode.roomId = roomId;
+        return db.messagesNCode.add(messageOrCode);
+      })
+      .then((messageId) => {
+        messageOrCode.mCId = messageId;
+        return db.messages_users.add(messageOrCode);
+      })
+      .catch(err => console.error(err))
+  )
 };
