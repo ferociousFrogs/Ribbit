@@ -26,13 +26,13 @@ describe('Room table populates and returns data', () => {
 
   it('should find the id for a given roomName', () => (
     db.rooms.findId({ roomName: 'Flosten Paradise' }).then((results) => {
-      expect(results.id).toEqual(1);
+      expect(results).toEqual(1);
     })
   ));
 
   it('should find the name for a given roomId', () => (
     db.rooms.findName({ roomId: 1 }).then((results) => {
-      expect(results.name).toEqual('Flosten Paradise');
+      expect(results).toEqual('Flosten Paradise');
     })
   ));
 });
@@ -46,7 +46,7 @@ describe('Users table populates and returns data', () => {
       .then(db.users.create)
       .then(() => (
         db.users.add({
-          name: 'Corbin',
+          userName: 'Corbin',
           email: 'Dallas',
           fbToken: 58008
         })
@@ -61,7 +61,7 @@ describe('Users table populates and returns data', () => {
 
   it('return an id of 2 when a second user is added', () => (
     db.users.add({
-      name: 'Multipass',
+      userName: 'Multipass',
       email: 'Multi-pass',
       fbToken: 58008
     })
