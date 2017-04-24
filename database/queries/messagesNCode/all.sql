@@ -1,1 +1,1 @@
-SELECT * FROM messagesNcode
+SELECT * FROM messagesNcode;
