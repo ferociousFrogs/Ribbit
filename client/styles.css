@@ -1499,16 +1499,28 @@ video {
   z-index: -100;
 }
 
+*:focus {
+    outline: none;
+}
+
 .videoToggle {
   position: absolute;
-  top: 3%;
-  margin-left: 2%;
+  margin-left: 1%;
+  background-color: #ffffff;
+  padding-top: 3%;
+  padding-bottom: 0.5%;
+  padding-left: 0.5%;
+  padding-right: 0.5%;
 }
 
 .audioToggle {
   position: absolute;
-  top: 3%;
-  margin-left: 20%;
+  margin-left: 10%;
+  background-color: #ffffff;
+  padding-top: 3%;
+  padding-bottom: 0.5%;
+  padding-left: 0.5%;
+  padding-right: 0.5%;
 }
 
 .shareLink {
@@ -1519,6 +1531,7 @@ video {
   height: 100%;
   background-color: #F0F0F0;
 }
+
 
 /* =========================================
  *  CHAT
