@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import socket from '../clientUtilities/sockets';
 import { addUserId } from './../actions/actionCreators';
@@ -11,9 +11,7 @@ import Profile from './profile/Profile';
 
 const App = (props) => {
   socket.on('user created', (user) => {
-    if (user.userName === props.userName) {
-      props.addUserId(user.userId);
-    }
+    props.addUserId(user.userId);
   });
   return (
     <div>
@@ -28,16 +26,11 @@ const App = (props) => {
   );
 };
 
+const mapDispatchToProps = dispatch => ({
+  addUserId: userId => dispatch(addUserId(userId))
+});
 
-// const mapStateToProps = state => ({
-//   userId: state.userId,
-//   userName: state.userName
-// });
 
-// const mapDispatchToProps = dispatch => ({
-//   addUserId: userId => dispatch(addUserId(userId))
-// });
-
-// export { App };
-// export default connect(mapStateToProps, mapDispatchToProps)(App);
-export default App;
+export { App };
+export default withRouter(connect(null, mapDispatchToProps)(App));
+// export default App;

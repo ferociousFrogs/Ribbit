@@ -1,4 +1,4 @@
-const addUserId = (state = undefined, action) => {
+const addUserId = (state = 0, action) => {
   switch (action.type) {
     case 'ADD_USER_ID':
       return action.userId;

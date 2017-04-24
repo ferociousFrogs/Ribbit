@@ -1,20 +1,15 @@
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import React from 'react';
 import generateSillyName from 'sillyname';
 import socket from '../../clientUtilities/sockets';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
-import { addUserName } from './../../actions/actionCreators';
-import RoomDropdown from './RoomDropdown';
+
 
 class Room extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      redirect: false
-    };
   }
 
   componentDidMount() {
@@ -29,6 +24,7 @@ class Room extends React.Component {
       this.setState({ redirect: true });
     });
 
+
     !this.props.userName ? this.props.addUserName(generateSillyName()) : null;
   }
 
@@ -38,27 +34,25 @@ class Room extends React.Component {
   }
 
   render() {
-    return this.state.redirect ? (<Redirect to="/" />) :
-      (
-        <div className="container-fluid">
-          <div className="col-md-8">
-            <Workspace />
-          </div>
-          <div className="col-md-4">
-            <Video />
-          </div>
-          <div className="col-md-4">
-            <Chat />
-          </div>
+    return (
+      <div className="container-fluid">
+        <div className="col-md-8">
+          <Workspace />
         </div>
-      );
+        <div className="col-md-4">
+          <Video />
+        </div>
+        <div className="col-md-4">
+          <Chat />
+        </div>
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => ({
   roomName: state.roomName,
-  userName: state.userName,
-  userId: state.userId
+  userName: state.userName
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -44,7 +44,6 @@ export const toggleDropdown = () => ({
   type: 'TOGGLE_DROPDOWN'
 });
 
-<<<<<<< HEAD
 export const previousRoomNames = () => ({
   type: 'GET_PREVIOUS_ROOM_NAMES'
 });
@@ -52,8 +51,9 @@ export const previousRoomNames = () => ({
 export const loggedIn = bool => ({
   type: 'LOGGED_IN',
   bool
-=======
-export const addUserId = () => ({
-  type: 'ADD_USER_ID'
->>>>>>> (fix) Prevent errors when multiple users join the same room
+});
+
+export const addUserId = userId => ({
+  type: 'ADD_USER_ID',
+  userId
 });

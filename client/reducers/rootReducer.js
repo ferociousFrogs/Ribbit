@@ -8,6 +8,7 @@ import addUserEmail from './addUserEmail-reducer';
 import toggleDropdownReducer from './toggleDropdown-reducer';
 import getPreviousRoomNameReducer from './getPreviousRoomNames-reducer';
 import loggedInReducer from './loggedIn-reducer';
+import addUserId from './addUserId-reducer';
 
 const rootReducer = combineReducers({
   messages: chatMessagesReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   email: addUserEmail,
   dropdownDisplay: toggleDropdownReducer,
   previousRoomNames: getPreviousRoomNameReducer,
-  loggedIn: loggedInReducer
+  loggedIn: loggedInReducer,
+  userId: addUserId
 });
 
 export default rootReducer;
