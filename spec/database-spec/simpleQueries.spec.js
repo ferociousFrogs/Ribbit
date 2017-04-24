@@ -1,5 +1,10 @@
 const db = require('../../database/database');
 
+beforeAll(() =>
+    db.complex.dropAllTables()
+      .then(db.complex.initializeDB)
+      .catch(err => console.error(err))
+);
 
 // tests queries for rooms
 describe('Room table populates and returns data', () => {
