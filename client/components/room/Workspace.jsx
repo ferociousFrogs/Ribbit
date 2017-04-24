@@ -17,9 +17,7 @@ let cm;
 class Workspace extends React.Component {
   constructor(props) {
     super(props);
-    // mock user value for now
     this.state = {
-      user: Math.floor(999 * Math.random()),
       code: '// Ribbit\nfunction ribbit() {\n return "Ribbit";\n};\nribbit();',
       result: ''
     };
@@ -32,10 +30,11 @@ class Workspace extends React.Component {
 
     cm.on('keyup', () => {
       const editedCode = {
-        user: this.state.user,
-        value: cm.getValue(),
+        userName: this.props.userName,
+        type: 'code',
+        data: cm.getValue(),
         language: 'Javascript',
-        room: this.props.roomName
+        roomName: this.props.roomName
       };
       socket.emit('code-edit', editedCode);
     });
@@ -44,9 +43,9 @@ class Workspace extends React.Component {
   }
 
   updateCodeHandler(otherPersonsCode) {
-    cm.setValue(otherPersonsCode.value);
+    cm.setValue(otherPersonsCode.data);
     this.setState({
-      code: otherPersonsCode.value
+      code: otherPersonsCode.data
     });
   }
 

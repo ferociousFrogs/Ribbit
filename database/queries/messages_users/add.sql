@@ -4,6 +4,6 @@ INSERT INTO messages_users
 
 VALUES 
 (
-  ${userId}, ${mcId}, CURRENT_TIMESTAMP
+  ${userId}, ${mCId}, CURRENT_TIMESTAMP
 )
 RETURNING ID;

@@ -11,7 +11,9 @@ import Profile from './profile/Profile';
 
 const App = (props) => {
   socket.on('user created', (user) => {
-    props.addUserId(user.userId);
+    if (user.userName === props.userName) {
+      props.addUserId(user.userId);
+    }
   });
   return (
     <div>
