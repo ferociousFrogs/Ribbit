@@ -1484,9 +1484,9 @@ video {
 }
 
 #localVideo {
-  position: relative;
+  position: absolute;
   margin-left: 2%;
-  top: 250px;
+  top: 71%;
   width: 25%;
   z-index: 2;
   border: 2px solid white;
@@ -1499,16 +1499,25 @@ video {
   z-index: -100;
 }
 
-.videoOff {
+.videoToggle {
   position: absolute;
-  top: 1%;
+  top: 3%;
   margin-left: 2%;
 }
 
-.mute {
+.audioToggle {
   position: absolute;
-  top: 1%;
+  top: 3%;
   margin-left: 20%;
+}
+
+.shareLink {
+  background-image: url("../img/video_placeholder.png");
+  background-repeat: no-repeat;
+  background-size:contain;
+  background-position:center;
+  height: 100%;
+  background-color: #F0F0F0;
 }
 
 /* =========================================
