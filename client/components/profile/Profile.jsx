@@ -5,11 +5,9 @@ import { getPreviousRoomNames } from './../../actions/actionCreators';
     // {props.previousRoomNames.map(roomName => <div>{roomName}</div>)}
 
 const Profile = (props) => {
-  console.log(props.previousRoomNames);
-  // props.previousRoomNames();
   return (
     <div className="col-md-12 container-fluid text-intro left-side">
-      <h1 className="text-center">{props.userName}Profile </h1>
+      <h1 className="text-center">{props.userName}'s Profile </h1>
       <div className="col-md-3 profile-borders profile-height">
         {props.previousRoomNames.map(roomName => (
           <div className="black-text chat-message-container-other">

@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { addUserName, loggedIn } from './../../actions/actionCreators';
 
 class Facebook extends React.Component {
   constructor(props) {
@@ -29,10 +31,12 @@ class Facebook extends React.Component {
     });
   }
 
-  testAPI() {
+  testAPI(props) {
     console.log('Welcome! Fetching your information...');
     FB.api('/me', (response) => {
       console.log(`Successful login for: ${response.name}`);
+      props.addUserName(response.name);
+      props.loggedIn(true);
       document.getElementById('status').innerHTML =
         `Thanks for logging in, ${response.name} !`;
       this.props.history.push('/profile');
@@ -44,7 +48,7 @@ class Facebook extends React.Component {
     console.log(response);
     if (response.status === 'connected') {
       console.log('this is the token', response.authResponse.accessToken);
-      this.testAPI();
+      this.testAPI(this.props);
       axios.defaults.headers.common['Authorization'] = response.authResponse.accessToken;
       this.props.setToken(response.authResponse.accessToken);
       this.props.history.push('/profile');
@@ -74,4 +78,14 @@ class Facebook extends React.Component {
   }
 }
 
-export default Facebook;
+const mapStateToProps = state => ({
+  userName: state.userName,
+  loggedIn: state.loggedIn
+});
+
+const mapDispatchToProps = dispatch => ({
+  addUserName: name => dispatch(addUserName(name)),
+  loggedIn: bool => dispatch(loggedIn(bool))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Facebook);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addUserName, addUserEmail } from './../../actions/actionCreators';
+import { addUserName, addUserEmail, loggedIn } from './../../actions/actionCreators';
 import Facebook from './Facebook';
 
 const Login = (props) => {
@@ -22,7 +22,7 @@ const Login = (props) => {
               placeholder="Enter an e-mail address"
               onChange={(e) => { props.addUserEmail(e.target.value); }}
             />
-            <Link to="/">Sign me up!</Link>
+            <Link to="/" onClick={(e) => { props.loggedIn(true); }}>Sign me up!</Link>
             <Facebook history={props.history} />
           </form>
         </div>
@@ -33,12 +33,14 @@ const Login = (props) => {
 
 const mapStateToProps = state => ({
   userName: state.userName,
-  email: state.email
+  email: state.email,
+  loggedIn: state.loggedIn
 });
 
 const mapDispatchToProps = dispatch => ({
   addUserName: name => dispatch(addUserName(name)),
-  addUserEmail: email => dispatch(addUserEmail(email))
+  addUserEmail: email => dispatch(addUserEmail(email)),
+  loggedIn: bool => dispatch(loggedIn(bool))
 });
 
 export { Login };
