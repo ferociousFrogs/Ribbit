@@ -5,9 +5,10 @@ const connection = process.env.DATABASE_URL || 'psql://localhost:5432/ribbit';
 const repos = {
   rooms: require('./repos/rooms.js'),
   users: require('./repos/users.js'),
-  messagesNcode: require('./repos/messagesNCode.js'),
+  messagesNCode: require('./repos/messagesNCode.js'),
   complex: require('./repos/complex.js'),
-  rooms_users: require('./repos/rooms_users.js')
+  rooms_users: require('./repos/rooms_users.js'),
+  messages_users: require('./repos/messages_users.js')
 };
 
 // map over our queries to attach them to the options we

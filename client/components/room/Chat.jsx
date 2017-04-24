@@ -38,7 +38,8 @@ class Chat extends React.Component {
       let room = this.props.roomName;
       const messageObj = {
         userName: `${this.props.userName}`,
-        text: this.props.text,
+        type: 'message',
+        data: this.props.text,
         fromMe: false,
         roomName: room
       };

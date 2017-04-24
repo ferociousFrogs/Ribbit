@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import generateSillyName from 'sillyname';
 import socket from '../../clientUtilities/sockets';
+import { addUserName } from './../../actions/actionCreators';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
@@ -10,6 +11,7 @@ import Chat from './Chat';
 class Room extends React.Component {
   constructor(props) {
     super(props);
+    this.createSillyName = this.createSillyName.bind(this);
   }
 
   componentDidMount() {
@@ -23,14 +25,18 @@ class Room extends React.Component {
       console.log(`${room} is full`);
       this.setState({ redirect: true });
     });
-
-
-    !this.props.userName ? this.props.addUserName(generateSillyName()) : null;
+    !this.props.userName ? this.createSillyName() : null;
   }
-
 
   componentWillUnmount() {
     socket.emit('leave room', this.props.roomName);
+  }
+
+  createSillyName() {
+    const sillyName = generateSillyName();
+    socket.emit('userName ', sillyName);
+    this.props.addUserName(sillyName);
+    console.log('sillyname = ', sillyName);
   }
 
   render() {

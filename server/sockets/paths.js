@@ -45,18 +45,14 @@ module.exports = (http) => {
     socket.on('chat message', (message) => {
       console.log(`user ${message.userName} sent message to room ${message.roomName}`);
       socket.to(message.roomName).emit('chat message', message);
-      const dummyMsgObj = {
-        user1Name: message.userName,
-        user2Name: 'Dummy user2 name', // need to update front end
-        data: message.text,
-        type: 'message',
-        roomName: message.roomName
-      };
+      return utils.sendMessageOrCode(message)
+                  .catch(err => console.error(err));
     });
 
 
     socket.on('code-edit', (code) => {
-      socket.to(code.room).emit('newCode', code);
+      socket.to(code.roomName).emit('newCode', code);
+      return utils.sendMessageOrCode(code);
     });
 
     socket.on('video message', (message) => {

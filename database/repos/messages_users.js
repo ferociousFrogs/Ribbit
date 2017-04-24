@@ -6,8 +6,8 @@ module.exports = (repo, pgp) => ({
 
   // add room_user to db
   // roomUserObj =  {userId, roomId}
-  add: messages_users =>
-    repo.one(sql.add, roomUserObj, messages_users => messages_users.id),
+  add: messagesUsers =>
+    repo.one(sql.add, messagesUsers, mU => mU.id),
 
   // find all room_user records
   all: () =>
