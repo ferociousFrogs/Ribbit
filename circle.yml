@@ -6,3 +6,4 @@ deployment:
 dependencies:
   pre:
     - createdb ribbit
+    
