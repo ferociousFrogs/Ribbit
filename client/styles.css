@@ -13,6 +13,26 @@
 /*
 
 =====================
+PROFILE
+=====================
+
+*/
+.profile-height {
+  height: 600px;
+}
+
+.profile-borders {
+  border-style: solid;
+  border-color: #ffffff;
+}
+
+.black-text {
+  color: #000000;
+  background-color: #ffffff;
+}
+/*
+
+=====================
 DROPDOWN
 =====================
 

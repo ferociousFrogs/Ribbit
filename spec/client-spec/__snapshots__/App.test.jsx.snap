@@ -135,24 +135,26 @@ exports[`App component snapshot test 1`] = `
                 </a>
               </li>
             </ul>
-            <a
-              className="btn navbar-btn btn-ghost"
-              data-target="#get-started"
-              data-toggle="modal"
-              href="/login"
-              onClick={[Function]}
-            >
-              Sign Up
-            </a>
-            <a
-              className="btn navbar-btn btn-ghost"
-              data-target="#get-started"
-              data-toggle="modal"
-              href="/login"
-              onClick={[Function]}
-            >
-              Login
-            </a>
+            <span>
+              <a
+                className="btn navbar-btn btn-ghost"
+                data-target="#get-started"
+                data-toggle="modal"
+                href="/login"
+                onClick={[Function]}
+              >
+                Sign Up
+              </a>
+              <a
+                className="btn navbar-btn btn-ghost"
+                data-target="#get-started"
+                data-toggle="modal"
+                href="/login"
+                onClick={[Function]}
+              >
+                Login
+              </a>
+            </span>
           </div>
         </div>
       </div>
