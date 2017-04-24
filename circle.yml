@@ -6,4 +6,6 @@ deployment:
 dependencies:
   pre:
     - createdb ribbit
+  post:
+    - dropdb ribbit
     
