@@ -18,6 +18,11 @@ module.exports = (repo, pgp) => {
     all: () =>
       repo.any(sql.all),
 
+    // Returns the id for the message if it exists;
+    // usersAndRoomIds = {senderId, receiverId, roomId}
+    findMCId: usersAndRoomIds =>
+      repo.oneOrNone(sql.findMCId, usersAndRoomIds, mC => mC ? mC.id : false),
+
     // drop the table
     drop: () =>
       repo.any(sql.drop)

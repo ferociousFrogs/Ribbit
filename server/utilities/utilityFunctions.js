@@ -69,7 +69,7 @@ module.exports = {
       })
       .then((roomId) => {
         messageOrCode.roomId = roomId;
-        return db.messagesNcode.findId(messageOrCode);
+        return db.messagesNcode.findMCId(messageOrCode);
       })
       .then((messageId) => {
         if (messageId) {
