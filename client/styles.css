@@ -1675,7 +1675,7 @@ video {
 }
 .chat-text-from-other {
   padding-left: 4%;
-  text-align: left;
+  text-align: right;
 }
 
 .bash {
