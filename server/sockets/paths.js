@@ -56,7 +56,6 @@ module.exports = (http) => {
 
 
     socket.on('code-edit', (code) => {
-      console.log('this is the code packet: ', code);
       socket.to(code.roomName).emit('newCode', code);
       return utils.sendMessageOrCode(code);
     });
