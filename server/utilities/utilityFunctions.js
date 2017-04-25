@@ -77,7 +77,13 @@ module.exports = {
       })
       .then((roomId) => {
         messageOrCode.roomId = roomId;
-        return db.messagesNCode.findMCId(messageOrCode);
+        if (typeof messageOrCode.mCId === 'number') {
+          return messageOrCode.mCId;
+        }
+        if (messageOrCode.type === 'code') {
+          return db.messagesNCode.findMCId(messageOrCode);
+        }
+        return false;
       })
       .then((messageId) => {
         if (messageId) {

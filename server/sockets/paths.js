@@ -55,10 +55,15 @@ module.exports = (http) => {
     });
 
 
-    socket.on('code-edit', (code) => {
-      socket.to(code.roomName).emit('newCode', code);
-      return utils.sendMessageOrCode(code);
-    });
+    socket.on('code-edit', code => (
+      utils.sendMessageOrCode(code)
+                  .then((codeId) => {
+                    code.mCId = codeId;
+                    socket.to(code.roomName)
+                          .emit('newCode', code);
+                  })
+                  .catch(err => console.error(err))
+    ));
 
     socket.on('video message', (message) => {
       console.log(`Client said: ${message}`);
