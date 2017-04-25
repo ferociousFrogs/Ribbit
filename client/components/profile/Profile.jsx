@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getPreviousRoomNames } from './../../actions/actionCreators';
+import ProfileRoomsList from './ProfileRoomsList';
 
     // {props.previousRoomNames.map(roomName => <div>{roomName}</div>)}
 
@@ -9,10 +10,7 @@ const Profile = (props) => {
     <div className="col-md-12 container-fluid text-intro left-side">
       <h1 className="text-center">{props.userName}'s Profile </h1>
       <div className="col-md-3 profile-borders profile-height">
-        {props.previousRoomNames.map(roomName => (
-          <div className="black-text chat-message-container-other">
-            {roomName}
-          </div>))}
+        <ProfileRoomsList />
       </div>
       <div className="col-md-9 profile-borders profile-height">
         This is where the saved code and messages from each room would go
@@ -32,3 +30,10 @@ const mapDispatchToProps = dispatch => ({
 
 // export default Profile;
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+
+
+
+        // {props.previousRoomNames.map(roomName => (
+        //   <div className="black-text chat-message-container-other">
+        //     {roomName}
+        //   </div>))}
