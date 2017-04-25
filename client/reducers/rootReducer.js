@@ -11,6 +11,7 @@ import loggedInReducer from './loggedIn-reducer';
 import addUserId from './addUserId-reducer';
 import peerNameReducer from './peerName-reducer';
 import partnersReducer from './partners-reducer';
+import partnerLogsReducer from './partnerLogs-reducer';
 
 const rootReducer = combineReducers({
   messages: chatMessagesReducer,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   loggedIn: loggedInReducer,
   userId: addUserId,
   peerName: peerNameReducer,
-  partners: partnersReducer
+  partners: partnersReducer,
+  partnerLogs: partnerLogsReducer
 });
 
 export default rootReducer;

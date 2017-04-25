@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getPreviousRoomNames, getPartners } from './../../actions/actionCreators';
+import { getPreviousRoomNames, getPartners, getPartnerLogs } from './../../actions/actionCreators';
 import ProfileRoomsList from './ProfileRoomsList';
-
-    // {props.previousRoomNames.map(roomName => <div>{roomName}</div>)}
+import ProfilePartnersList from './ProfilePartnersList';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -15,6 +14,8 @@ class Profile extends React.Component {
   componentDidMount() {
     // listen for 'got partners'
       // call populatePartners with payload
+    //listen for 'got partnerLogs'
+      // call populatePartnerLogs with payload
   }
 
   requestPartners() {
@@ -28,12 +29,25 @@ class Profile extends React.Component {
     this.props.getPartners(payload);
   }
 
+  requestPartnerLogs() {
+    // emit an event 'get partnerLogs'
+    // on event down in server, listen, trigger function for database call, emit event 'got partnerLogs'
+  }
+
+  populatePartnerLogs(payload) {
+    // dispatch action to populate state partnerLogs
+    // action/reducer will be expecting an array of objects [{code: '', messages: []}]
+    this.props.getPartnerLogs(payload);
+
+  }
+
   render() {
     return (
       <div className="col-md-12 container-fluid text-intro left-side">
         <h1 className="text-center">{this.props.userName}'s Profile </h1>
         <div className="col-md-3 profile-borders profile-height">
-          <ProfileRoomsList />
+          <ProfileRoomsList requestPartners={this.requestPartners} />
+          <ProfilePartnersList />
         </div>
         <div className="col-md-9 profile-borders profile-height">
           This is where the saved code and messages from each room would go
@@ -46,20 +60,15 @@ class Profile extends React.Component {
 const mapStateToProps = state => ({
   previousRoomNames: state.previousRoomNames,
   userName: state.userName,
-  partners: state.partners
+  partners: state.partners,
+  partnerLogs: state.partnerLogs
 });
 
 const mapDispatchToProps = dispatch => ({
   getPreviousRoomNames: () => dispatch(getPreviousRoomNames()),
-  getPartners: partners => dispatch(getPartners(partners))
+  getPartners: partners => dispatch(getPartners(partners)),
+  getPartnerLogs: partnerLogs => dispatch(getPartnerLogs(partnerLogs))
 });
 
 // export default Profile;
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
-
-
-
-        // {props.previousRoomNames.map(roomName => (
-        //   <div className="black-text chat-message-container-other">
-        //     {roomName}
-        //   </div>))}

@@ -7,7 +7,7 @@ import ProfilePartnersListItem from './ProfilePartnersListItem';
 // [X]needs to map each partner onto ProfilePartnersListItem
 const ProfilePartnersList = props => (
   <div>
-    {props.partners.map((partner) => <ProfilePartnersListItem partner={partner} />)}
+    {props.partners.map((partner, i) => <ProfilePartnersListItem key={i} partner={partner} />)}
   </div>
 );
 
