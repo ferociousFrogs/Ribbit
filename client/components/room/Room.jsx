@@ -16,7 +16,7 @@ class Room extends React.Component {
   }
 
   componentDidMount() {
-    socket.on('peer name', this.checkForPeerName);
+    socket.on('peer name', this.props.addPeerName);
     const roomInfo = {
       roomName: this.props.roomName,
       userName: this.props.userName,
@@ -32,14 +32,6 @@ class Room extends React.Component {
 
   componentWillUnmount() {
     socket.emit('leave room', this.props.roomName);
-  }
-
-  checkForPeerName(name) {
-    console.log('checked for name ', name);
-    console.log('current name ', this.props.userName);
-    if (name !== this.props.userName) {
-      this.props.addPeerName(name);
-    }
   }
 
   createSillyName() {
