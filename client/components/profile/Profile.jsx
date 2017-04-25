@@ -8,6 +8,22 @@ import ProfileRoomsList from './ProfileRoomsList';
 class Profile extends React.Component {
   constructor(props) {
     super(props);
+    this.populatePartners = this.populatePartners.bind(this);
+    this.requestPartners = this.requestPartners.bind(this);
+  }
+
+  componentDidMount() {
+    // listen for 'got partners'
+      // call populatePartners with payload
+  }
+
+  requestPartners() {
+      // emit event 'get partners'
+      // on event down in server, listen, trigger function, emit event 'got partners'
+  }
+
+  populatePartners(payload) {
+    // dispatch action to populate state partners
   }
 
   render() {
