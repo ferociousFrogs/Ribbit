@@ -80,23 +80,23 @@ class Workspace extends React.Component {
       mode: 'javascript'
     };
     return (
-      <div className="row border left-side">
+      <div className="row left-side">
         <CodeMirror
           ref="cm"
           value={this.state.code}
           options={options}
         />
+        <div className="bash col-md-11">
+          {new Date(Date.now()).toDateString()}
+          <p>{this.state.result ? this.state.result : 'Docker-Container: Ribbit user$ '}</p>
+        </div>
         <button
           type="button"
-          className="btn-danger"
+          className="btn-code col-md-2"
           onClick={this.runCodeButtonListener}
         >
           Run Code
         </button>
-        <div className="bash">
-          {new Date(Date.now()).toDateString()}
-          <p>{this.state.result ? this.state.result : 'Docker-Container: Ribbit user$ '}</p>
-        </div>
       </div>
     );
   }
