@@ -12,7 +12,6 @@ class Room extends React.Component {
   constructor(props) {
     super(props);
     this.createSillyName = this.createSillyName.bind(this);
-    this.checkForPeerName = this.checkForPeerName.bind(this);
   }
 
   componentDidMount() {
