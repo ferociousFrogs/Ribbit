@@ -82,7 +82,7 @@ module.exports = {
       .then((messageId) => {
         if (messageId) {
           messageOrCode.mCId = messageId;
-          return messageOrCode.update(messageOrCode);
+          return db.messagesNCode.update(messageOrCode);
         }
         return db.messagesNCode.add(messageOrCode);
       })

@@ -6,7 +6,7 @@ describe('messagesNCode tests', () => {
     db.messagesNCode.drop()
       .then(db.messagesNCode.create)
       .then(() => (
-        db.messagesNCode.add({ roomId: 5, type: 'message', data: 'Lilu Dallas multi-pass' })
+        db.messagesNCode.add({ senderId: 1, receiverId: 2, roomId: 5, type: 'message', data: 'Lilu Dallas multi-pass' })
     ))
   );
   it('should have one entry populated', () => (
@@ -15,7 +15,7 @@ describe('messagesNCode tests', () => {
     })
   ));
   it('should return an id of 2 when a second room is added', () => (
-    db.messagesNCode.add({ roomId: 13, type: 'code', data: 'const fifthElement = (elements) => elements.filter(element => element === "love"' })
+    db.messagesNCode.add({ senderId: 6, receiverId: 5, roomId: 13, type: 'code', data: 'const fifthElement = (elements) => elements.filter(element => element === "love"' })
       .then((results) => {
         expect(results).toEqual(2);
       })
