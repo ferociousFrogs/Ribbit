@@ -1550,8 +1550,7 @@ video {
 .videoToggle {
   position: absolute;
   margin-left: 1%;
-  background-color: #ffffff;
-  padding-top: 3%;
+  padding-top: 2%;
   padding-bottom: 0.5%;
   padding-left: 0.5%;
   padding-right: 0.5%;
@@ -1561,8 +1560,7 @@ video {
 .audioToggle {
   position: absolute;
   margin-left: 10%;
-  background-color: #ffffff;
-  padding-top: 3%;
+  padding-top: 2%;
   padding-bottom: 0.5%;
   padding-left: 0.5%;
   padding-right: 0.5%;
