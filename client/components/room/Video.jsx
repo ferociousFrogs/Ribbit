@@ -295,16 +295,20 @@ class Video extends React.Component {
   toggleVideo() {
     if(localStream.getVideoTracks()[0].enabled) {
       localStream.getVideoTracks()[0].enabled = false;
+      document.getElementById('video').src = ('../img/video-off.png');
     } else {
       localStream.getVideoTracks()[0].enabled = true;
+      document.getElementById('video').src = ('../img/video-on.png');
     }
   }
 
   toggleAudio() {
     if(localStream.getAudioTracks()[0].enabled) {
       localStream.getAudioTracks()[0].enabled = false;
+      document.getElementById('audio').src = ('../img/audio-off.png');
     } else {
       localStream.getAudioTracks()[0].enabled = true;
+      document.getElementById('audio').src = ('../img/audio-on.png');
     }
   }
 
@@ -366,26 +370,28 @@ class Video extends React.Component {
     });
   }
 
+
   render() {
     let sharing = null;
     if (!this.state.hasRemote) {
       sharing = <div className="shareLink">
-        <p>Invite by sharing the link:</p>
-        <p className="js-copytextarea">{window.location.href}</p>
-        <button className="js-textareacopybtn">Copy Link</button>
-        <button onClick={this.sendToMessenger}>Send In Messenger</button>
+        <div className="center">
+          <p><strong>Share the link with a friend <br/> and invite them to chat!</strong></p>
+          <button className="js-textareacopybtn btn btn-room">Copy Link</button><br />
+          <button className="btn btn-room" onClick={this.sendToMessenger}>Invite via Messenger</button>
+        </div>
       </div>;
     }
 
     return (
-      <div className="row border right-side">
-        <video id="localVideo" autoPlay muted="muted" />
-        <video id="remoteVideo" autoPlay />
+      <div className="row right-side">
         <div>
-          <button className="videoOff" onClick={this.toggleVideo}>{this.state.video}</button>
-          <button className="mute" onClick={this.toggleAudio}>{this.state.mute}</button>
+          <input id="video" className="videoToggle" type="image" src="../img/video-on.png" onClick={this.toggleVideo} />
+          <input id="audio" className="audioToggle" type="image" src="../img/audio-on.png" onClick={this.toggleAudio} />
         </div>
         {sharing}
+        <video id="localVideo" autoPlay muted="muted" />
+        <video id="remoteVideo" autoPlay />
       </div>
     );
   }

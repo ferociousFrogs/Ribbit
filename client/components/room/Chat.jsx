@@ -53,23 +53,23 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <div className="row border right-side">
+      <div className="row right-side">
         <div className="container-fluid chat-container">
           <div className="chat-header">
-            <span className="glyphicon glyphicon-user" />
-            <span className="name-msg-offset">Chat with USER</span>
+            <span className="glyphicon glyphicon-comment" />
+            <span className="name-msg-offset"> Let's Chat!</span>
           </div>
           <ChatWindow messages={this.props.messages} />
-          <div className="chat-input">
+          <div>
             <form onSubmit={this.handleSubmit}>
               <input
                 type="text"
-                className="col-md-10 col-sm-10 col-xs-10"
+                className="chat-input col-md-10 col-sm-10 col-xs-10"
                 placeholder="Type your message here."
                 value={this.props.text}
                 onChange={this.handleInput}
               />
-              <button className="btn-info col-md-2  col-sm-2 col-xs-2">Send</button>
+              <button className="btn btn-room col-md-2 col-sm-2 col-xs-2">Send</button>
             </form>
           </div>
         </div>
