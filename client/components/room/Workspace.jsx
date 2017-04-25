@@ -31,6 +31,7 @@ class Workspace extends React.Component {
     cm.on('keyup', () => {
       const editedCode = {
         userName: this.props.userName,
+        peerName: this.props.peerName,
         type: 'code',
         data: cm.getValue(),
         language: 'Javascript',
@@ -104,7 +105,8 @@ class Workspace extends React.Component {
 
 const mapStateToProps = state => ({
   roomName: state.roomName,
-  userName: state.userName
+  userName: state.userName,
+  peerName: state.peerName
 });
 
 export { Workspace };

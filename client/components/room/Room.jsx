@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import generateSillyName from 'sillyname';
 import socket from '../../clientUtilities/sockets';
-import { addUserName } from './../../actions/actionCreators';
+import { addUserName, addPeerName } from './../../actions/actionCreators';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
@@ -12,9 +12,11 @@ class Room extends React.Component {
   constructor(props) {
     super(props);
     this.createSillyName = this.createSillyName.bind(this);
+    this.checkForPeerName = this.checkForPeerName.bind(this);
   }
 
   componentDidMount() {
+    socket.on('peer name', this.checkForPeerName);
     const roomInfo = {
       roomName: this.props.roomName,
       userName: this.props.userName,
@@ -32,11 +34,17 @@ class Room extends React.Component {
     socket.emit('leave room', this.props.roomName);
   }
 
+  checkForPeerName(name) {
+    console.log('checked for name ', name);
+    console.log('current name ', this.props.userName);
+    if (name !== this.props.userName) {
+      this.props.addPeerName(name);
+    }
+  }
+
   createSillyName() {
     const sillyName = generateSillyName();
-    socket.emit('userName ', sillyName);
     this.props.addUserName(sillyName);
-    console.log('sillyname = ', sillyName);
   }
 
   render() {
@@ -62,7 +70,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addUserName: name => dispatch(addUserName(name))
+  addUserName: name => dispatch(addUserName(name)),
+  addPeerName: peerName => dispatch(addPeerName(peerName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

@@ -7,6 +7,7 @@ module.exports = (http) => {
   io.on('connection', (socket) => {
     const namedRooms = utils.namedRooms(io);
     socket.on('join room', (room) => {
+    socket.emit('hello', 'emitted hello');
       const numClients = utils.countClients(namedRooms, room.roomName);
       // room = {roomName, userId}
       // max two clients
@@ -25,6 +26,10 @@ module.exports = (http) => {
         socket.join(room.roomName);
         socket.emit('Joined', room.roomName, socket.id);
         io.sockets.in(room.roomName).emit('Ready');
+      }
+      if (room.userName.length > 0) {
+        console.log('username = ', room.userName);
+        socket.broadcast.emit('peer name', room.userName);
       }
       utils.checkOrCreateRoom(room);
     });
@@ -51,6 +56,7 @@ module.exports = (http) => {
 
 
     socket.on('code-edit', (code) => {
+      console.log('this is the code packet: ', code);
       socket.to(code.roomName).emit('newCode', code);
       return utils.sendMessageOrCode(code);
     });
