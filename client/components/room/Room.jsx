@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import generateSillyName from 'sillyname';
 import socket from '../../clientUtilities/sockets';
-import { addUserName, addPeerName } from './../../actions/actionCreators';
+import { addUserName, addPeerName, previousRoomNames } from './../../actions/actionCreators';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
@@ -27,6 +27,7 @@ class Room extends React.Component {
       this.setState({ redirect: true });
     });
     !this.props.userName ? this.createSillyName() : null;
+    this.props.previousRoomNames(this.props.roomName);
   }
 
   componentWillUnmount() {
@@ -62,7 +63,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   addUserName: name => dispatch(addUserName(name)),
-  addPeerName: peerName => dispatch(addPeerName(peerName))
+  addPeerName: peerName => dispatch(addPeerName(peerName)),
+  previousRoomNames: peerName => dispatch(previousRoomNames(peerName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);
