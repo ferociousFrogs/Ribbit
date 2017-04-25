@@ -205,6 +205,7 @@ button {
 a i.fa,
 button i.fa {
   margin: 0 5px;
+
 }
 .clickable {
   cursor: pointer !important;
@@ -1027,13 +1028,29 @@ hr {
   padding: 6px 12px;
   font-size: 16px;
   line-height: 1.55;
-  border-radius: ;
 }
 .btn-primary {
   color: #ffffff;
   background-color: #ff7473;
   border-color: #ff7473;
+  margin: 1%;
 }
+.btn-room {
+  color: #ffffff;
+  background-color: #46426F;
+  border-color: #46426F;
+  margin: 1%;
+}
+.btn-room:hover,
+.btn-room:focus,
+.btn-room:active,
+.btn-room.active,
+.open .dropdown-toggle.btn-room {
+  color: #ffffff;
+  background-color: #ff4b4a;
+  border-color: #ff3736;
+}
+
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
@@ -1511,6 +1528,7 @@ video {
   padding-bottom: 0.5%;
   padding-left: 0.5%;
   padding-right: 0.5%;
+  z-index: 2;
 }
 
 .audioToggle {
@@ -1521,15 +1539,25 @@ video {
   padding-bottom: 0.5%;
   padding-left: 0.5%;
   padding-right: 0.5%;
+  z-index: 2;
 }
 
 .shareLink {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  text-align: center;
   background-image: url("../img/video_placeholder.png");
   background-repeat: no-repeat;
   background-size:contain;
   background-position:center;
   height: 100%;
   background-color: #F0F0F0;
+  z-index: -100;
+}
+
+.center {
+  position: absolute;
+  top: 75%;
+  margin-left: 32%;
 }
 
 
@@ -1560,7 +1588,7 @@ video {
   margin: 10px;
   background-color: #1D77EF;
   border-radius: 5px;
-  width: 95%;
+  width: 97%;
   color: floralwhite;
 }
 
