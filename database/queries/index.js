@@ -53,5 +53,8 @@ module.exports = {
     add: sql('messages_users/add.sql'),
     all: sql('messages_users/all.sql'),
     drop: sql('messages_users/dropTable.sql')
+  },
+  complex: {
+    findAllRooms: sql('complex/findAllRooms.sql')
   }
 };
