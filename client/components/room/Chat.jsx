@@ -52,7 +52,7 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <div className="row border right-side">
+      <div className="row right-side">
         <div className="container-fluid chat-container">
           <div className="chat-header">
             <span className="glyphicon glyphicon-comment" />

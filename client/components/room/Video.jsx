@@ -376,7 +376,7 @@ class Video extends React.Component {
     if (!this.state.hasRemote) {
       sharing = <div className="shareLink">
         <div className="center">
-          <p><strong>Share the link with a friend and invite them to chat!</strong></p>
+          <p><strong>Share the link with a friend <br/> and invite them to chat!</strong></p>
           <button className="js-textareacopybtn btn btn-room">Copy Link</button><br />
           <button className="btn btn-room" onClick={this.sendToMessenger}>Invite via Messenger</button>
         </div>
@@ -384,7 +384,7 @@ class Video extends React.Component {
     }
 
     return (
-      <div className="row border right-side">
+      <div className="row right-side">
         <div>
           <input id="video" className="videoToggle" type="image" src="../img/video-on.png" onClick={this.toggleVideo} />
           <input id="audio" className="audioToggle" type="image" src="../img/audio-on.png" onClick={this.toggleAudio} />

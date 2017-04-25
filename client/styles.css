@@ -1,6 +1,11 @@
-.border {
-  border: 1px solid black;
-}
+.container-fluid {
+    padding-top: 5px;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 0px;
+    margin-right:auto;
+    margin-left:auto;
+ }
 
 .left-side {
   height: 700px;
@@ -1050,6 +1055,28 @@ hr {
   background-color: #ff4b4a;
   border-color: #ff3736;
 }
+.btn-code {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  color: #ffffff;
+  background-color: #46426F;
+  border-color: #46426F;
+  width: 7%;
+  height: 20%;
+  padding: 0%;
+  margin-top: 1%;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  touch-action: manipulation;
+}
+.btn-code:hover,
+.btn-code:focus,
+.btn-code:active,
+.btn-code.active,
+.open .dropdown-toggle.btn-code {
+  color: #ffffff;
+  background-color: #ff4b4a;
+  border-color: #ff3736;
+}
 
 .btn-primary:hover,
 .btn-primary:focus,
@@ -1545,7 +1572,7 @@ video {
 .shareLink {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
   text-align: center;
-  background-image: url("../img/video_placeholder.png");
+  background-image: url("../img/frogsteps.gif");
   background-repeat: no-repeat;
   background-size:contain;
   background-position:center;
@@ -1556,8 +1583,8 @@ video {
 
 .center {
   position: absolute;
-  top: 75%;
-  margin-left: 32%;
+  top: 27%;
+  margin-left: 27%;
 }
 
 
@@ -1567,11 +1594,11 @@ video {
 
 .chat-header {
   height: 10%;
-  padding: 2%;
+  padding: 1%;
 }
 
 .chat-area {
-  height: 290px;
+  height: 260px;
   background-color: white;
   overflow-y: scroll;
 }
@@ -1612,6 +1639,7 @@ video {
 
 .chat-container {
   background-color: #cdcdcd;
+  margin-top: 2%;
 }
 
 .chat-message-container-me {
@@ -1651,7 +1679,9 @@ video {
 }
 
 .bash {
-  height: 17%;
+  height: 20%;
+  margin-top: 1%;
+  margin-right: 0.5%;
   background-color: black;
   color: grey;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
@@ -1663,9 +1693,10 @@ video {
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
-  font-family: monospace;
-  height: 300px;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  height: 100px;
   color: black;
+  margin-right: 1%;
 }
 
 /* PADDING */
@@ -1813,15 +1844,15 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 .CodeMirror {
   position: relative;
   overflow: hidden;
-  background: white;
+  background: #F0F0F0;
 }
 
 .CodeMirror-scroll {
   overflow: scroll !important; /* Things will break if this is overridden */
   /* 30px is the magic margin used to hide the element's real scrollbars */
   /* See overflow: hidden in .CodeMirror */
-  margin-bottom: -30px; margin-right: -30px;
-  padding-bottom: 30px;
+  margin-bottom: 0px; margin-right: 0px;
+  padding-bottom: 0px;
   height: 100%;
   outline: none; /* Prevent dragging from highlighting the element */
   position: relative;
