@@ -6,7 +6,7 @@ require('dotenv').config();
 passport.use(new FacebookStrategy({
   clientID: process.env.FB_APPID || '1871157256463548',
   clientSecret: process.env.FB_APPSECRET,
-  callbackURL: 'localhost:3000/'
+  callbackURL: 'http://www.google.com'
 },
   (accessToken, refreshToken, profile, done) => {
     console.log('hello');
