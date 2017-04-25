@@ -1025,9 +1025,9 @@ hr {
 .btn {
   font-weight: 400;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
-  padding: 6px 12px;
+  padding: 5px 12px;
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.3;
 }
 .btn-primary {
   color: #ffffff;
@@ -1567,61 +1567,94 @@ video {
 
 .chat-header {
   height: 10%;
+  padding: 2%;
 }
 
 .chat-area {
   height: 290px;
-  background-color: #ced6e2;
+  background-color: white;
   overflow-y: scroll;
-  border-radius: 5px;
 }
 
 .chat-input {
-  padding-top: 1%;
+  display: block;
+  width: 81%;
+  height: 38px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #555555;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.chat-input::-moz-placeholder {
+  color: #999999;
+  opacity: 1;
+}
+.chat-input:-ms-input-placeholder {
+  color: #999999;
+}
+.chat-input::-webkit-input-placeholder {
+  color: #999999;
+}
+.chat-input:focus {
+  border-color: #ff7473;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 116, 115, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 116, 115, 0.6);
 }
 
 .chat-container {
-  background-color: #e5e5e5;
+  background-color: #cdcdcd;
 }
 
 .chat-message-container-me {
   margin: 10px;
-  background-color: #1D77EF;
-  border-radius: 5px;
+  background-color: #FFFFFF;
   width: 97%;
-  color: floralwhite;
+  padding-bottom: 2%;
+  border-bottom: 1px dotted #B3A9A9;
 }
 
 .chat-message-container-other {
   margin: 10px;
-  background-color: #F7F7F7;
-  border-radius: 5px;
-  width: 95%;
+  background-color: #FFFFFF;
+  width: 97%;
+  padding-bottom: 2%;
+  border-bottom: 1px dotted #B3A9A9;
 }
 
 .chat-name-from-me {
-  text-align: right;
+  padding-left: 15%;
+  text-align: left;
 }
 
 .chat-text-from-me {
-  margin-right: 3%;
-  text-align: right;
+  padding-left: 15%;
+  text-align: left;
+  margin-right: 4%;
 }
 
-.chat-text-from-other {
-  margin-left: 3%;
-  text-align: left;
+.chat-name-from-other {
+  padding-right: 14%;
+  text-align: right;
 }
-.chat-message-name {
-  margin-right: 1%;
-  margin-left: 1%;
+.chat-text-from-other {
+  padding-left: 4%;
+  text-align: left;
 }
 
 .bash {
   height: 17%;
   background-color: black;
   color: grey;
-  font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 /* =========================================
