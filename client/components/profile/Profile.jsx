@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getPreviousRoomNames } from './../../actions/actionCreators';
+import { getPreviousRoomNames, getPartners } from './../../actions/actionCreators';
 import ProfileRoomsList from './ProfileRoomsList';
 
     // {props.previousRoomNames.map(roomName => <div>{roomName}</div>)}
@@ -24,6 +24,8 @@ class Profile extends React.Component {
 
   populatePartners(payload) {
     // dispatch action to populate state partners
+    // action/reducer will be expecting an array of objects {name: name, id: id}
+    this.props.getPartners(payload);
   }
 
   render() {
@@ -43,11 +45,13 @@ class Profile extends React.Component {
 
 const mapStateToProps = state => ({
   previousRoomNames: state.previousRoomNames,
-  userName: state.userName
+  userName: state.userName,
+  partners: state.partners
 });
 
 const mapDispatchToProps = dispatch => ({
-  getPreviousRoomNames: () => dispatch(getPreviousRoomNames())
+  getPreviousRoomNames: () => dispatch(getPreviousRoomNames()),
+  getPartners: partners => dispatch(getPartners(partners))
 });
 
 // export default Profile;

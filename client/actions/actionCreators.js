@@ -63,3 +63,8 @@ export const addPeerName = peerName => ({
   type: 'ADD_PEER_NAME',
   peerName
 });
+
+export const getPartners = partners => ({
+  type: 'GET_PARTNERS',
+  partners
+});
