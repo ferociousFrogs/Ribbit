@@ -376,6 +376,7 @@ class Video extends React.Component {
     if (!this.state.hasRemote) {
       sharing = <div className="shareLink">
         <div className="center">
+          <p><strong>Share the link with a friend and invite them to chat!</strong></p>
           <button className="js-textareacopybtn btn btn-room">Copy Link</button><br />
           <button className="btn btn-room" onClick={this.sendToMessenger}>Invite via Messenger</button>
         </div>
