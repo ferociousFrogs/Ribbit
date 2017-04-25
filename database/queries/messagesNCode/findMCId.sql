@@ -9,4 +9,6 @@ WHERE
 AND 
 (
   receiver_id = ${receiverId} or receiver_id = ${senderId}
-) 
+)
+AND
+type = 'code';
