@@ -1,9 +1,9 @@
 INSERT INTO messagesNCode
 
-(room_Id, type, data, time_stamp)
+(room_Id, sender_id, receiver_id, type, data, time_stamp)
 
 VALUES 
 (
-  ${roomId}, ${type}, ${data}, CURRENT_TIMESTAMP
+  ${roomId}, ${senderId}, ${receiverId}, ${type}, ${data}, CURRENT_TIMESTAMP
 )
 RETURNING ID;
