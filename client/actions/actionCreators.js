@@ -57,3 +57,8 @@ export const addUserId = userId => ({
   type: 'ADD_USER_ID',
   userId
 });
+
+export const addPeerName = peerName => ({
+  type: 'ADD_PEER_NAME',
+  peerName
+});

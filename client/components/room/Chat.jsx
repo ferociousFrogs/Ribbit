@@ -38,6 +38,7 @@ class Chat extends React.Component {
       let room = this.props.roomName;
       const messageObj = {
         userName: `${this.props.userName}`,
+        peerName: this.props.peerName,
         type: 'message',
         data: this.props.text,
         fromMe: false,
@@ -96,7 +97,8 @@ const mapStateToProps = state => ({
   messages: filterMessages(state.messages, state.roomName),
   userName: state.userName,
   roomName: state.roomName,
-  text: state.text
+  text: state.text,
+  peerName: state.peerName
 });
 
 
