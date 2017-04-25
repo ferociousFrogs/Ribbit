@@ -30,6 +30,11 @@ module.exports = {
       })
   ),
 
+  findAllRooms: userName => (
+    db.complex.findAllRooms(userName)
+      .catch(err => console.error(err))
+  ),
+
   checkOrCreateRoom: room => (
     // room = {roomName, userName}
     db.rooms.findId(room)
