@@ -33,7 +33,7 @@ module.exports = (repo, pgp) => ({
     .then(() => console.log('Tables dropped!'))
     .catch(err => console.error('Error dropping tables', err)),
 
-  findAllRooms: (userName) => (
-    repo.any(complex.findAllRooms, userName)
+  findAllRooms: user => (
+    repo.any(complex.findAllRooms, user)
   )
 });

@@ -1,7 +1,7 @@
-const getPreviousRoomNameReducer = (state = ['The Grill', 'Taj Mahal', 'The High Castle', 'Your Mother\'s Bedroom'], action) => {
+const getPreviousRoomNameReducer = (state = [], action) => {
   switch (action.type) {
     case 'GET_PREVIOUS_ROOM_NAMES':
-      return state;
+      return action.rooms;
     default:
       return state;
   }

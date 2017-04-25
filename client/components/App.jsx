@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import socket from '../clientUtilities/sockets';
-import { addUserId } from './../actions/actionCreators';
+import { addUserId, previousRoomNames } from './../actions/actionCreators';
 import Navbar from './Navbar';
 import Home from './homepage/Home';
 import Room from './room/Room';
@@ -13,6 +13,8 @@ const App = (props) => {
   socket.on('user created', (user) => {
     if (user.userName === props.userName) {
       props.addUserId(user.userId);
+      console.log('user in user created response', user);
+      props.previousRoomNames(user.rooms);
     }
   });
   return (
@@ -29,7 +31,8 @@ const App = (props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addUserId: userId => dispatch(addUserId(userId))
+  addUserId: userId => dispatch(addUserId(userId)),
+  previousRoomNames: rooms => dispatch(previousRoomNames(rooms))
 });
 
 

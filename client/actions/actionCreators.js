@@ -44,8 +44,9 @@ export const toggleDropdown = () => ({
   type: 'TOGGLE_DROPDOWN'
 });
 
-export const previousRoomNames = () => ({
-  type: 'GET_PREVIOUS_ROOM_NAMES'
+export const previousRoomNames = rooms => ({
+  type: 'GET_PREVIOUS_ROOM_NAMES',
+  rooms
 });
 
 export const loggedIn = bool => ({
