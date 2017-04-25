@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { getPreviousRoomNames, getPartners, getPartnerLogs } from './../../actions/actionCreators';
 import ProfileRoomsList from './ProfileRoomsList';
 import ProfilePartnersList from './ProfilePartnersList';
+import ProfileCodeLog from './ProfileCodeLog';
+import ProfileMessageLog from './ProfileMessageLog';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -36,7 +38,7 @@ class Profile extends React.Component {
 
   populatePartnerLogs(payload) {
     // dispatch action to populate state partnerLogs
-    // action/reducer will be expecting an array of objects [{code: '', messages: []}]
+    // action/reducer will be expecting object { code: '', messages: [{}] }
     this.props.getPartnerLogs(payload);
 
   }
@@ -48,6 +50,8 @@ class Profile extends React.Component {
         <div className="col-md-3 profile-borders profile-height">
           <ProfileRoomsList requestPartners={this.requestPartners} />
           <ProfilePartnersList />
+          <ProfileCodeLog code={this.props.partnerLogs.code} />
+          <ProfileMessageLog messages={this.props.partnerLogs.messages} />
         </div>
         <div className="col-md-9 profile-borders profile-height">
           This is where the saved code and messages from each room would go
