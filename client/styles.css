@@ -1646,6 +1646,7 @@ video {
   width: 97%;
   padding-bottom: 2%;
   border-bottom: 1px dotted #B3A9A9;
+  word-wrap: break-word;
 }
 
 .chat-message-container-other {
@@ -1654,6 +1655,7 @@ video {
   width: 97%;
   padding-bottom: 2%;
   border-bottom: 1px dotted #B3A9A9;
+  word-wrap: break-word;
 }
 
 .chat-name-from-me {
