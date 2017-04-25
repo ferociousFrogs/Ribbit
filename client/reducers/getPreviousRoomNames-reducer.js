@@ -5,7 +5,7 @@ const getPreviousRoomNameReducer = (state = [], action) => {
         action.rooms.forEach((room) => {
           state.push(room.roomname);
         });
-      } else {
+      } else if (state.indexOf(action.rooms) === -1) {
         state.push(action.rooms);
       }
       return state;
