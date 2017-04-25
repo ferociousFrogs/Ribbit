@@ -5,19 +5,25 @@ import ProfileRoomsList from './ProfileRoomsList';
 
     // {props.previousRoomNames.map(roomName => <div>{roomName}</div>)}
 
-const Profile = (props) => {
-  return (
-    <div className="col-md-12 container-fluid text-intro left-side">
-      <h1 className="text-center">{props.userName}'s Profile </h1>
-      <div className="col-md-3 profile-borders profile-height">
-        <ProfileRoomsList />
+class Profile extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="col-md-12 container-fluid text-intro left-side">
+        <h1 className="text-center">{this.props.userName}'s Profile </h1>
+        <div className="col-md-3 profile-borders profile-height">
+          <ProfileRoomsList />
+        </div>
+        <div className="col-md-9 profile-borders profile-height">
+          This is where the saved code and messages from each room would go
+        </div>
       </div>
-      <div className="col-md-9 profile-borders profile-height">
-        This is where the saved code and messages from each room would go
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   previousRoomNames: state.previousRoomNames,
