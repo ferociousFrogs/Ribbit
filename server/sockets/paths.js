@@ -89,15 +89,16 @@ module.exports = (http) => {
       return utils.checkOrCreateUser(user)
       .then((userId) => {
         userResponse.userId = userId;
+        console.log('userResponse after checkOrCreateUser', userResponse);
         if (userId !== 0) {
           return utils.findAllRooms(userResponse);
         }
         return userId;
       })
       .then((rooms) => {
-        console.log('rooms after findAllRooms', rooms)
+        console.log('rooms after findAllRooms', rooms);
         userResponse.rooms = rooms;
-        return socket.emit('user created', userResponse);
+        socket.emit('user created', userResponse);
       })
       .catch(err => console.error(`Error checking or creating User ${user.userName} with error = ${err}`));
     });

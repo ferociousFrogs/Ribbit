@@ -9,26 +9,35 @@ import Room from './room/Room';
 import Login from './homepage/Login';
 import Profile from './profile/Profile';
 
-const App = (props) => {
-  socket.on('user created', (user) => {
-    if (user.userName === props.userName) {
-      props.addUserId(user.userId);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    console.log('app was called from the navbar');
+    socket.on('user created', (user) => {
       console.log('user in user created response', user);
-      props.previousRoomNames(user.rooms);
-    }
-  });
-  return (
-    <div>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/profile" component={Profile} />
-        <Route path={`/:${props.roomName}`} history={props.history} component={Room} />
-      </Switch>
-    </div>
-  );
-};
+      this.props.previousRoomNames(user.rooms);
+      // if (user.userName === this.props.userName) {
+      //   this.props.addUserId(user.userId);
+      // }
+    });
+  }
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/profile" component={Profile} />
+          <Route path={`/:${this.props.roomName}`} history={this.props.history} component={Room} />
+        </Switch>
+      </div>
+    );
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   addUserId: userId => dispatch(addUserId(userId)),
