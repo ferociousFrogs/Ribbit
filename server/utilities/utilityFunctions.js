@@ -54,9 +54,17 @@ module.exports = {
   ),
 
   sendMessageOrCode: (messageOrCode) => {
+    // if there is an mCId, it's code in progress
+    // and we only need to update the same MC row with new data
+    if (messageOrCode.mCId) {
+      return db.messagesNCode.update(messageOrCode)
+                .catch(err => console.error(err));
+    }
+    // messageOrCode = {userName, peerName, roomName, type, data, mCId}
     const user1MC = messageOrCode;
     const user2MC = messageOrCode;
     // need to switch the username property to reuse the same query
+    // for the peerName
     user2MC.userName = messageOrCode.peerName;
     return db.users.findId(user1MC)
       .then((user1Id) => {
@@ -69,12 +77,12 @@ module.exports = {
       })
       .then((roomId) => {
         messageOrCode.roomId = roomId;
-        return db.messagesNcode.findMCId(messageOrCode);
+        return db.messagesNCode.findMCId(messageOrCode);
       })
       .then((messageId) => {
         if (messageId) {
           messageOrCode.mCId = messageId;
-          return messageOrCode;
+          return messageOrCode.update(messageOrCode);
         }
         return db.messagesNCode.add(messageOrCode);
       })
