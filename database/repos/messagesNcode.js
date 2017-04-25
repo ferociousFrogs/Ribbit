@@ -23,6 +23,11 @@ module.exports = (repo, pgp) => {
     findMCId: usersAndRoomIds =>
       repo.oneOrNone(sql.findMCId, usersAndRoomIds, mC => mC ? mC.id : false),
 
+    // Updates the code data
+    // returns the messagesNCode.id
+    update: data =>
+      repo.any(sql.update, data, mCId => mCId.id),
+
     // drop the table
     drop: () =>
       repo.any(sql.drop)
