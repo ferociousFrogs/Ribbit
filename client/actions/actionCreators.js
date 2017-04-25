@@ -68,3 +68,9 @@ export const getPartners = partners => ({
   type: 'GET_PARTNERS',
   partners
 });
+
+export const getPartnerLogs = partnerLogs => ({
+  type: 'GET_PARTNER_LOGS',
+  partnerLogs
+});
+
