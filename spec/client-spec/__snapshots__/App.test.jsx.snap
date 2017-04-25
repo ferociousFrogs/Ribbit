@@ -66,48 +66,7 @@ exports[`App component snapshot test 1`] = `
                   <div
                     className="dropdown-content hide"
                     id="myDropdown"
-                  >
-                    <div
-                      className="dropdown-item"
-                    >
-                      <a
-                        href="/:The%20Grill"
-                        onClick={[Function]}
-                      >
-                        The Grill
-                      </a>
-                    </div>
-                    <div
-                      className="dropdown-item"
-                    >
-                      <a
-                        href="/:Taj%20Mahal"
-                        onClick={[Function]}
-                      >
-                        Taj Mahal
-                      </a>
-                    </div>
-                    <div
-                      className="dropdown-item"
-                    >
-                      <a
-                        href="/:The%20High%20Castle"
-                        onClick={[Function]}
-                      >
-                        The High Castle
-                      </a>
-                    </div>
-                    <div
-                      className="dropdown-item"
-                    >
-                      <a
-                        href="/:Your%20Mother's%20Bedroom"
-                        onClick={[Function]}
-                      >
-                        Your Mother's Bedroom
-                      </a>
-                    </div>
-                  </div>
+                  />
                 </a>
               </li>
               <li>
