@@ -38,6 +38,7 @@ module.exports = {
     create: sql('messagesNCode/create.sql'),
     add: sql('messagesNCode/add.sql'),
     all: sql('messagesNCode/all.sql'),
+    findMCId: sql('messagesNCode/findMCId.sql'),
     drop: sql('messagesNCode/dropTable.sql')
   },
   rooms_users: {
