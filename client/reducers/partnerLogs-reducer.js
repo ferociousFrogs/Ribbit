@@ -1,4 +1,4 @@
-const dummyPartnerLogsData = { code: 'const areWeGreen = () => "super green"', messages: [{ userName: 'Father Vito Cornelius', text: 'hello there!' }, { userName: 'Father Vito Cornelius', text: 'oh hai!' }, { userName: 'Father Vito Cornelius', text: 'so nervous!' }] };
+const dummyPartnerLogsData = { code: 'const areWeGreen = () => "super green"', messages: [{ userName: 'Father Vito Cornelius', text: 'hello there!', timestamp: '8:00' }, { userName: 'Father Vito Cornelius', text: 'oh hai!', timestamp: '8:00' }, { userName: 'Father Vito Cornelius', text: 'so nervous!', timestamp: '8:00' }] };
 const partnerLogsReducer = (state = dummyPartnerLogsData, action) => {
   switch (action.type) {
     case 'GET_PARTNER_LOGS':

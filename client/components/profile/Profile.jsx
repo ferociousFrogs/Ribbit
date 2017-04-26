@@ -5,23 +5,25 @@ import ProfileRoomsList from './ProfileRoomsList';
 import ProfilePartnersList from './ProfilePartnersList';
 import ProfileCodeLog from './ProfileCodeLog';
 import ProfileMessageLog from './ProfileMessageLog';
+import socket from '../../clientUtilities/sockets';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.populatePartners = this.populatePartners.bind(this);
     this.requestPartners = this.requestPartners.bind(this);
+    this.populatePartnerLogs = this.populatePartnerLogs.bind(this);
+    this.requestPartnerLogs = this.requestPartnerLogs.bind(this);
   }
 
   componentDidMount() {
-    // listen for 'got partners'
-      // call populatePartners with payload
-    //listen for 'got partnerLogs'
-      // call populatePartnerLogs with payload
+    socket.on('got partners', this.populatePartners);
+    socket.on('got partnerLogs', this.populatePartnerLogs);
   }
 
   requestPartners() {
       // emit event 'get partners'
+    socket.emit('get partners');
       // on event down in server, listen, trigger function, emit event 'got partners'
   }
 
@@ -33,12 +35,14 @@ class Profile extends React.Component {
 
   requestPartnerLogs() {
     // emit an event 'get partnerLogs'
+    socket.emit('get partnerLogs');
     // on event down in server, listen, trigger function for database call, emit event 'got partnerLogs'
   }
 
   populatePartnerLogs(payload) {
     // dispatch action to populate state partnerLogs
     // action/reducer will be expecting object { code: '', messages: [{}] }
+    // need to sort the messages based on timestamp before sending them out.
     this.props.getPartnerLogs(payload);
 
   }
