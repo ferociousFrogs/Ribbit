@@ -5,7 +5,6 @@ import socket from '../../clientUtilities/sockets';
 
 let localStream;
 let remoteStream;
-let turnReady;
 let pc;
 
 const configuration = {
@@ -42,7 +41,7 @@ class Video extends React.Component {
     this.connectSockets = this.connectSockets.bind(this);
     this.gotStream = this.gotStream.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
-    this.maybeStart = this.maybeStart.bind(this);
+    this.getUserMedia = this.getUserMedia.bind(this);
     this.start = this.start.bind(this);
     this.doCall = this.doCall.bind(this);
     this.doAnswer = this.doAnswer.bind(this);
@@ -53,10 +52,8 @@ class Video extends React.Component {
     this.onSetSessionDescriptionError = this.onSetSessionDescriptionError.bind(this);
     this.handleRemoteStreamAdded = this.handleRemoteStreamAdded.bind(this);
     this.handleRemoteStreamRemoved = this.handleRemoteStreamRemoved.bind(this);
-    this.hangup = this.hangup.bind(this);
     this.handleRemoteHangup = this.handleRemoteHangup.bind(this);
     this.stop = this.stop.bind(this);
-    this.requestTurn = this.requestTurn.bind(this);
     this.toggleVideo = this.toggleVideo.bind(this);
     this.toggleAudio = this.toggleAudio.bind(this);
     this.handleCopy = this.handleCopy.bind(this);
@@ -64,21 +61,16 @@ class Video extends React.Component {
   }
 
   componentDidMount() {
-    let localVideo = document.getElementById('localVideo');
-    let remoteVideo = document.getElementById('remoteVideo');
-    if (location.hostname !== 'localhost') {
-      this.requestTurn(
-        'http://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor'
-      );
-    }
+    const localVideo = document.getElementById('localVideo');
+    const remoteVideo = document.getElementById('remoteVideo');
     this.handleCopy();
-    this.start();
+    this.getUserMedia();
     this.createRoom();
     this.connectSockets();
   }
 
   createRoom() {
-    let room = this.props.roomName;
+    const room = this.props.roomName;
 
     if (room !== '') {
       socket.emit('create or join', room);
@@ -124,7 +116,7 @@ class Video extends React.Component {
     socket.emit('video message', message);
   }
 
-  start() {
+  getUserMedia() {
     navigator.mediaDevices.getUserMedia(this.state.constraints)
       .then(this.gotStream)
       .catch((error) => {
@@ -136,10 +128,10 @@ class Video extends React.Component {
     socket.on('video message', (message) => {
       console.log(`Client received message: ${message}`);
       if (message === 'got user media') {
-        this.maybeStart();
+        this.start();
       } else if (message.type === 'offer') {
         if (!this.state.isInitiator && !this.state.isStarted) {
-          this.maybeStart();
+          this.start();
         }
         pc.setRemoteDescription(new RTCSessionDescription(message));
         this.doAnswer();
@@ -157,62 +149,51 @@ class Video extends React.Component {
     });
   }
 
-  // Initiates video from the local camera by creating an object blob URL (https://www.html5rocks.com/en/tutorials/workers/basics/#toc-inlineworkers-bloburis) from camera data stream and setting that URL as the source for the element
+  // Initiates video from the local camera by creating an object blob URL
   gotStream(stream) {
-    console.log('This adds a local stream');
     localVideo.srcObject = stream;
     localStream = stream;
-    console.log('This is the local stream', localStream);
     this.sendMessage('got user media');
-    console.log('We want this to be true for peer', this.state.isInitiator);
-    // This should be set to true until the caller session is terminated
     if (this.state.isInitiator) {
-      this.maybeStart();
+      this.start();
     }
   }
 
-  // This is invoked in multiple places but only runs based on a detailed set of conditionals
-  // If no connection, local stream is available, and channel is ready for signaling
-  // A connection is created and passed the local video stream.
-  // Started state is set to true to avoid a connection starting multiple times
-  maybeStart() {
-    console.log('>>>>>>> maybeStart() ', this.state.isStarted, localStream, this.state.isChannelReady);
+  // Initiates a connection based on state of connection and channel
+  start() {
     if (!this.state.isStarted && typeof localStream !== 'undefined' && this.state.isChannelReady) {
-      console.log('>>>>>> creating peer connection');
+      console.log('Ready to create peer connection');
       this.createPeerConnection();
       pc.addStream(localStream);
       this.setState({
         isStarted: true
       });
-      console.log('This is the second time so isInitiator should still be true', this.state.isInitiator);
       if (this.state.isInitiator) {
         this.doCall();
       }
     }
   }
 
-  // Create a connection using a STUN server
-  // Set log handlers for peer connection events
-  // Except remote stream handler which sets the source for the remoteVideo element
+  // Create a new peer connection using STUN server as configuration
   createPeerConnection() {
     try {
-      pc = new RTCPeerConnection(null);
+      pc = new RTCPeerConnection(configuration);
       pc.onicecandidate = this.handleIceCandidate;
       pc.onaddstream = this.handleRemoteStreamAdded;
       pc.onremovestream = this.handleRemoteStreamRemoved;
-      console.log('Created RTCPeerConnnection');
+      console.log('Peer connection established');
     } catch (event) {
-      console.log(`Failed to create PeerConnection, exception: ${event.message}`);
+      console.log(`Failed to create peer connection, exception: ${event.message}`);
     }
   }
 
-  // Once connection is created, since the initiator state should still be true, a call we begin
-  // An offer is sent from the local stream to the callee
+  // Once connection is created, initiate call by sending offer to remote peer
   doCall() {
     console.log('Sending offer to peer');
     pc.createOffer(this.setLocalAndSendMessage, this.handleCreateOfferError);
   }
 
+  // Remote peer responds with an answer to local peer
   doAnswer() {
     console.log('Sending answer to peer.');
     pc.createAnswer().then(
@@ -221,7 +202,7 @@ class Video extends React.Component {
     );
   }
 
-  // Message sent to remote peer giving a serialised Session Description for the offer
+  // Message sent to remote peer giving a serialised session description for the offer
   setLocalAndSendMessage(sessionDescription) {
     console.log('This is the session description', sessionDescription);
     pc.setLocalDescription(sessionDescription);
@@ -238,7 +219,6 @@ class Video extends React.Component {
   }
 
 
-  /////////////////////////////
   // Request handlers for RTCPeerConnection events
   handleIceCandidate(event) {
     console.log(`ICEcandidate event: ${event}`);
@@ -260,20 +240,16 @@ class Video extends React.Component {
     this.setState({
       hasRemote: true
     });
-    console.log('Remote stream added');
+    console.log('Remote stream added!');
   }
 
   handleRemoteStreamRemoved(event) {
     this.setState({
       hasRemote: false
     });
-    console.log(`Remote stream removed. Event: ${event}`);
-  }
-
-  hangup() {
-    console.log('Hanging up.');
-    this.stop();
-    this.sendMessage('bye');
+    console.log(remoteStream);
+    remoteStream.getVideoTracks()[0].stop();
+    console.log(`Remote stream removed! Event: ${event}`);
   }
 
   handleRemoteHangup() {
@@ -292,6 +268,7 @@ class Video extends React.Component {
     pc = null;
   }
 
+  // Toggle video and audio buttons
   toggleVideo() {
     if(localStream.getVideoTracks()[0].enabled) {
       localStream.getVideoTracks()[0].enabled = false;
@@ -312,36 +289,8 @@ class Video extends React.Component {
     }
   }
 
-  requestTurn() {
-    const turnURL = 'https://numb.viagenie.ca?username=andy.yeo@gmail.com&key=hackreactor';
-    let turnExists = false;
-    for (let i in configuration.iceServers) {
-      if (configuration.iceServers[i].urls.substr(0, 5) === 'turn:') {
-        turnExists = true;
-        turnReady = true;
-        break;
-      }
-    }
-    if (!turnExists) {
-      console.log('Getting TURN server from ', turnURL);
-      const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          var turnServer = JSON.parse(xhr.responseText);
-          console.log('Got TURN server: ', turnServer);
-          configuration.iceServers.push({
-            'url': 'turn:' + turnServer.username + '@' + turnServer.turn,
-            'credential': turnServer.password
-          });
-          turnReady = true;
-        }
-      };
-      xhr.open('GET', turnURL, true);
-      xhr.send();
-    }
-  }
-
-  copyTextToClipboard(text) {
+  // Copy room URL to clipboard
+  copyUrl(text) {
     const textArea = document.createElement('textarea');
     textArea.value = text;
     document.body.appendChild(textArea);
@@ -350,7 +299,7 @@ class Video extends React.Component {
     try {
       const successful = document.execCommand('copy');
       const msg = successful ? 'successful' : 'unsuccessful';
-      console.log(`Copying text command was ${msg}`);
+      console.log(`Successfully copied text ${msg}`);
     } catch (err) {
       console.log('Oops, unable to copy');
     }
@@ -358,11 +307,12 @@ class Video extends React.Component {
   }
 
   handleCopy() {
-    document.querySelector('.js-textareacopybtn').addEventListener('click', (event) => {
-      this.copyTextToClipboard(window.location.href);
+    document.querySelector('.js-textareacopybtn').addEventListener('click', () => {
+      this.copyUrl(window.location.href);
     });
   }
 
+  // Send room URL via Facebook Messenger
   sendToMessenger() {
     FB.ui({
       method: 'send',
@@ -370,13 +320,12 @@ class Video extends React.Component {
     });
   }
 
-
   render() {
     let sharing = null;
     if (!this.state.hasRemote) {
       sharing = <div className="shareLink">
         <div className="center">
-          <p><strong>Share the link with a friend <br/> and invite them to chat!</strong></p>
+          <p><strong>Share the link with a friend <br /> and invite them to chat!</strong></p>
           <button className="js-textareacopybtn btn btn-room">Copy Link</button><br />
           <button className="btn btn-room" onClick={this.sendToMessenger}>Invite via Messenger</button>
         </div>
@@ -386,8 +335,20 @@ class Video extends React.Component {
     return (
       <div className="row right-side">
         <div>
-          <input id="video" className="videoToggle" type="image" src="../img/video-on.png" onClick={this.toggleVideo} />
-          <input id="audio" className="audioToggle" type="image" src="../img/audio-on.png" onClick={this.toggleAudio} />
+          <input
+            id="video"
+            className="videoToggle"
+            type="image"
+            src="../img/video-on.png"
+            onClick={this.toggleVideo}
+          />
+          <input
+            id="audio"
+            className="audioToggle"
+            type="image"
+            src="../img/audio-on.png"
+            onClick={this.toggleAudio}
+          />
         </div>
         {sharing}
         <video id="localVideo" autoPlay muted="muted" />
