@@ -47,14 +47,19 @@ class Profile extends React.Component {
     return (
       <div className="col-md-12 container-fluid text-intro left-side">
         <h1 className="text-center">{this.props.userName}'s Profile </h1>
-        <div className="col-md-3 profile-borders profile-height">
-          <ProfileRoomsList requestPartners={this.requestPartners} />
-          <ProfilePartnersList />
-          <ProfileCodeLog code={this.props.partnerLogs.code} />
-          <ProfileMessageLog messages={this.props.partnerLogs.messages} />
+        <div className="col-md-2 ">
+          <div className="profile-background">
+            <ProfileRoomsList requestPartners={this.requestPartners} />
+          </div>
+          <div className="profile-background profile-margin" >
+            <ProfilePartnersList />
+          </div>
         </div>
-        <div className="col-md-9 profile-borders profile-height">
-          This is where the saved code and messages from each room would go
+        <div className="col-md-offset-1 col-md-4 profile-background">
+          <ProfileCodeLog code={this.props.partnerLogs.code} />
+        </div>
+        <div className="col-md-offset-1 col-md-4 profile-background">
+          <ProfileMessageLog messages={this.props.partnerLogs.messages} />
         </div>
       </div>
     );

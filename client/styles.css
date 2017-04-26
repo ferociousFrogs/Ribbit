@@ -25,6 +25,13 @@ PROFILE
 .profile-height {
   height: 600px;
 }
+.profile-background {
+  background-color: lightblue;
+}
+
+.profile-margin {
+  margin-top: 1em;
+}
 
 .profile-borders {
   border-style: solid;
