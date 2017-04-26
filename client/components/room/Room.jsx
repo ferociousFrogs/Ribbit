@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 import generateSillyName from 'sillyname';
 import socket from '../../clientUtilities/sockets';
-import { addUserName, addPeerName, previousRoomNames } from './../../actions/actionCreators';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
