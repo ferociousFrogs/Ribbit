@@ -34,6 +34,11 @@ module.exports = {
       .catch(err => console.error(err))
   ),
 
+  findAllMessages: userAndRoomNames => (
+    db.complex.findAllRooms(userAndRoomNames)
+      .catch(err => console.error(err))
+  ),
+
   checkOrCreateRoom: room => (
     // room = {roomName, userName}
     db.rooms.findId(room)

@@ -38,6 +38,10 @@ module.exports = (repo, pgp) => ({
     repo.any(complex.findAllRooms, user)
   ),
 
+  findAllMessages: user => (
+    repo.any(complex.findAllMessages, user)
+  ),
+
   addDummyData: () => (
       repo.tx((t) => {
         const roomQueries = dummyData.rooms.map((room, index) =>
