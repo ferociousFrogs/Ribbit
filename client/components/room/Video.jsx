@@ -58,15 +58,21 @@ class Video extends React.Component {
     this.toggleAudio = this.toggleAudio.bind(this);
     this.handleCopy = this.handleCopy.bind(this);
     this.sendToMessenger = this.sendToMessenger.bind(this);
+    this.onUnload = this.onUnload.bind(this);
   }
 
   componentDidMount() {
     const localVideo = document.getElementById('localVideo');
     const remoteVideo = document.getElementById('remoteVideo');
+    window.addEventListener('beforeunload', this.onUnload);
     this.handleCopy();
     this.getUserMedia();
     this.createRoom();
     this.connectSockets();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.onUnload);
   }
 
   createRoom() {
@@ -318,6 +324,11 @@ class Video extends React.Component {
       method: 'send',
       link: window.location.href
     });
+  }
+
+  // Stops the local video stream on exit or refresh
+  onUnload() {
+    localStream.getVideoTracks()[0].stop();
   }
 
   render() {
