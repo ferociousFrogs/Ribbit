@@ -8,26 +8,26 @@ module.exports = (http) => {
     const namedRooms = utils.namedRooms(io);
     socket.on('join room', (room) => {
     socket.emit('hello', 'emitted hello');
-      const numClients = utils.countClients(namedRooms, room.roomName);
+      const numClients = utils.countClients(namedRooms, room);
       // room = {roomName, userId}
       // max two clients
       if (numClients === 2) {
-        socket.emit('full', room.roomName);
+        socket.emit('full', room);
         return;
       }
-      console.log(`Room ${room.roomName} now has ${numClients + 1} client(s)`);
+      console.log(`Room ${room} now has ${numClients + 1} client(s)`);
       if (numClients === 0) {
-        socket.join(room.roomName);
-        console.log(`Client ID ${socket.id} created room ${room.roomName}`);
-        socket.emit('Created', room.roomName, socket.id);
+        socket.join(room);
+        console.log(`Client ID ${socket.id} created room ${room}`);
+        socket.emit('Created', room, socket.id);
       } else {
-        console.log(`Client ID ${socket.id} joined room ${room.roomName}`);
-        io.sockets.in(room.roomName).emit('Join', room.roomName);
-        socket.join(room.roomName);
-        socket.emit('Joined', room.roomName, socket.id);
-        io.sockets.in(room.roomName).emit('Ready');
+        console.log(`Client ID ${socket.id} joined room ${room}`);
+        io.sockets.in(room).emit('Join', room);
+        socket.join(room);
+        socket.emit('Joined', room, socket.id);
+        io.sockets.in(room).emit('Ready');
       }
-      if (room.userName.length > 0) {
+      if (room.userName && room.userName.length > 0) {
         console.log('username = ', room.userName);
         socket.broadcast.emit('peer name', room.userName);
       }

@@ -5,7 +5,7 @@ import socket from '../../clientUtilities/sockets';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
-import { addUserName, createRoomName, addPeerName } from './../../actions/actionCreators';
+import { addUserName, createRoomName, addPeerName, previousRoomNames } from './../../actions/actionCreators';
 import RoomDropdown from './RoomDropdown';
 
 
@@ -23,12 +23,6 @@ class Room extends React.Component {
     const browserRoomNamed = this.props.match.params.roomName.slice(1);
     socket.emit('join room', this.props.roomName || browserRoomNamed);
     socket.on('peer name', this.props.addPeerName);
-    const roomInfo = {
-      roomName: this.props.roomName,
-      userName: this.props.userName,
-      userId: this.props.userId
-    };
-    socket.emit('join room', roomInfo);
     socket.on('full', (room) => {
       console.log(`${room} is full`);
       this.setState({ redirect: true });
