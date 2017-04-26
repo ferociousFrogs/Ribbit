@@ -18,6 +18,14 @@ const port = process.env.PORT || 3000;
 
 // comment in addDummyData when you do (it will also drop and create the table before adding data)
 utils.addDummyDataToDB();
+  // .then(() => {
+  //   const roomUser = {
+  //     roomName: 'Airport',
+  //     userName: 'Leeloo'
+  //   };
+  //   return utils.findAllRooms(roomUser);
+  // })
+  // .then(messages => console.log('messages', messages));
 
 
 // Middleware
