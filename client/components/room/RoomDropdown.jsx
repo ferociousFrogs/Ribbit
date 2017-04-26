@@ -8,7 +8,7 @@ const RoomDropdown = props => (
   <a className="dropdown" onClick={props.toggleDropdown}>
     <p>My Rooms <span className={props.dropdownDisplay ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'} /></p>
     <div id="myDropdown" className={props.dropdownDisplay ? 'dropdown-content' : 'dropdown-content hide'}>
-      {props.previousRoomNames.map((room, i) => <RoomDropdownItem room={room} key={i} />)}
+      {props.previousRoomNames.map((room, i) => <RoomDropdownItem room={room.roomName} key={room.roomName} />)}
     </div>
   </a>
 );

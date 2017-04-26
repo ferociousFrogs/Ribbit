@@ -129,5 +129,38 @@ module.exports = {
       type: 'message',
       data: 'Yes, she knows it\'s a multipass. Anyway, we\'re in love.'
     }
+  ],
+  rooms_users: [
+    {
+      roomId: 3,
+      userId: 2
+    }, {
+      roomId: 3,
+      userId: 1
+    }, {
+      roomId: 1,
+      userId: 5
+    }, {
+      roomId: 1,
+      userId: 2
+    }, {
+      roomId: 3,
+      userId: 1
+    }, {
+      roomId: 3,
+      userId: 4
+    }, {
+      roomId: 5,
+      userId: 3
+    }, {
+      roomId: 5,
+      userId: 1
+    }, {
+      roomId: 4,
+      userId: 4
+    }, {
+      roomId: 4,
+      userId: 2
+    }
   ]
 };
