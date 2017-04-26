@@ -32,7 +32,7 @@ class App extends React.Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/profile" component={Profile} />
-          <Route path={`/:${this.props.roomName}`} history={this.props.history} component={Room} />
+          <Route path={`/:roomName`} history={props.history} component={Room} />
         </Switch>
       </div>
     );

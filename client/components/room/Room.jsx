@@ -6,15 +6,23 @@ import { addUserName, addPeerName, previousRoomNames } from './../../actions/act
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
+import { addUserName, createRoomName, addPeerName } from './../../actions/actionCreators';
+import RoomDropdown from './RoomDropdown';
 
 
 class Room extends React.Component {
   constructor(props) {
     super(props);
     this.createSillyName = this.createSillyName.bind(this);
+    if (!this.props.roomName) {
+      const browserRoomName = this.props.match.params.roomName.slice(1);
+      this.props.createRoomName(browserRoomName);
+    }
   }
 
   componentDidMount() {
+    const browserRoomNamed = this.props.match.params.roomName.slice(1);
+    socket.emit('join room', this.props.roomName || browserRoomNamed);
     socket.on('peer name', this.props.addPeerName);
     const roomInfo = {
       roomName: this.props.roomName,
@@ -26,6 +34,7 @@ class Room extends React.Component {
       console.log(`${room} is full`);
       this.setState({ redirect: true });
     });
+
     !this.props.userName ? this.createSillyName() : null;
     this.props.previousRoomNames(this.props.roomName);
   }
@@ -64,7 +73,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addUserName: name => dispatch(addUserName(name)),
   addPeerName: peerName => dispatch(addPeerName(peerName)),
-  previousRoomNames: peerName => dispatch(previousRoomNames(peerName))
+  previousRoomNames: peerName => dispatch(previousRoomNames(peerName)),
+  createRoomName: room => dispatch(createRoomName(room))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

@@ -63,7 +63,25 @@ app.get('/fbcheck',
   }));
 
 app.get('*', (req, res) => {
-  res.status(302).redirect('/');
+  const options = {
+    root: './client/',
+    dotfiles: 'deny',
+    headers: {
+      'x-timestamp': Date.now(),
+      'x-sent': true
+    }
+  };
+
+  const fileName = req.params.name;
+  console.log(fileName);
+  res.sendFile('index.html', options, (err) => {
+    if (err) {
+      console.error(err);
+      // res.status(404).send('404, page not found');
+    } else {
+      console.log('Sent:', fileName);
+    }
+  });
 });
 
 // sockets
