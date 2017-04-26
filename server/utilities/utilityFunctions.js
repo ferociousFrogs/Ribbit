@@ -35,7 +35,7 @@ module.exports = {
   ),
 
   findAllMessages: userAndRoomNames => (
-    db.complex.findAllRooms(userAndRoomNames)
+    db.complex.findAllMessages(userAndRoomNames)
       .catch(err => console.error(err))
   ),
 

@@ -38,9 +38,15 @@ module.exports = (repo, pgp) => ({
     repo.any(complex.findAllRooms, user)
   ),
 
-  findAllMessages: user => (
-    repo.any(complex.findAllMessages, user)
-  ),
+  findAllMessages: (userRoom) => {
+    console.log('userRoom in complex repo', userRoom);
+    return repo.any(complex.findAllMessages, userRoom)
+                .then((results) => {
+                  console.log('results', results);
+                  return results;
+                })
+                .catch(err => console.log(err));
+  },
 
   addDummyData: () => (
       repo.tx((t) => {

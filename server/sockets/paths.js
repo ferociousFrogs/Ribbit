@@ -95,9 +95,12 @@ module.exports = (http) => {
         return userId;
       })
       .then((rooms) => {
-        userResponse.rooms = rooms;
+        console.log('rooms[0]', rooms[0]);
+        userResponse.roomname = rooms[0].roomname;
         socket.emit('user created', userResponse);
+        return utils.findAllMessages(userResponse);
       })
+      .then(messages => console.log('messages', messages))
       .catch(err => console.error(`Error checking or creating User ${user.userName} with error = ${err}`));
     });
 
