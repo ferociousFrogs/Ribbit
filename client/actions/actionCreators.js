@@ -63,3 +63,8 @@ export const addPeerName = peerName => ({
   type: 'ADD_PEER_NAME',
   peerName
 });
+
+export const previousRoomNameString = room => ({
+  type: 'GET_PREVIOUS_ROOM_STRING',
+  room
+});
