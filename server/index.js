@@ -12,7 +12,10 @@ const utils = require('./utilities/utilityFunctions');
 // const url = require('url');
 
 const port = process.env.PORT || 3000;
-utils.dropNCreateDBTables();
+
+// utils.dropNCreateDBTables():
+utils.addDummyDataToDB();
+
 
 // Middleware
 app.use(bodyParser.json());
