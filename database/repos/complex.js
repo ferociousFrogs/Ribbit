@@ -71,6 +71,14 @@ module.exports = (repo, pgp) => ({
         return t.batch(messagesQueries);
       });
     })
-    .then(() => console.log('Messages added!'))
+    .then(() => {
+      console.log('Messages added!');
+      repo.tx((t) => {
+        const roomsUsersQueries = dummyData.rooms_users.map((message, index) =>
+          t.any(tables.rooms_users.add, dummyData.rooms_users[index]));
+        return t.batch(roomsUsersQueries);
+      });
+    })
+    .then(() => console.log('rooms_users added!'))
     .catch(err => console.error('Error creating tables (repos/complex.js) ', err))
 });
