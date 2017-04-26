@@ -13,7 +13,10 @@ const utils = require('./utilities/utilityFunctions');
 
 const port = process.env.PORT || 3000;
 
+// comment in dropNCreate when you don't want dummy data
 // utils.dropNCreateDBTables():
+
+// comment in addDummyData when you do (it will also drop and create the table before adding data)
 utils.addDummyDataToDB();
 
 
