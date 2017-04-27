@@ -92,7 +92,6 @@ module.exports = (http) => {
     socket.on('userName submitted', (user) => {
       // user = {userName, email, fbToken}
       const userResponse = user;
-      console.log('user before checkOrCreateUser', user);
       return utils.checkOrCreateUser(user)
       .then((userId) => {
         userResponse.userId = userId;
@@ -112,10 +111,10 @@ module.exports = (http) => {
     });
 
     socket.on('grab room data', userAndRoom => (
-      utils.complex.findAllMessages(userAndRoom)
+      utils.findAllMessages(userAndRoom)
                   .then((messagesAndCode) => {
-                    userAndRoom.messagesAndCode = messagesAndCode;
-                    socket.emit('room data sent', userAndRoom);
+                    // userAndRoom.messagesAndCode = messagesAndCode;
+                    socket.emit('room data sent', messagesAndCode);
                   })
                   .catch(err => console.error(err))
     ));

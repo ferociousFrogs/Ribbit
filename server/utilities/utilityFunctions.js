@@ -69,7 +69,6 @@ module.exports = {
   ),
 
   sendMessageOrCode: (messageOrCode) => {
-    console.log('messageOrCode in sendMessageOrCode', messageOrCode);
     // if there is an mCId, it's code in progress
     // and we only need to update the same MC row with new data
     if (messageOrCode.mCId) {
@@ -84,12 +83,10 @@ module.exports = {
     user2MC.userName = messageOrCode.peerName;
     return db.users.findId(user1MC)
       .then((user1Id) => {
-        console.log('user1Id', user1Id);
         messageOrCode.senderId = user1Id;
         return db.users.findId(user2MC);
       })
       .then((user2Id) => {
-        console.log('user2Id', user2Id);
         messageOrCode.receiverId = user2Id;
         return db.rooms.findId(messageOrCode);
       })
