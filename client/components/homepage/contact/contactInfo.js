@@ -5,8 +5,8 @@ const ourInfo = [
     linkedinLink: 'linkedin.com/in/andycpyeo'
   }, {
     name: 'David Brodie',
-    githubLink: 'coming soon!',
-    linkedinLink: 'coming soon!'
+    githubLink: 'github.com/dbrodie122',
+    linkedinLink: 'linkedin.com/in/david-brodie'
   }, {
     name: 'Dylan Shelters',
     githubLink: 'github.com/dshelters',
