@@ -39,10 +39,8 @@ module.exports = (repo, pgp) => ({
   ),
 
   findAllMessages: (userRoom) => {
-    console.log('userRoom in complex repo', userRoom);
     return repo.any(complex.findAllMessages, userRoom)
                 .then((results) => {
-                  console.log('results', results);
                   return results;
                 })
                 .catch(err => console.log(err));

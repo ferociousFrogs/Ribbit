@@ -46,7 +46,7 @@ module.exports = {
         if (roomId) {
           return roomId;
         }
-        return db.rooms.add((room));
+        return db.rooms.add(room);
       })
       .then((roomId) => {
         room.roomId = roomId;
@@ -57,6 +57,12 @@ module.exports = {
       })
       .then((userId) => {
         room.userId = userId;
+        return db.rooms_users.findRoomsUsersId(room);
+      })
+      .then((roomsUsersId) => {
+        if (roomsUsersId) {
+          return roomsUsersId;
+        }
         return db.rooms_users.add(room);
       })
       .catch(err => console.error(`Error checking or creating Room ${room.roomName} with error = ${err}`))
@@ -70,15 +76,15 @@ module.exports = {
                 .catch(err => console.error(err));
     }
     // messageOrCode = {userName, peerName, roomName, type, data, mCId}
-    const user1MC = messageOrCode;
-    const user2MC = messageOrCode;
+    const user1MC = Object.create(messageOrCode);
+    const user2MC = Object.create(messageOrCode);
     // need to switch the username property to reuse the same query
     // for the peerName
     user2MC.userName = messageOrCode.peerName;
     return db.users.findId(user1MC)
       .then((user1Id) => {
         messageOrCode.senderId = user1Id;
-        return db.rooms.findId(messageOrCode);
+        return db.users.findId(user2MC);
       })
       .then((user2Id) => {
         messageOrCode.receiverId = user2Id;

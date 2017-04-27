@@ -6,8 +6,10 @@ module.exports = (http) => {
 
   io.on('connection', (socket) => {
     const namedRooms = utils.namedRooms(io);
-    socket.on('join room', (room) => {
-    socket.emit('hello', 'emitted hello');
+    socket.on('join room', (roomAndUserNames) => {
+      const room = roomAndUserNames.roomName;
+
+      socket.emit('hello', 'emitted hello');
       const numClients = utils.countClients(namedRooms, room);
       // room = {roomName, userId}
       // max two clients
@@ -27,12 +29,16 @@ module.exports = (http) => {
         socket.emit('Joined', room, socket.id);
         io.sockets.in(room).emit('Ready');
       }
-      if (room.userName && room.userName.length > 0) {
-        console.log('username = ', room.userName);
-        socket.broadcast.emit('peer name', room.userName);
+      if (roomAndUserNames.userName && roomAndUserNames.userName.length > 0) {
+        console.log('username = ', roomAndUserNames.userName);
       }
-      utils.checkOrCreateRoom(room);
+      socket.broadcast.emit('peer name', roomAndUserNames.userName);
+      utils.checkOrCreateRoom(roomAndUserNames);
     });
+
+    socket.on('recipricating peerName', peerName => (
+      socket.broadcast.emit('peer name', peerName)
+    ));
 
     socket.on('any room left', (room) => {
       const numClients = utils.countClients(namedRooms, room);
@@ -105,10 +111,10 @@ module.exports = (http) => {
     });
 
     socket.on('grab room data', userAndRoom => (
-      utils.complex.findAllMessages(userAndRoom)
+      utils.findAllMessages(userAndRoom)
                   .then((messagesAndCode) => {
-                    userAndRoom.messagesAndCode = messagesAndCode;
-                    socket.emit('room data sent', userAndRoom);
+                    // userAndRoom.messagesAndCode = messagesAndCode;
+                    socket.emit('room data sent', messagesAndCode);
                   })
                   .catch(err => console.error(err))
     ));

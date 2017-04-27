@@ -44,15 +44,20 @@ class Profile extends React.Component {
       const data = { type: chunk.type, data: chunk.data, id: chunk.mcid, user1name: chunk.user1name, user2name: chunk.user2name };
       peerData[chunk.user2name] = (peerData[chunk.user2name] || []).concat(data);
     });
-    this.props.addPeerData(peerData);
+    this.props.addPeerRoomData(peerData);
   }
 
   separateData(peer) {
     // get the code/messages for just one peer
+    console.log('peer in profile,', peer);
     const peerDataArray = this.props.peerData[peer];
-    
+    console.log('peerDataArray in profile,', peerDataArray);
+    let codeFlag = false;
     // separate messages from code
     const messages = peerDataArray.filter((data) => {
+      if (data.type === 'code') {
+        codeFlag = true;
+      }
       if (data.type === 'message') {
         return data;
       }
@@ -60,13 +65,15 @@ class Profile extends React.Component {
     this.props.addPeerMessages(messages);
 
     // separate code from messages
-    const code = peerDataArray.filter((data) => {
-      if (data.type === 'code') {
-        return data;
-      }
-    })[0].data;
-    this.props.addPeerCode(code);
-
+    if (codeFlag) {
+      const code = peerDataArray.filter((data) => {
+        console.log('data in separateData', data);
+        if (data.type === 'code') {
+          return data;
+        }
+      })[0].data;
+      this.props.addPeerCode(code);
+    }
   }
 
   render() {

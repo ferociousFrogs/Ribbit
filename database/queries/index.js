@@ -46,7 +46,8 @@ module.exports = {
     create: sql('rooms_users/create.sql'),
     add: sql('rooms_users/add.sql'),
     all: sql('rooms_users/all.sql'),
-    drop: sql('rooms_users/dropTable.sql')
+    drop: sql('rooms_users/dropTable.sql'),
+    findRoomsUsersId: sql('rooms_users/findRoomsUsersId.sql')
   },
   messages_users: {
     create: sql('messages_users/create.sql'),

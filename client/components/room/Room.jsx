@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import generateSillyName from 'sillyname';
 import socket from '../../clientUtilities/sockets';
-import { addUserName, createRoomName, 
+import { addUserName, createRoomName,
         addPeerName, previousRoomNames,
         previousRoomNameString, inRoom  } from './../../actions/actionCreators';
 import Video from './Video';
@@ -23,8 +23,17 @@ class Room extends React.Component {
 
   componentDidMount() {
     const browserRoomNamed = this.props.match.params.roomName.slice(1);
-    socket.emit('join room', this.props.roomName || browserRoomNamed);
-    socket.on('peer name', this.props.addPeerName);
+    const roomAndUserNames = {
+      roomName: this.props.roomName || browserRoomNamed,
+      userName: this.props.userName
+    };
+    socket.emit('join room', roomAndUserNames);
+    socket.on('peer name', (peerName) => {
+      if (this.props.peerName !== peerName) {
+        this.props.addPeerName(peerName);
+        socket.emit('recipricating peerName', this.props.userName);
+      }
+    });
     socket.on('full', (room) => {
       console.log(`${room} is full`);
       this.setState({ redirect: true });
@@ -65,7 +74,8 @@ class Room extends React.Component {
 
 const mapStateToProps = state => ({
   roomName: state.roomName,
-  userName: state.userName
+  userName: state.userName,
+  peerName: state.peerName
 });
 
 const mapDispatchToProps = dispatch => ({

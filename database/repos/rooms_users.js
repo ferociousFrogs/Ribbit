@@ -13,6 +13,11 @@ module.exports = (repo, pgp) => ({
   all: () =>
     repo.any(sql.all),
 
+  findRoomsUsersId: roomAndUserIds =>
+    repo.oneOrNone(sql.findRoomsUsersId, roomAndUserIds, roomsUsers =>
+      roomsUsers ? roomsUsers.id : null
+  ),
+
   // drop the table
   drop: () =>
     repo.any(sql.drop)
