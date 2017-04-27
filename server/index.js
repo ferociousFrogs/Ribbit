@@ -1,5 +1,6 @@
 // express server
 const app = require('express')();
+const axios = require('axios');
 const os = require('os');
 const express = require('express');
 const http = require('http').Server(app);
@@ -8,8 +9,9 @@ const bodyParser = require('body-parser');
 const passport = require('./initPassport');
 const sockets = require('./sockets/paths');
 const utils = require('./utilities/utilityFunctions');
-
 // const url = require('url');
+
+const LAMBDA_URL = 'https://5ingwowrx8.execute-api.us-west-2.amazonaws.com/prod/MyLambdaMicroservice';
 
 const port = process.env.PORT || 3000;
 
@@ -57,9 +59,21 @@ app.get('/', (req, res) => {
 });
 
 app.get('/runCode', (req, res) => {
-  const result = codeParser(req.query);
-  console.log(result);
-  res.status(200).send(JSON.stringify(result));
+  // const result = codeParser(req.query);
+  axios.post(LAMBDA_URL, {
+    params: {
+      code: req.query.value
+    }
+  })
+  .then((response) => {
+    console.log(response);
+    res.status(200).send(JSON.stringify(response));
+  })
+  .catch((error) => {
+    console.log(error);
+    res.status(500).send('error in your code');
+  });
+  // res.status(200).send(JSON.stringify(result));
 });
 
 
