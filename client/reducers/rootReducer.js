@@ -10,6 +10,10 @@ import getPreviousRoomNameReducer from './getPreviousRoomNames-reducer';
 import loggedInReducer from './loggedIn-reducer';
 import addUserId from './addUserId-reducer';
 import peerNameReducer from './peerName-reducer';
+import peerDataReducer from './peerData-reducer';
+import peerNamesReducer from './peerNames-reducer';
+import peerCodeReducer from './peerCode-reducer';
+import peerMessagesReducer from './peerMessages-reducer';
 
 const rootReducer = combineReducers({
   messages: chatMessagesReducer,
@@ -21,7 +25,11 @@ const rootReducer = combineReducers({
   previousRoomNames: getPreviousRoomNameReducer,
   loggedIn: loggedInReducer,
   userId: addUserId,
-  peerName: peerNameReducer
+  peerName: peerNameReducer,
+  peerData: peerDataReducer,
+  peerNames: peerNamesReducer,
+  peerCode: peerCodeReducer,
+  peerMessages: peerMessagesReducer
 });
 
 export default rootReducer;
