@@ -12,12 +12,12 @@ const ourInfo = [
     linkedinLink: 'coming soon!'
   }, {
     name: 'Dylan Shelters',
-    githubLink: 'coming soon!',
+    githubLink: 'github.com/dshelters',
     linkedinLink: 'coming soon!'
   }, {
     name: 'Jeff Milberger',
-    githubLink: 'coming soon!',
-    linkedinLink: 'coming soon!'
+    githubLink: 'github.com/jefQuery',
+    linkedinLink: 'linkedin.com/in/jeffreymilberger/'
   }
 ];
 
