@@ -64,13 +64,22 @@ export const addPeerName = peerName => ({
   peerName
 });
 
-export const getPartners = partners => ({
-  type: 'GET_PARTNERS',
-  partners
+export const addPeerRoomData = peerData => ({
+  type: 'ADD_PEER_DATA',
+  peerData
 });
 
-export const getPartnerLogs = partnerLogs => ({
-  type: 'GET_PARTNER_LOGS',
-  partnerLogs
+export const listPeerNames = names => ({
+  type: 'ADD_PEER_NAMES',
+  names
 });
 
+export const addPeerMessages = peerMessages => ({
+  type: 'ADD_PEER_MESSAGES',
+  peerMessages
+});
+
+export const addPeerCode = peerCode => ({
+  type: 'ADD_PEER_CODE',
+  peerCode
+});

@@ -8,9 +8,10 @@ import React from 'react';
 // []this will populate a space in state - partners
   // [X]we need an action - getPartners which takes in an array of objects
   // [X]we need a reducer - partnersReducer
+  // [] Pass down requestRoomData function from Profile
 
 const ProfileRoomsListItem = props => (
-  <div>
+  <div onClick={() => props.requestRoomData(props.room) } >
     {props.room}
   </div>
 );

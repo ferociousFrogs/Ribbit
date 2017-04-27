@@ -101,3 +101,59 @@ module.exports = {
     }
   ]
 };
+
+
+var dummyPeerData = [
+  { user1name: 'Leeloo',
+    user2name: 'Korben Dallas',
+    roomname: 'Airport',
+    mcid: 7,
+    type: 'message',
+    data: 'Mul-ti-pass.'
+  },
+  { user1name: 'Leeloo',
+    user2name: 'Korben Dallas',
+    roomname: 'Airport',
+    mcid: 8,
+    type: 'code',
+    data: 'const mapStateToProps = state => ({peerData: state.peerData});'
+  },
+  { user1name: 'Leeloo',
+    user2name: 'Ruby Rhod',
+    roomname: 'Airport',
+    mcid: 9,
+    type: 'message',
+    data: 'Right hand right here right now.'
+  },
+  { user1name: 'Leeloo',
+    user2name: 'Ruby Rhod',
+    roomname: 'Airport',
+    mcid: 10,
+    type: 'code',
+    data: 'var fifthElement = "love"'
+  },
+  { user1name: 'Leeloo',
+    user2name: 'Diva Plavalaguna',
+    roomname: 'Airport',
+    mcid: 11,
+    type: 'message',
+    data: 'The stones are in me.'
+  },
+  { user1name: 'Leeloo',
+    user2name: 'Diva Plavalaguna',
+    roomname: 'Airport',
+    mcid: 12,
+    type: 'code',
+    data: 'socket.emit(\'grab room data\', payload);'
+  }
+];
+
+var populateRoomData = (payload) => {
+  const peerData = {};
+  payload.forEach(chunk => {
+    var data = {type: chunk.type, data: chunk.data};
+    peerData[chunk.user2name] = (peerData[chunk.user2name] || []).concat(data);
+  });
+  return peerData;
+};
+

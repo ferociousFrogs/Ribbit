@@ -8,8 +8,8 @@ import React from 'react';
   // []messages need to be sorted by timestamp, with oldest being placed in the array in state first
   // [X]we need a reducer - partnerLogsReducer
 const ProfilePartnersListItem = props => (
-  <div>
-    {props.partner.name}
+  <div onClick={() => props.separateData(props.peer)}>
+    {props.peer}
   </div>
 );
 

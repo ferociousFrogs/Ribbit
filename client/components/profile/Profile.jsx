@@ -1,49 +1,71 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getPreviousRoomNames, getPartners, getPartnerLogs } from './../../actions/actionCreators';
+import { getPreviousRoomNames, addPeerRoomData, listPeerNames, addPeerMessages, addPeerCode } from './../../actions/actionCreators';
 import ProfileRoomsList from './ProfileRoomsList';
 import ProfilePartnersList from './ProfilePartnersList';
 import ProfileCodeLog from './ProfileCodeLog';
 import ProfileMessageLog from './ProfileMessageLog';
 import socket from '../../clientUtilities/sockets';
 
+
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.populatePartners = this.populatePartners.bind(this);
-    this.requestPartners = this.requestPartners.bind(this);
-    this.populatePartnerLogs = this.populatePartnerLogs.bind(this);
-    this.requestPartnerLogs = this.requestPartnerLogs.bind(this);
+    this.requestRoomData = this.requestRoomData.bind(this);
+    this.populateRoomData = this.populateRoomData.bind(this);
+    this.separateData = this.separateData.bind(this);
   }
 
   componentDidMount() {
-    socket.on('got partners', this.populatePartners);
-    socket.on('got partnerLogs', this.populatePartnerLogs);
+    socket.on('room data sent', this.populateRoomData);
   }
 
-  requestPartners() {
-      // emit event 'get partners'
-    socket.emit('get partners');
-      // on event down in server, listen, trigger function, emit event 'got partners'
+  requestRoomData(room) {
+    // this function will be invoked onClick of the room name listed in ProfileRoomsListItem
+    const payload = {
+      userName: this.props.userName,
+      roomName: room
+    };
+    socket.emit('grab room data', payload);
   }
 
-  populatePartners(payload) {
-    // dispatch action to populate state partners
-    // action/reducer will be expecting an array of objects {name: name, id: id}
-    this.props.getPartners(payload);
+  populateRoomData(payload) {
+    // need an action to take this payload and put it in the state as peerRoomData
+    const peerNames = [];
+    payload.forEach((chunk) => {
+      if (!peerNames.includes(chunk.user2name)) {
+        peerNames.push(chunk.user2name);
+      }
+    });
+    this.props.listPeerNames(peerNames);
+
+    const peerData = {};
+    payload.forEach((chunk) => {
+      const data = { type: chunk.type, data: chunk.data, id: chunk.mcid };
+      peerData[chunk.user2name] = (peerData[chunk.user2name] || []).concat(data);
+    });
+    // Need to create an object out of this data that has a unique key for each username called peername: userName
+    // each object looks like { peerName: user2Name, messages: [{}] }
+    this.props.addPeerData(peerData);
   }
 
-  requestPartnerLogs() {
-    // emit an event 'get partnerLogs'
-    socket.emit('get partnerLogs');
-    // on event down in server, listen, trigger function for database call, emit event 'got partnerLogs'
-  }
+  separateData(peer) {
+    const peerDataArray = this.props.peerData[peer];
+    const messages = peerDataArray.filter((data) => {
+      if (data.type === 'message') {
+        return data;
+      }
+    }).sort((a, b) => a.id - b.id);
+    //dispatch action to capture messages
+    this.props.addPeerMessages(messages);
 
-  populatePartnerLogs(payload) {
-    // dispatch action to populate state partnerLogs
-    // action/reducer will be expecting object { code: '', messages: [{}] }
-    // need to sort the messages based on timestamp before sending them out.
-    this.props.getPartnerLogs(payload);
+    const code = peerDataArray.filter((data) => {
+      if (data.type === 'code') {
+        return data;
+      }
+    })[0].data;
+    //dispatch action to capture code
+    this.props.addPeerCode(code);
 
   }
 
@@ -53,17 +75,17 @@ class Profile extends React.Component {
         <h1 className="text-center">{this.props.userName}'s Profile </h1>
         <div className="col-md-2 ">
           <div className="profile-background">
-            <ProfileRoomsList requestPartners={this.requestPartners} />
+            <ProfileRoomsList />
           </div>
           <div className="profile-background profile-margin" >
             <ProfilePartnersList />
           </div>
         </div>
         <div className="col-md-offset-1 col-md-4 profile-background">
-          <ProfileCodeLog code={this.props.partnerLogs.code} />
+          <ProfileCodeLog  />
         </div>
         <div className="col-md-offset-1 col-md-4 profile-background">
-          <ProfileMessageLog messages={this.props.partnerLogs.messages} />
+          <ProfileMessageLog  />
         </div>
       </div>
     );
@@ -72,15 +94,15 @@ class Profile extends React.Component {
 
 const mapStateToProps = state => ({
   previousRoomNames: state.previousRoomNames,
-  userName: state.userName,
-  partners: state.partners,
-  partnerLogs: state.partnerLogs
+  userName: state.userName
 });
 
 const mapDispatchToProps = dispatch => ({
   getPreviousRoomNames: () => dispatch(getPreviousRoomNames()),
-  getPartners: partners => dispatch(getPartners(partners)),
-  getPartnerLogs: partnerLogs => dispatch(getPartnerLogs(partnerLogs))
+  addPeerRoomData: peerData => dispatch(addPeerRoomData(peerData)),
+  listPeerNames: names => dispatch(listPeerNames(names)),
+  addPeerMessages: msgs => dispatch(addPeerMessages(msgs)),
+  addPeerCode: code => dispatch(addPeerCode(code))
 });
 
 // export default Profile;

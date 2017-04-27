@@ -7,12 +7,12 @@ import ProfilePartnersListItem from './ProfilePartnersListItem';
 // [X]needs to map each partner onto ProfilePartnersListItem
 const ProfilePartnersList = props => (
   <div>
-    {props.partners.map((partner, i) => <ProfilePartnersListItem key={i} partner={partner} />)}
+    {props.peerNames.map((peer, i) => <ProfilePartnersListItem key={i} peer={peer} />)}
   </div>
 );
 
 const mapStateToProps = state => ({
-  partners: state.partners
+  peerNames: state.peerNames
 });
 
 export default connect(mapStateToProps, null)(ProfilePartnersList);
