@@ -10,7 +10,7 @@ const ourInfo = [
   }, {
     name: 'Dylan Shelters',
     githubLink: 'github.com/dshelters',
-    linkedinLink: 'coming soon!'
+    linkedinLink: 'linkedin.com/in/dshelters/'
   }, {
     name: 'Jeff Milberger',
     githubLink: 'github.com/jefQuery',
