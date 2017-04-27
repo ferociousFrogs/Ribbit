@@ -6,8 +6,9 @@ module.exports = (http) => {
 
   io.on('connection', (socket) => {
     const namedRooms = utils.namedRooms(io);
-    socket.on('join room', (room) => {
-    socket.emit('hello', 'emitted hello');
+    socket.on('join room', (roomAndUserNames) => {
+      const room = roomAndUserNames.roomName;
+      socket.emit('hello', 'emitted hello');
       const numClients = utils.countClients(namedRooms, room);
       // room = {roomName, userId}
       // max two clients
@@ -31,7 +32,7 @@ module.exports = (http) => {
         console.log('username = ', room.userName);
         socket.broadcast.emit('peer name', room.userName);
       }
-      utils.checkOrCreateRoom(room);
+      utils.checkOrCreateRoom(roomAndUserNames);
     });
 
     socket.on('any room left', (room) => {
@@ -86,6 +87,7 @@ module.exports = (http) => {
     socket.on('userName submitted', (user) => {
       // user = {userName, email, fbToken}
       const userResponse = user;
+      console.log('user before checkOrCreateUser', user);
       return utils.checkOrCreateUser(user)
       .then((userId) => {
         userResponse.userId = userId;

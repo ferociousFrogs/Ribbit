@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import generateSillyName from 'sillyname';
 import socket from '../../clientUtilities/sockets';
-import { addUserName, createRoomName, 
+import { addUserName, createRoomName,
         addPeerName, previousRoomNames,
         previousRoomNameString, inRoom  } from './../../actions/actionCreators';
 import Video from './Video';
@@ -23,7 +23,11 @@ class Room extends React.Component {
 
   componentDidMount() {
     const browserRoomNamed = this.props.match.params.roomName.slice(1);
-    socket.emit('join room', this.props.roomName || browserRoomNamed);
+    const roomAndUserNames = {
+      roomName: this.props.roomName || browserRoomNamed,
+      userName: this.props.userName
+    };
+    socket.emit('join room', roomAndUserNames);
     socket.on('peer name', this.props.addPeerName);
     socket.on('full', (room) => {
       console.log(`${room} is full`);
