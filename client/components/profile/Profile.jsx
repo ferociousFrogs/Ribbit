@@ -31,6 +31,7 @@ class Profile extends React.Component {
 
   populateRoomData(payload) {
     // send names from the messages to store
+    console.log(payload);
     const peerNames = [];
     payload.forEach((chunk) => {
       if (!peerNames.includes(chunk.user2name)) {
