@@ -95,11 +95,23 @@ module.exports = (http) => {
         return userId;
       })
       .then((rooms) => {
-        userResponse.rooms = rooms;
+        userResponse.rooms = rooms.map(room => (
+          { roomName: room.roomname }
+        ));
+        console.log('userResponse.rooms', userResponse.rooms);
         socket.emit('user created', userResponse);
       })
       .catch(err => console.error(`Error checking or creating User ${user.userName} with error = ${err}`));
     });
+
+    socket.on('grab room data', userAndRoom => (
+      utils.complex.findAllMessages(userAndRoom)
+                  .then((messagesAndCode) => {
+                    userAndRoom.messagesAndCode = messagesAndCode;
+                    socket.emit('room data sent', userAndRoom);
+                  })
+                  .catch(err => console.error(err))
+    ));
 
     socket.on('disconnect', () => {
       console.log('user disconnected');

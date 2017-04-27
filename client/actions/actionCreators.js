@@ -83,3 +83,8 @@ export const addPeerCode = peerCode => ({
   type: 'ADD_PEER_CODE',
   peerCode
 });
+
+export const previousRoomNameString = room => ({
+  type: 'GET_PREVIOUS_ROOM_STRING',
+  room
+});

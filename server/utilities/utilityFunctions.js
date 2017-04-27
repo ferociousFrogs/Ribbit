@@ -1,13 +1,12 @@
 // socket utility functions
 const db = require('../../database/database.js');
 
-
 module.exports = {
-  dropNCreateDBTables: () => {
+  dropNCreateDBTables: () => (
     db.complex.dropAllTables()
     .then(db.complex.initializeDB)
-    .catch(err => console.error('Error dropping or creating tables', err));
-  },
+    .catch(err => console.error('Error dropping or creating tables', err))
+  ),
 
   namedRooms: io => (
     io.nsps['/'].adapter.rooms
@@ -32,6 +31,11 @@ module.exports = {
 
   findAllRooms: userName => (
     db.complex.findAllRooms(userName)
+      .catch(err => console.error(err))
+  ),
+
+  findAllMessages: userAndRoomNames => (
+    db.complex.findAllMessages(userAndRoomNames)
       .catch(err => console.error(err))
   ),
 
@@ -98,5 +102,12 @@ module.exports = {
         return db.messagesNCode.add(messageOrCode);
       })
       .catch(err => console.error(err));
-  }
+  },
+
+  addDummyDataToDB: () => (
+    db.complex.dropAllTables()
+    .then(db.complex.initializeDB)
+    .then(db.complex.addDummyData)
+    .catch(err => console.error('Error dropping, creating, or filling tables', err))
+  )
 };

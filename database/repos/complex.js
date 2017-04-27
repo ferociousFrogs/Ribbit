@@ -7,6 +7,7 @@ const tables = {
 };
 
 const complex = require('../queries').complex;
+const dummyData = require('../../spec/dummyData.js');
 
 // Exporting chained queries that run as tasks or transactions
 // Both offer the opportunity to query the db multiple times
@@ -35,5 +36,49 @@ module.exports = (repo, pgp) => ({
 
   findAllRooms: user => (
     repo.any(complex.findAllRooms, user)
-  )
+  ),
+
+  findAllMessages: (userRoom) => {
+    console.log('userRoom in complex repo', userRoom);
+    return repo.any(complex.findAllMessages, userRoom)
+                .then((results) => {
+                  console.log('results', results);
+                  return results;
+                })
+                .catch(err => console.log(err));
+  },
+
+  addDummyData: () => (
+      repo.tx((t) => {
+        const roomQueries = dummyData.rooms.map((room, index) =>
+          t.any(tables.rooms.add, dummyData.rooms[index]));
+        return t.batch(roomQueries);
+      })
+    )
+    .then(() => {
+      console.log('Rooms added!');
+      repo.tx((t) => {
+        const userQueries = dummyData.users.map((user, index) =>
+          t.any(tables.users.add, dummyData.users[index]));
+        return t.batch(userQueries);
+      });
+    })
+    .then(() => {
+      console.log('Users added!');
+      repo.tx((t) => {
+        const messagesQueries = dummyData.messages.map((message, index) =>
+          t.any(tables.messagesNCode.add, dummyData.messages[index]));
+        return t.batch(messagesQueries);
+      });
+    })
+    .then(() => {
+      console.log('Messages added!');
+      repo.tx((t) => {
+        const roomsUsersQueries = dummyData.rooms_users.map((message, index) =>
+          t.any(tables.rooms_users.add, dummyData.rooms_users[index]));
+        return t.batch(roomsUsersQueries);
+      });
+    })
+    .then(() => console.log('rooms_users added!'))
+    .catch(err => console.error('Error creating tables (repos/complex.js) ', err))
 });

@@ -2,10 +2,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 import generateSillyName from 'sillyname';
 import socket from '../../clientUtilities/sockets';
+import { addUserName, createRoomName, 
+        addPeerName, previousRoomNames,
+        previousRoomNameString } from './../../actions/actionCreators';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
-import { addUserName, createRoomName, addPeerName, previousRoomNames } from './../../actions/actionCreators';
 import RoomDropdown from './RoomDropdown';
 
 
@@ -29,7 +31,7 @@ class Room extends React.Component {
     });
 
     !this.props.userName ? this.createSillyName() : null;
-    this.props.previousRoomNames(this.props.roomName);
+    this.props.previousRoomNameString(this.props.roomName);
   }
 
   componentWillUnmount() {
@@ -66,8 +68,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addUserName: name => dispatch(addUserName(name)),
   addPeerName: peerName => dispatch(addPeerName(peerName)),
-  previousRoomNames: peerName => dispatch(previousRoomNames(peerName)),
-  createRoomName: room => dispatch(createRoomName(room))
+  previousRoomNames: roomName => dispatch(previousRoomNames(roomName)),
+  createRoomName: room => dispatch(createRoomName(room)),
+  previousRoomNameString: roomName => dispatch(previousRoomNameString(roomName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);
