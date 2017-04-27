@@ -7,7 +7,7 @@ import ProfileMessageLogItem from './ProfileMessageLogItem';
 // [X]needs to accept the partnerLogs from the parent
 // [X]needs to map the messages onto the ProfileMessageLogItem component
 const ProfileMessageLog = props => (
-  <div>
+  <div className="chat-area-profile" >
     {props.messages.map((message, i) => <ProfileMessageLogItem key={i} message={message} />)}
   </div>
 );

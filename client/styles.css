@@ -1684,6 +1684,11 @@ video {
   overflow-y: scroll;
 }
 
+.chat-area-profile {
+  background-color: white;
+  overflow-y: scroll;
+}
+
 .chat-input {
   display: block;
   width: 81%;
@@ -1759,6 +1764,10 @@ video {
 .chat-text-from-other {
   padding-left: 4%;
   text-align: right;
+}
+
+.chat-text-color {
+  color: black;
 }
 
 .bash {
