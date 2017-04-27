@@ -3,7 +3,7 @@ import Intro from './Intro';
 import Customers from './Customers';
 import Features from './Features';
 import Testimonials from './Testimonials';
-import Contact from './Contact';
+import Contact from './contact/Contact';
 
 const Home = () => (
   <div>
