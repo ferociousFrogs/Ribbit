@@ -10,7 +10,7 @@ const ProfileRoomsList = props => (
   <div>
     {
       props.previousRoomNames
-      .map((previousRoom, i) => <ProfileRoomsListItem key={i} room={previousRoom} requestRoomData={props.requestRoomData} />)
+      .map((previousRoom, i) => <ProfileRoomsListItem key={i} room={previousRoom.roomName} requestRoomData={props.requestRoomData} />)
     }
   </div>
 );
