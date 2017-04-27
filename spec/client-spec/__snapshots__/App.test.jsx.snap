@@ -18,6 +18,26 @@ exports[`App component snapshot test 1`] = `
           <div
             className="navbar-header"
           >
+            <div
+              className="navbar-buttons"
+            >
+              <button
+                className="navbar-toggle"
+                data-target="#navigation"
+                data-toggle="collapse"
+                type="button"
+              >
+                <span
+                  className="icon-bar"
+                />
+                <span
+                  className="icon-bar"
+                />
+                <span
+                  className="icon-bar"
+                />
+              </button>
+            </div>
             <a
               className="navbar-brand scroll-to"
               href="/"
@@ -25,25 +45,9 @@ exports[`App component snapshot test 1`] = `
             >
               <img
                 alt="logo"
-                className="hidden-xs hidden-sm"
                 src="../ribbit.png"
               />
             </a>
-            <div
-              className="navbar-buttons"
-            >
-              <button
-                className="navbar-toggle navbar-btn"
-                data-target=".navbar-collapse"
-                data-toggle="collapse"
-                type="button"
-              >
-                Menu
-                <i
-                  className="pe-7s-menu"
-                />
-              </button>
-            </div>
           </div>
           <div
             className="collapse navbar-collapse navbar-right"
@@ -52,23 +56,6 @@ exports[`App component snapshot test 1`] = `
             <ul
               className="nav navbar-nav"
             >
-              <li>
-                <a
-                  className="dropdown"
-                  onClick={[Function]}
-                >
-                  <p>
-                    My Rooms 
-                    <span
-                      className="glyphicon glyphicon-chevron-down"
-                    />
-                  </p>
-                  <div
-                    className="dropdown-content hide"
-                    id="myDropdown"
-                  />
-                </a>
-              </li>
               <li>
                 <a
                   className="scroll-to"
@@ -94,7 +81,9 @@ exports[`App component snapshot test 1`] = `
                 </a>
               </li>
             </ul>
-            <span>
+            <ul
+              className="nav navbar-nav"
+            >
               <a
                 className="btn navbar-btn btn-ghost"
                 data-target="#get-started"
@@ -113,7 +102,7 @@ exports[`App component snapshot test 1`] = `
               >
                 Login
               </a>
-            </span>
+            </ul>
           </div>
         </div>
       </div>
