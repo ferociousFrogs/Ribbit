@@ -28,7 +28,12 @@ class Room extends React.Component {
       userName: this.props.userName
     };
     socket.emit('join room', roomAndUserNames);
-    socket.on('peer name', this.props.addPeerName);
+    socket.on('peer name', (peerName) => {
+      if (this.props.peerName !== peerName) {
+        this.props.addPeerName(peerName);
+        socket.emit('recipricating peerName', this.props.userName);
+      }
+    });
     socket.on('full', (room) => {
       console.log(`${room} is full`);
       this.setState({ redirect: true });
@@ -69,7 +74,8 @@ class Room extends React.Component {
 
 const mapStateToProps = state => ({
   roomName: state.roomName,
-  userName: state.userName
+  userName: state.userName,
+  peerName: state.peerName
 });
 
 const mapDispatchToProps = dispatch => ({
