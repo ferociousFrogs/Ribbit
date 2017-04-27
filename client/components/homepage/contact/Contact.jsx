@@ -1,6 +1,6 @@
 import React from 'react';
 import ContactItem from './ContactItem';
-import ourInfo from '../../../public/contactInfo';
+import ourInfo from './contactInfo';
 
 const Contact = () => (
   <section id="contact" className="section background-gray-lightest">
