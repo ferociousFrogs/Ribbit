@@ -88,3 +88,8 @@ export const previousRoomNameString = room => ({
   type: 'GET_PREVIOUS_ROOM_STRING',
   room
 });
+
+export const inRoom = bool => ({
+  type: 'IN_ROOM',
+  bool
+});
