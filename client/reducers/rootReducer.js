@@ -10,10 +10,14 @@ import getPreviousRoomNameReducer from './getPreviousRoomNames-reducer';
 import loggedInReducer from './loggedIn-reducer';
 import addUserId from './addUserId-reducer';
 import peerNameReducer from './peerName-reducer';
+<<<<<<< HEAD
 import peerDataReducer from './peerData-reducer';
 import peerNamesReducer from './peerNames-reducer';
 import peerCodeReducer from './peerCode-reducer';
 import peerMessagesReducer from './peerMessages-reducer';
+=======
+import inRoomReducer from './inRoom-reducer';
+>>>>>>> (bug) Navbar style changes and glyphicons added
 
 const rootReducer = combineReducers({
   messages: chatMessagesReducer,
@@ -29,7 +33,8 @@ const rootReducer = combineReducers({
   peerData: peerDataReducer,
   peerNames: peerNamesReducer,
   peerCode: peerCodeReducer,
-  peerMessages: peerMessagesReducer
+  peerMessages: peerMessagesReducer,
+  inRoom: inRoomReducer
 });
 
 export default rootReducer;

@@ -4,7 +4,7 @@ import generateSillyName from 'sillyname';
 import socket from '../../clientUtilities/sockets';
 import { addUserName, createRoomName, 
         addPeerName, previousRoomNames,
-        previousRoomNameString } from './../../actions/actionCreators';
+        previousRoomNameString, inRoom  } from './../../actions/actionCreators';
 import Video from './Video';
 import Workspace from './Workspace';
 import Chat from './Chat';
@@ -32,10 +32,13 @@ class Room extends React.Component {
 
     !this.props.userName ? this.createSillyName() : null;
     this.props.previousRoomNameString(this.props.roomName);
+    this.props.previousRoomNames(this.props.roomName);
+    this.props.inRoom(true);
   }
 
   componentWillUnmount() {
     socket.emit('leave room', this.props.roomName);
+    this.props.inRoom(false);
   }
 
   createSillyName() {
@@ -70,7 +73,8 @@ const mapDispatchToProps = dispatch => ({
   addPeerName: peerName => dispatch(addPeerName(peerName)),
   previousRoomNames: roomName => dispatch(previousRoomNames(roomName)),
   createRoomName: room => dispatch(createRoomName(room)),
-  previousRoomNameString: roomName => dispatch(previousRoomNameString(roomName))
+  previousRoomNameString: roomName => dispatch(previousRoomNameString(roomName)),
+  inRoom: bool => dispatch(inRoom(bool))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

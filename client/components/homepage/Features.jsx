@@ -6,7 +6,7 @@ const Features = () => (
       <div className="container">
         <div className="row text-center-mobile">
           <div className="col-md-6">
-            <div className="icon"><i className="pe-7s-diamond" /></div>
+            <div className="icon"><i className="glyphicon glyphicon-list-alt" /></div>
             <h2>Real-time Collaborative Coding</h2>
             <p>Enter description for this feature</p>
           </div>
@@ -23,7 +23,7 @@ const Features = () => (
             <p><img alt="" src="../img/videochat.png" className="img-responsive" /></p>
           </div>
           <div className="col-md-6">
-            <div className="icon brand-terciary"><i className="pe-7s-rocket" /></div>
+            <div className="icon brand-terciary"><i className="glyphicon glyphicon-facetime-video" /></div>
             <h2>Video & Voice Chat</h2>
             <p>Enter description for this feature</p>
           </div>
@@ -34,7 +34,7 @@ const Features = () => (
       <div className="container">
         <div className="row text-center-mobile">
           <div className="col-md-6">
-            <div className="icon"><i className="pe-7s-diamond" /></div>
+            <div className="icon"><i className="glyphicon glyphicon-comment" /></div>
             <h2>Text Chat</h2>
             <p>Enter description for this feature</p>
           </div>
