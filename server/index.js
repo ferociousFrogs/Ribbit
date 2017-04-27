@@ -11,8 +11,6 @@ const sockets = require('./sockets/paths');
 const utils = require('./utilities/utilityFunctions');
 // const url = require('url');
 
-const LAMBDA_URL = 'https://5ingwowrx8.execute-api.us-west-2.amazonaws.com/prod/MyLambdaMicroservice';
-
 const port = process.env.PORT || 3000;
 
 // comment in dropNCreate when you don't want dummy data
@@ -59,21 +57,21 @@ app.get('/', (req, res) => {
 });
 
 app.get('/runCode', (req, res) => {
-  // const result = codeParser(req.query);
-  axios.post(LAMBDA_URL, {
-    params: {
-      code: req.query.value
-    }
-  })
-  .then((response) => {
-    console.log(response);
-    res.status(200).send(JSON.stringify(response));
-  })
-  .catch((error) => {
-    console.log(error);
-    res.status(500).send('error in your code');
-  });
-  // res.status(200).send(JSON.stringify(result));
+  const result = codeParser(req.query);
+  // axios.post(LAMBDA_URL, {
+  //   params: {
+  //     code: req.query.value
+  //   }
+  // })
+  // .then((response) => {
+  //   console.log(response);
+  //   res.status(200).send(JSON.stringify(response));
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  //   res.status(500).send('error in your code');
+  // });
+  res.status(200).send(JSON.stringify(result));
 });
 
 
