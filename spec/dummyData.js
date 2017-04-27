@@ -150,10 +150,12 @@ var dummyPeerData = [
 
 var populateRoomData = (payload) => {
   const peerData = {};
-  payload.forEach(chunk => {
-    var data = {type: chunk.type, data: chunk.data};
+  payload.forEach((chunk) => {
+    const data = { type: chunk.type, data: chunk.data, id: chunk.mcid, user1name: chunk.user1name, user2name: chunk.user2name };
     peerData[chunk.user2name] = (peerData[chunk.user2name] || []).concat(data);
   });
   return peerData;
 };
+populateRoomData(dummyPeerData);
+
 

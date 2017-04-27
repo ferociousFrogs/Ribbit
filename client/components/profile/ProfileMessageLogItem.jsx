@@ -5,7 +5,7 @@ import React from 'react';
 
 const ProfileMessageLogItem = props => (
   <div>
-    <span>{props.message.userName}</span><span>{props.message.text}</span>
+    <span>{props.message.user2name}</span><span>{props.message.data}</span>
   </div>
 );
 

@@ -8,7 +8,7 @@ import ProfileMessageLogItem from './ProfileMessageLogItem';
 // [X]needs to map the messages onto the ProfileMessageLogItem component
 const ProfileMessageLog = props => (
   <div>
-    {props.peerData.map((peer, i) => <ProfileMessageLogItem key={i} message={peer.messages} />)}
+    {props.messages.map((message, i) => <ProfileMessageLogItem key={i} message={message} />)}
   </div>
 );
 

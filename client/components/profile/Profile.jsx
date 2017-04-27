@@ -30,7 +30,7 @@ class Profile extends React.Component {
   }
 
   populateRoomData(payload) {
-    // need an action to take this payload and put it in the state as peerRoomData
+    // send names from the messages to store
     const peerNames = [];
     payload.forEach((chunk) => {
       if (!peerNames.includes(chunk.user2name)) {
@@ -38,33 +38,33 @@ class Profile extends React.Component {
       }
     });
     this.props.listPeerNames(peerNames);
-
+    // create object out of data blob from server
     const peerData = {};
     payload.forEach((chunk) => {
-      const data = { type: chunk.type, data: chunk.data, id: chunk.mcid };
+      const data = { type: chunk.type, data: chunk.data, id: chunk.mcid, user1name: chunk.user1name, user2name: chunk.user2name };
       peerData[chunk.user2name] = (peerData[chunk.user2name] || []).concat(data);
     });
-    // Need to create an object out of this data that has a unique key for each username called peername: userName
-    // each object looks like { peerName: user2Name, messages: [{}] }
     this.props.addPeerData(peerData);
   }
 
   separateData(peer) {
+    // get the code/messages for just one peer
     const peerDataArray = this.props.peerData[peer];
+    
+    // separate messages from code
     const messages = peerDataArray.filter((data) => {
       if (data.type === 'message') {
         return data;
       }
     }).sort((a, b) => a.id - b.id);
-    //dispatch action to capture messages
     this.props.addPeerMessages(messages);
 
+    // separate code from messages
     const code = peerDataArray.filter((data) => {
       if (data.type === 'code') {
         return data;
       }
     })[0].data;
-    //dispatch action to capture code
     this.props.addPeerCode(code);
 
   }
@@ -75,17 +75,17 @@ class Profile extends React.Component {
         <h1 className="text-center">{this.props.userName}'s Profile </h1>
         <div className="col-md-2 ">
           <div className="profile-background">
-            <ProfileRoomsList />
+            <ProfileRoomsList requestRoomData={this.requestRoomData} />
           </div>
           <div className="profile-background profile-margin" >
-            <ProfilePartnersList />
+            <ProfilePartnersList separateData={this.separateData} />
           </div>
         </div>
         <div className="col-md-offset-1 col-md-4 profile-background">
-          <ProfileCodeLog  />
+          <ProfileCodeLog code={this.props.peerCode} />
         </div>
         <div className="col-md-offset-1 col-md-4 profile-background">
-          <ProfileMessageLog  />
+          <ProfileMessageLog messages={this.props.peerMessages} />
         </div>
       </div>
     );
@@ -94,7 +94,11 @@ class Profile extends React.Component {
 
 const mapStateToProps = state => ({
   previousRoomNames: state.previousRoomNames,
-  userName: state.userName
+  userName: state.userName,
+  peerNames: state.peerNames,
+  peerMessages: state.peerMessages,
+  peerCode: state.peerCode,
+  peerData: state.peerData
 });
 
 const mapDispatchToProps = dispatch => ({
