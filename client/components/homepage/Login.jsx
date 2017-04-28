@@ -6,6 +6,15 @@ import Facebook from './Facebook';
 import socket from '../../clientUtilities/sockets';
 
 const Login = (props) => {
+    const submitUserName = () => {
+      // user = {userName, email, fbToken}
+      const roomInfo = {
+        userName: props.userName,
+        email: props.email,
+        fbToken: null
+      };
+      socket.emit('userName submitted', roomInfo);
+    }
     return (
       <div>
         <ul id="login">
@@ -16,7 +25,7 @@ const Login = (props) => {
                   <Facebook history={props.history} />
                 </div>
                 <center><p>or</p></center>
-                 <form className="form" role="form" method="post" action="login" acceptCharset="UTF-8" id="login-nav">
+                 <form className="form" role="form" action="login" acceptCharset="UTF-8" id="login-nav">
                     <div className="form-group">
                       <label className="sr-only">Username</label>
                       <input
@@ -48,7 +57,7 @@ const Login = (props) => {
                     </div>
                    <div className="form-group">
                       <Link to="/" onClick={(e) => { props.loggedIn(true); }}>
-                        <button type="submit" className="btn btn-primary">Sign in</button>
+                        <button type="submit" onClick={submitUserName}className="btn btn-primary">Sign in</button>
                       </Link>
                    </div>
                    <div className="checkbox">
