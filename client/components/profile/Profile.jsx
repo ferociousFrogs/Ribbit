@@ -32,18 +32,24 @@ class Profile extends React.Component {
   populateRoomData(payload) {
     // send names from the messages to store
     console.log(payload);
-    const peerNames = [];
+    // const loggedInName = this.props.userName;
+    const peerNames = {};
+    // peerNames[loggedInName] = true;
     payload.forEach((chunk) => {
-      if (!peerNames.includes(chunk.user2name)) {
-        peerNames.push(chunk.user2name);
+      const keyName = chunk.user1name === this.props.userName ? chunk.user2name : chunk.user1name;
+      if (!peerNames[keyName]) {
+        peerNames[keyName] = true;
       }
     });
-    this.props.listPeerNames(peerNames);
+
+    const arrayOfPeerNames = Object.keys(peerNames);
+    this.props.listPeerNames(arrayOfPeerNames);
     // create object out of data blob from server
     const peerData = {};
     payload.forEach((chunk) => {
       const data = { type: chunk.type, data: chunk.data, id: chunk.mcid, user1name: chunk.user1name, user2name: chunk.user2name };
-      peerData[chunk.user2name] = (peerData[chunk.user2name] || []).concat(data);
+      const keyName = chunk.user1name === this.props.userName ? chunk.user2name : chunk.user1name;
+      peerData[keyName] = (peerData[keyName] || []).concat(data);
     });
     this.props.addPeerRoomData(peerData);
   }
@@ -82,11 +88,11 @@ class Profile extends React.Component {
       <div className="col-md-12 container-fluid profile-background left-side">
         <h1 className="text-center">{this.props.userName}'s Profile </h1>
         <div className="col-md-2 ">
-          <h3>Rooms</h3>
+          <h3 className="text-center">Rooms</h3>
           <div className="profile-chat-code-background">
             <ProfileRoomsList requestRoomData={this.requestRoomData} />
           </div>
-          <h3>Partners</h3>
+          <h3 className="text-center">Partners</h3>
           <div className="profile-chat-code-background profile-margin" >
             <ProfilePartnersList separateData={this.separateData} />
           </div>

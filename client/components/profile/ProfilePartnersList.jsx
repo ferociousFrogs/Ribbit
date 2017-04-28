@@ -6,7 +6,7 @@ import ProfilePartnersListItem from './ProfilePartnersListItem';
 // []needs to accept the partners from the store (partners) - needs connects
 // [X]needs to map each partner onto ProfilePartnersListItem
 const ProfilePartnersList = props => (
-  <div>
+  <div className="profile-list-height">
     {props.peerNames.map((peer, i) => <ProfilePartnersListItem key={i} peer={peer} separateData={props.separateData} />)}
   </div>
 );

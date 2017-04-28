@@ -85,6 +85,15 @@ module.exports = {
       data: 'Leeloo Dallas mul-ti-pass.'
     }, {
       roomName: 'Airport',
+      userName: 'Korben Dallas',
+      peerName: 'Leeloo',
+      roomId: 4,
+      senderId: 2,
+      receiverId: 4,
+      type: 'message',
+      data: 'I had a really big fare.'
+    }, {
+      roomName: 'Airport',
       userName: 'Leeloo',
       peerName: 'Korben Dallas',
       roomId: 4,
