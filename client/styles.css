@@ -173,44 +173,92 @@ PROFILE
 =====================
 
 */
-.profile-height {
-  height: 600px;
+
+.profile-text {
+  margin-top: 2%;
+  margin-bottom: 0%;
+  text-align: center;
+  color: #ffffff;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+.profile-text h1 {
+  font-weight: 700;
+}
+.profile-text a {
+  color: #fff;
+  text-decoration: underline;
+}
+.profile-text h1,
+.profile-text h2,
+.profile-text h3,
+.profile-text h4 {
+  color: #ffffff;
+}
+.profile-text span {
+  color: #ff7473;
+}
+@media (min-width: 1200px) {
+  .profile-background {
+    background-image: -webkit-linear-gradient(left, color-stop(#ff7473 0%), color-stop(#46426f 60%));
+    background-image: linear-gradient(to right, #ff7473 0%, #46426f 60%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff7473', endColorstr='#ff46426f', GradientType=1);
+  }
+}
+@media (max-width: 1199px) {
+  .profile-background {
+    background: #46426f;
+  }
 }
 
-.profile-list-height {
+.profile-height {
+  height: 500px;
+}
+
+.profile-list {
   height: 13em;
   overflow-y: scroll;
   font-size: 18px;
-}
-
-.profile-background {
   background-color: #f7f7f7;
+  border-top: solid 1px #cdcdcd;
+  border-bottom: solid 1px #cdcdcd;
+  border-radius: 14px;
 }
 
-.profile-chat-code-background {
-  background-color: #cdcdcd;
-  border-radius: 5px;
+.profile-list-text {
+  margin-top: 10%;
+  margin-bottom: 0%;
+  text-align: center;
+  color: #ffffff;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
 
-.profile-margin {
-  margin-top: 1em;
+.room-list {
+  padding: 3%;
+  color: black;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
 
-.profile-borders {
-  border-style: solid;
-  border-color: #ffffff;
-}
-
-.black-text {
-  color: #000000;
-  background-color: #ffffff;
+.margin {
+  margin-top: 14%;
 }
 
 .code-area {
-  height: 43em;
+  height: 520px;
   overflow-y: scroll;
   word-wrap: break-word;
 }
+
+.chat-list {
+  min-height: 520px;
+  overflow-y: scroll;
+  font-size: 18px;
+  background-color: #f7f7f7;
+  border-top: solid 1px #cdcdcd;
+  border-bottom: solid 1px #cdcdcd;
+  border-radius: 14px;
+}
+
 /*
 
 =====================

@@ -7,7 +7,7 @@ import ProfileRoomsListItem from './ProfileRoomsListItem';
 // [X]need to map rooms onto ProfileRoomsListItem component
 
 const ProfileRoomsList = props => (
-  <div className="profile-list-height">
+  <div className="room-list">
     {
       props.previousRoomNames
       .map((previousRoom, i) => <ProfileRoomsListItem key={i} room={previousRoom.roomName} requestRoomData={props.requestRoomData} />)
