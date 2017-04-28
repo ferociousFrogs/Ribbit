@@ -1,14 +1,14 @@
 import React from 'react';
 
-const ContactItem = props => (
+const ContactItem = ({ name, about, github, linkedin }) => (
   <div className="col-xs-12 col-sm-6 col-md-3 text-center">
     <div className="box-simple">
-      <img src={`../../img/${props.name}.jpg`} className="about-img" />
-      <h3>{props.name}</h3>
-      <p>Profile Info Summary</p>
-      <a href={`https://${props.github}`} >{props.github}</a>
+      <img src={`../../img/${name}.jpg`} className="about-img" />
+      <h3>{name}</h3>
+      <p>{about}</p>
+      <a href={`https://${github}`} >{github}</a>
       <br />
-      <a href={`https://www.${props.linkedIn}`}>{props.linkedin}</a>
+      <a href={`https://www.${linkedin}`}>{linkedin}</a>
     </div>
   </div>
 );
