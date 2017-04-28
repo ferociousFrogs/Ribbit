@@ -184,6 +184,11 @@ PROFILE
 .profile-text h1 {
   font-weight: 700;
 }
+
+.code-text {
+  color: white;
+}
+
 .profile-text a {
   color: #fff;
   text-decoration: underline;
