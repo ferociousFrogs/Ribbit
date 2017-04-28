@@ -74,6 +74,11 @@
     "webpack": "^2.3.3",
     "webrtc-adapter": "^3.3.2"
   },
+  "jest": {
+    "setupFiles": [
+      "./test-setup.js"
+    ]
+  },
   "engines": {
     "node": "7.6.0"
   }
