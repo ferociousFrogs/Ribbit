@@ -16,7 +16,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="section testimonials background-gray-lightest">
+    <section className="section testimonials background-gray-lightest">
       <div className="container">
         <h2 className="text-center">
           What the world is saying about Ribbit
