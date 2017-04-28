@@ -7,7 +7,7 @@ import socket from '../../clientUtilities/sockets';
 
 const Login = (props) => {
     return (
-      <div>
+      <div className="login-page">
         <ul id="login">
           <li>
             <div className="row">
