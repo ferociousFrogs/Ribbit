@@ -43,7 +43,7 @@ const Features = () => (
           </div>
         </div>
       </div>
-      <div id="testimonialReference" />
+      <div id="testimonials" />
     </section>
   </div>
 );
