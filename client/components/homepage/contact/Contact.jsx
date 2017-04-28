@@ -12,6 +12,7 @@ const Contact = () => (
             name={person.name}
             github={person.githubLink}
             linkedin={person.linkedinLink}
+            about={person.about}
           />))
         }
       </div>
