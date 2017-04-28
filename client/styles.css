@@ -250,6 +250,7 @@ PROFILE
 }
 
 .chat-list {
+  max-height: 520px;
   min-height: 520px;
   overflow-y: scroll;
   font-size: 18px;
