@@ -27,8 +27,8 @@ const Features = () => (
           <div className="col-md-6">
             <div className="icon brand-terciary"><i className="glyphicon glyphicon-facetime-video" /></div>
             <h2>Video & Voice Chat</h2>
-            <p>Nothing beats talking a problem over face to face.</p>
-            <p>With Peer to Peer Video Chat, you can talk with your coding partner from anywhere.</p>
+            <p>Nothing beats talking a problem over face-to-face.</p>
+            <p>With peer-to-peer video chat, you can talk with your coding partner from anywhere.</p>
           </div>
         </div>
       </div>
