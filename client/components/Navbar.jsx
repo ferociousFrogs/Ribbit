@@ -31,7 +31,7 @@ const Navbar = props => (
                 <li><RoomDropdown /></li> : null
               }
               <li><a href="#features" className="scroll-to">Features</a></li>
-              <li><a href="#testimonials" className="scroll-to">Testimonials</a></li>
+              <li><a href="#testimonialReference" className="scroll-to">Testimonials</a></li>
               <li><a href="#contact" className="scroll-to">Contact</a></li>
             </ul>
             {props.loggedIn ?
