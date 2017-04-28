@@ -1203,6 +1203,14 @@ a:focus {
 .img-rounded {
   border-radius: 0;
 }
+
+.about-img {
+  text-align:center;
+  width:175px;
+  height:175px;
+  border-radius:50%;
+}
+
 hr {
   margin-top: 24px;
   margin-bottom: 24px;
