@@ -8,6 +8,10 @@ module.exports = {
     .catch(err => console.error('Error dropping or creating tables', err))
   ),
 
+  createTablesIfNotExists: () => (
+    db.complex.initializeDB()
+  ),
+
   namedRooms: io => (
     io.nsps['/'].adapter.rooms
   ),

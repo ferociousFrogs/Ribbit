@@ -17,7 +17,7 @@ const port = process.env.PORT || 3000;
 // utils.dropNCreateDBTables():
 
 // comment in addDummyData when you do (it will also drop and create the table before adding data)
-utils.addDummyDataToDB();
+// utils.addDummyDataToDB();
   // .then(() => {
   //   const roomUser = {
   //     roomName: 'Airport',
@@ -27,6 +27,8 @@ utils.addDummyDataToDB();
   // })
   // .then(messages => console.log('messages', messages));
 
+// and if you just want to create tables if they don't already exist
+utils.createTablesIfNotExists();
 
 // Middleware
 app.use(bodyParser.json());
