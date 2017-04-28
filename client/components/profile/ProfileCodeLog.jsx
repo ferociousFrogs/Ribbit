@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // []the code needs to be pretty printed
 const ProfileCodeLog = props => (
   <div className="margin">
-    <pre className="prettyprint linenums lang-js code-area ">
+    <pre className="prettyprint linenums lang-js code-area code-text">
       {props.code}
     </pre>
   </div>
