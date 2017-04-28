@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import socket from '../../clientUtilities/sockets';
 import { addUserName, loggedIn } from './../../actions/actionCreators';
 
 class Facebook extends React.Component {
@@ -34,7 +35,13 @@ class Facebook extends React.Component {
   testAPI(props) {
     console.log('Welcome! Fetching your information...');
     FB.api('/me', (response) => {
-      console.log(`Successful login for: ${response.name}`);
+      const roomInfo = {
+        userName: response.name,
+        email: null,
+        fbToken: response.id
+      };
+      socket.emit('userName submitted', roomInfo);
+      console.log('Successful login for: ', response);
       props.addUserName(response.name);
       props.loggedIn(true);
       document.getElementById('status').innerHTML =

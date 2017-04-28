@@ -56,7 +56,7 @@ const Login = (props) => {
                       <div className="help-block text-right"><a href="">Forgot your password?</a></div>
                     </div>
                    <div className="form-group">
-                      <Link to="/" onClick={(e) => { props.loggedIn(true); }}>
+                      <Link to="/profile" onClick={(e) => { props.loggedIn(true); }}>
                         <button type="submit" onClick={submitUserName}className="btn btn-primary">Sign in</button>
                       </Link>
                    </div>
