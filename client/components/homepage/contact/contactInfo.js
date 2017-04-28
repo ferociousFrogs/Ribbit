@@ -13,7 +13,7 @@ const ourInfo = [
     name: 'Dylan Shelters',
     githubLink: 'github.com/dshelters',
     linkedinLink: 'linkedin.com/in/dshelters/',
-    about: 'Coding or climbing, Dylan is all about sovling puzzles to reach the summit, and having fun doing it. With years of experience in Biotechnology and the SF Start Up scene, he enjoys building resilient JavaScript programs with a eye for user experience.'
+    about: 'Coding or climbing, Dylan is all about solving puzzles to reach the summit, and having fun doing it. With years of experience in Biotechnology and the SF Start Up scene, he enjoys building resilient JavaScript programs with an eye for user experience.'
   }, {
     name: 'Jeff Milberger',
     githubLink: 'github.com/jefQuery',
