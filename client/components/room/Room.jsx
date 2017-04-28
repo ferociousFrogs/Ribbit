@@ -40,12 +40,8 @@ class Room extends React.Component {
     });
 
     !this.props.userName ? this.createSillyName() : null;
-    console.log('this.props.previousRoomNames = ', this.props.preRoomNames);
-    console.log('this.props.roomName = ', this.props.roomName);
-    const prevRoomNames = this.props.preRoomNames.map(room => room.roomName);
-    if (!prevRoomNames.includes(this.props.roomName)) {
-      this.props.previousRoomNameString(this.props.roomName);
-    }
+    this.props.previousRoomNameString(this.props.roomName);
+    this.props.previousRoomNames(this.props.roomName);
     this.props.inRoom(true);
   }
 
@@ -79,8 +75,7 @@ class Room extends React.Component {
 const mapStateToProps = state => ({
   roomName: state.roomName,
   userName: state.userName,
-  peerName: state.peerName,
-  preRoomNames: state.previousRoomNames
+  peerName: state.peerName
 });
 
 const mapDispatchToProps = dispatch => ({
