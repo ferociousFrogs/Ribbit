@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 // [X]when the state (partnerLogs) is populated, this field needs to populate
 // []the code needs to be pretty printed
 const ProfileCodeLog = props => (
-  <div>
-    {props.code}
+  <div className="chat-area-profile">
+    <pre className="prettyprint linenums lang-js code-area ">
+      {props.code}
+    </pre>
   </div>
 );
 
