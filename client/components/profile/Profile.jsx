@@ -79,20 +79,22 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <div className="col-md-12 container-fluid text-intro left-side">
+      <div className="col-md-12 container-fluid profile-background left-side">
         <h1 className="text-center">{this.props.userName}'s Profile </h1>
         <div className="col-md-2 ">
-          <div className="profile-background">
+          <h3>Rooms</h3>
+          <div className="profile-chat-code-background">
             <ProfileRoomsList requestRoomData={this.requestRoomData} />
           </div>
-          <div className="profile-background profile-margin" >
+          <h3>Partners</h3>
+          <div className="profile-chat-code-background profile-margin" >
             <ProfilePartnersList separateData={this.separateData} />
           </div>
         </div>
-        <div className="col-md-offset-1 col-md-4 profile-background">
+        <div className="col-md-offset-1 col-md-4 profile-chat-code-background">
           <ProfileCodeLog code={this.props.peerCode} />
         </div>
-        <div className="col-md-offset-1 col-md-4 profile-background">
+        <div className="col-md-offset-1 col-md-4 profile-chat-code-background">
           <ProfileMessageLog messages={this.props.peerMessages} />
         </div>
       </div>

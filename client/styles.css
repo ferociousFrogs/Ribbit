@@ -111,7 +111,12 @@ PROFILE
   height: 600px;
 }
 .profile-background {
-  background-color: lightblue;
+  background-color: #f7f7f7;
+}
+
+.profile-chat-code-background {
+  background-color: #cdcdcd;
+  border-radius: 5px;
 }
 
 .profile-margin {
@@ -1697,8 +1702,16 @@ video {
 }
 
 .chat-area-profile {
+  height: 36em;
+  margin-top: 1em;
+  margin-bottom: 1em;
   background-color: white;
   overflow-y: scroll;
+}
+.code-area {
+  height: 43em;
+  overflow-y: scroll;
+  word-wrap: break-word;
 }
 
 .chat-input {

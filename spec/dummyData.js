@@ -85,6 +85,15 @@ module.exports = {
       data: 'Leeloo Dallas mul-ti-pass.'
     }, {
       roomName: 'Airport',
+      userName: 'Leeloo',
+      peerName: 'Korben Dallas',
+      roomId: 4,
+      senderId: 4,
+      receiverId: 2,
+      type: 'code',
+      data: "const peerDataArray = this.props.peerData[peer];console.log('peerDataArray in profile,', peerDataArray); let codeFlag = false; // separate messages from code const messages = peerDataArray.filter((data) => {if (data.type === 'code') {codeFlag = true; } if (data.type === 'message') {return data; } }).sort((a, b) => a.id - b.id);"
+    }, {
+      roomName: 'Airport',
       userName: 'Korben Dallas',
       peerName: 'Leeloo',
       roomId: 4,
