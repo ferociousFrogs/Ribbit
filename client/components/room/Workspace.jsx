@@ -6,10 +6,10 @@ import socket from '../../clientUtilities/sockets';
 
 // require('codemirror/lib/codemirror.css');
 require('codemirror/mode/javascript/javascript');
-require('codemirror/mode/xml/xml');
-require('codemirror/mode/markdown/markdown');
-require('codemirror/mode/python/python');
-require('codemirror/mode/ruby/ruby');
+// require('codemirror/mode/xml/xml');
+// require('codemirror/mode/markdown/markdown');
+// require('codemirror/mode/python/python');
+// require('codemirror/mode/ruby/ruby');
 require('codemirror/keymap/sublime');
 
 let cm;
@@ -65,10 +65,13 @@ class Workspace extends React.Component {
       console.log(response.request.responseText);
       console.log(JSON.parse(response.request.responseText));
       this.setState({
-        result: `Docker-Container: Ribbit user$ ${response.request.responseText}`
+        result: `Ribbit user$ ${response.request.responseText}`
       });
     })
     .catch((error) => {
+      this.setState({
+        result: 'Ribbit user$ error in evaluating code'
+      });
       console.log(error);
     });
   }
@@ -89,7 +92,7 @@ class Workspace extends React.Component {
         />
         <div className="bash col-md-11">
           {new Date(Date.now()).toDateString()}
-          <p>{this.state.result ? this.state.result : 'Docker-Container: Ribbit user$ '}</p>
+          <p>{this.state.result ? this.state.result : 'Ribbit user$ '}</p>
         </div>
         <button
           type="button"
