@@ -110,6 +110,13 @@ PROFILE
 .profile-height {
   height: 600px;
 }
+
+.profile-list-height {
+  height: 13em;
+  overflow-y: scroll;
+  font-size: 18px;
+}
+
 .profile-background {
   background-color: #f7f7f7;
 }
@@ -131,6 +138,12 @@ PROFILE
 .black-text {
   color: #000000;
   background-color: #ffffff;
+}
+
+.code-area {
+  height: 43em;
+  overflow-y: scroll;
+  word-wrap: break-word;
 }
 /*
 
@@ -1707,11 +1720,6 @@ video {
   margin-bottom: 1em;
   background-color: white;
   overflow-y: scroll;
-}
-.code-area {
-  height: 43em;
-  overflow-y: scroll;
-  word-wrap: break-word;
 }
 
 .chat-input {
