@@ -7,40 +7,66 @@ import socket from '../../clientUtilities/sockets';
 
 const Login = (props) => {
     return (
-      <div className="container-fluid">
-        <div className="col-md-8 col-md-offset-2">
-          <h1 className="text-center">Sign up!</h1>
-          <form className="col-md-12">
-            <input
-              className="col-md-12"
-              type="text"
-              placeholder="Enter a username"
-              onChange={(e) => { props.addUserName(e.target.value); }}
-            />
-            <input
-              className="col-md-12"
-              type="text"
-              placeholder="Enter an e-mail address"
-              onChange={(e) => { props.addUserEmail(e.target.value); }}
-            />
-            <button
-              onClick={() => {
-                socket.emit('userName submitted', {
-                  userName:props.userName,
-                  email: props.email,
-                  fbToken: null
-                });
-              }}
-            >
-              <Link to="/" onClick={(e) => { props.loggedIn(true); }}>Sign me up!</Link>
-            </button>
-            <Facebook history={props.history} />
-          </form>
-        </div>
+      <div>
+        <ul id="login">
+          <li>
+            <div className="row">
+              <div className="login-box col-md-4 col-md-offset-4">
+                <div className="social-buttons">
+                  <Facebook history={props.history} />
+                </div>
+                <center><p>or</p></center>
+                 <form className="form" role="form" method="post" action="login" acceptCharset="UTF-8" id="login-nav">
+                    <div className="form-group">
+                      <label className="sr-only">Username</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Username"
+                        onChange={(e) => { props.addUserName(e.target.value); }}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="sr-only">Email Address</label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="Email Address"
+                        onChange={(e) => { props.addUserEmail(e.target.value); }}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="sr-only">Password</label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        placeholder="Password"
+                      />
+                      <div className="help-block text-right"><a href="">Forgot your password?</a></div>
+                    </div>
+                   <div className="form-group">
+                      <Link to="/" onClick={(e) => { props.loggedIn(true); }}>
+                        <button type="submit" className="btn btn-primary">Sign in</button>
+                      </Link>
+                   </div>
+                   <div className="checkbox">
+                     <label>
+                       <input type="checkbox" /> Keep me logged in
+                     </label>
+                   </div>
+                 </form>
+                <div className="bottom text-center">
+                  New here? <a href="#"><b>Sign up</b></a>
+                </div>
+              </div>
+             </div>
+          </li>
+        </ul>
       </div>
-  );
+    );
 };
-
 
 const mapStateToProps = state => ({
   userName: state.userName,

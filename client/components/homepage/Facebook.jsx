@@ -71,7 +71,7 @@ class Facebook extends React.Component {
     return (
       <div>
       <div id="status"></div>
-      <button onClick={this.handleClick.bind(this)}>Login with Facebook</button>
+      <button className="btn btn-fb" onClick={this.handleClick.bind(this)}>Login via Facebook</button>
       </div>
     );
   }

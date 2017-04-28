@@ -1,3 +1,76 @@
+#login{
+  min-width: 250px;
+  padding: 14px 14px 0;
+  overflow:hidden;
+  background-color:rgba(255,255,255,.8);
+  margin-top: 4%;
+}
+
+#login .help-block {
+  font-size:12px    
+}
+
+#login .bottom {
+  background-color:rgba(255,255,255,.8);
+  border-top:1px solid #ddd;
+  clear:both;
+  padding:14px;
+}
+
+#login .social-buttons {
+  margin:12px 0;
+  padding-left: 30%;    
+}
+
+#login .social-buttons a {
+  width: 49%;
+}
+
+#login .form-group {
+  margin-bottom: 10px;
+}
+
+.login-box {
+  border: solid 1px #cdcdcd;
+  border-radius: 14px;
+  padding: 2%;
+  background: #f7f7f7;
+}
+
+.btn-fb {
+  color: #fff;
+  background-color:#3b5998;
+}
+
+.btn-fb:hover {
+  color: #fff;
+  background-color:#496ebc 
+}
+
+.btn-tw {
+  color: #fff;
+  background-color:#55acee;
+}
+
+.btn-tw:hover {
+  color: #fff;
+  background-color:#59b5fa;
+}
+@media(max-width:768px) {
+  #login{
+      background-color: inherit;
+      color: #fff;
+  }
+  #login .bottom {
+      background-color: #cdcdcd;
+      border-top:0 none;
+  }
+}
+
+
+
+
+
 .container-fluid {
     padding-top: 5px;
     padding-left: 1%;
