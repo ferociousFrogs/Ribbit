@@ -1,9 +1,9 @@
 #login{
   min-width: 250px;
+  min-height: 700px;
   padding: 14px 14px 0;
-  overflow:hidden;
-  background-color:rgba(255,255,255,.8);
-  margin-top: 4%;
+  padding-top: 5%;
+  overflow-y: hidden;
 }
 
 #login .help-block {
@@ -28,6 +28,18 @@
 
 #login .form-group {
   margin-bottom: 10px;
+}
+
+.login-page {
+  height: 100%;
+  background-image: -webkit-linear-gradient(left, color-stop(#ff7473 0%), color-stop(#46426f 60%));
+  background-image: linear-gradient(to right, #ff7473 0%, #46426f 60%);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow-y: hidden;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff7473', endColorstr='#ff46426f', GradientType=1);
 }
 
 .login-box {
