@@ -67,7 +67,7 @@ exports[`App component snapshot test 1`] = `
               <li>
                 <a
                   className="scroll-to"
-                  href="#testimonials"
+                  href="#testimonialReference"
                 >
                   Testimonials
                 </a>

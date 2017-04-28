@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ContactItem = (props) => (  
+const ContactItem = props => (
   <div className="col-xs-12 col-sm-6 col-md-3 text-center">
     <div className="box-simple">
       <img src={`../../img/${props.name}.jpg`} className="icon" />
@@ -11,5 +11,5 @@ const ContactItem = (props) => (
       <a href={`https://www.${props.linkedIn}`}>{props.linkedin}</a>
     </div>
   </div>
-)
+);
 export default ContactItem;

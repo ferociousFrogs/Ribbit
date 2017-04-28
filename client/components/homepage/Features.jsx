@@ -43,6 +43,7 @@ const Features = () => (
           </div>
         </div>
       </div>
+      <div id="testimonialReference" />
     </section>
   </div>
 );
