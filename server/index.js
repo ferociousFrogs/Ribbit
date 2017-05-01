@@ -77,7 +77,7 @@ app.get('/runCode', (req, res) => {
     body: JSON.stringify(data),
     headers: {
       'Content-Type': 'raw',
-      Date: new Date
+      Date: new Date()
     }
   };
 
@@ -92,7 +92,7 @@ app.get('/runCode', (req, res) => {
   })
   .catch((error) => {
     console.log(error);
-    res.status(500).send('error in your code');
+    res.status(404).send(JSON.stringify(error));
   });
   // res.status(200).send(JSON.stringify(result));
 });
