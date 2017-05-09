@@ -65,7 +65,7 @@ Be sure to end the terminal testing process with control+c after testing has fin
 
 ### Roadmap
 
-View the project roadmap [here](#https://trello.com/b/fxB3Crdr/ribbit)
+View the project roadmap [here](https://trello.com/b/fxB3Crdr/ribbit)
 
 
 ## Contributing
