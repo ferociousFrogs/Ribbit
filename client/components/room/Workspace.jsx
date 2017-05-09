@@ -69,10 +69,11 @@ class Workspace extends React.Component {
       });
     })
     .catch((error) => {
+      console.log(error);
+      console.log(JSON.parse(error));
       this.setState({
         result: 'Ribbit user$ error in evaluating code'
       });
-      console.log(error);
     });
   }
 

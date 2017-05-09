@@ -1,6 +1,6 @@
 // express server
 const app = require('express')();
-// const axios = require('axios');
+const axios = require('axios');
 const os = require('os');
 const express = require('express');
 const http = require('http').Server(app);
@@ -9,9 +9,15 @@ const bodyParser = require('body-parser');
 const passport = require('./initPassport');
 const sockets = require('./sockets/paths');
 const utils = require('./utilities/utilityFunctions');
+const aws4 = require('aws4');
+
 // const url = require('url');
+require('dotenv').config();
 
 const port = process.env.PORT || 3000;
+const LambdaUrl = process.env.LAMBDA_URL;
+const AwsAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const AwsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
 // comment in dropNCreate when you don't want dummy data
 // utils.dropNCreateDBTables():
@@ -59,21 +65,36 @@ app.get('/', (req, res) => {
 });
 
 app.get('/runCode', (req, res) => {
-  const result = codeParser(req.query);
-  // axios.post(LAMBDA_URL, {
-  //   params: {
-  //     code: req.query.value
-  //   }
-  // })
-  // .then((response) => {
-  //   console.log(response);
-  //   res.status(200).send(JSON.stringify(response));
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  //   res.status(500).send('error in your code');
-  // });
-  res.status(200).send(JSON.stringify(result));
+  // const result = codeParser(req.query);
+  const data = req.query;
+  const requestOptions = {
+    url: `https://${LambdaUrl}/MyLambdaMicroservice`,
+    host: LambdaUrl,
+    method: 'POST',
+    service: 'lambda',
+    path: '/MyLambdaMicroservice',
+    region: 'us-west-2',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'raw',
+      Date: new Date()
+    }
+  };
+
+  axios(aws4.sign(requestOptions,
+    {
+      secretAccessKey: AwsSecretAccessKey,
+      accessKeyId: AwsAccessKeyId
+    }))
+  .then((response) => {
+    console.log(response);
+    res.status(200).send(JSON.stringify(response));
+  })
+  .catch((error) => {
+    console.log(error);
+    res.status(404).send(JSON.stringify(error));
+  });
+  // res.status(200).send(JSON.stringify(result));
 });
 
 
