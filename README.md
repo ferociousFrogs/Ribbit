@@ -42,6 +42,8 @@ npm install -g bower
 npm install
 bower install
 ```
+### Initializing the App
+
 In a separate terminal tab:
 ```npm run react-dev```
 
