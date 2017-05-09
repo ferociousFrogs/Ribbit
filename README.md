@@ -1,6 +1,6 @@
 # Ribbit
 
-> Ribbit is an online collaboration tool. Simply open up our site in your browser, video and text chat with partner,
+> Ribbit is an online collaboration tool. Simply open up our site in your browser, video and text chat with your partner,
 and write code as a team!
 
 ## Team
@@ -22,15 +22,14 @@ and write code as a team!
 
 ## Usage
 
-> Some usage instructions
+Be sure that you're running the latest version of Node
 
 ## Requirements
 
 - Node 6.4.x
-- Redis 2.6.x
 - Postgresql 9.1.x
-- etc
-- etc
+- nodemon 1.11.x (optional)
+
 
 ## Development
 
@@ -43,10 +42,32 @@ npm install -g bower
 npm install
 bower install
 ```
+### Initializing the App
+
+In a separate terminal tab:
+```npm run react-dev```
+
+In another terminal tab (nodemon):
+```npm run server-dev```
+
+Or (node):
+```npm start```
+
+
+The local version of Ribbit defaults to port 3000, open up your browser and type localhost:3000 to use the app.
+
+## Testing
+
+Shut down the server by selecting the terminal tab where you ran `npm run server-dev` and pressing control+c (mac).
+
+Run the testing suite by opening a new terminal tab and typing:
+```npm run test```
+
+Be sure to end the terminal testing process with control+c after testing has finished and restart your server with one of the server commands above.
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
+View the project roadmap [here](https://trello.com/b/fxB3Crdr/ribbit)
 
 
 ## Contributing
