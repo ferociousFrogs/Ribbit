@@ -18,23 +18,13 @@ const codeParser = (code) => {
   return null;
 };
 
-const error = {
-  value: 'function ribbit() { return "No code supplied!";};ribbit();',
-  language: 'Javascript'
-};
-
-console.log(codeParser({
-  value: 'function ribbit() { return 1 + 1;};ribbit();',
-  language: 'Javascript'
-}));
-
 app.get('/evalCode', (req, res) => {
   const code = JSON.parse(req.query.code);
   console.log(code);
   const result = codeParser(code);
   console.log(result);
 
-  res.status(200).send(result);
+  res.status(200).send(JSON.stringify(result));
 });
 
 console.log(`listening on port ${port}...\n`);

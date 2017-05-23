@@ -53,8 +53,8 @@ app.get('/runCode', (req, res) => {
     }
   })
   .then((result) => {
-    console.log(result.data);
-    res.status(200).send(result.data);
+    console.log(result.data, 'result data');
+    res.status(200).send(JSON.stringify(result.data));
   })
   .catch((err) => {
     console.error(err);
