@@ -5,12 +5,15 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "postinstall": "npm run build",
+    "postinstall": "npm run dockerinstall && npm run dockercomposeinstall && npm run docker && npm run build",
+    "dockerinstall":"curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0", 
+    "dockercomposeinstall": "pip install docker-compose==1.8.0",
     "test": "NODE_ENV=test jest",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
     "react-dev": "webpack -d --watch",
     "build": "webpack -p",
+    "docker": "docker-compose up -d",
     "server-dev": "nodemon server/index.js"
   },
   "keywords": [],

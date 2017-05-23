@@ -1,6 +1,5 @@
 // express server
 const app = require('express')();
-// const axios = require('axios');
 const os = require('os');
 const express = require('express');
 const http = require('http').Server(app);
@@ -10,7 +9,9 @@ const passport = require('./initPassport');
 const sockets = require('./sockets/paths');
 const utils = require('./utilities/utilityFunctions');
 // const url = require('url');
+const axios = require('axios');
 
+const url = process.env.url || 'http://localhost';
 const port = process.env.PORT || 3000;
 
 // comment in dropNCreate when you don't want dummy data
@@ -36,22 +37,6 @@ app.use('/', express.static(path.join(__dirname, '../client')));
 app.use(passport.initialize());
 // app.use(passport.session()); Must be preceded with express.sessions if utilised
 
-const codeParser = (code) => {
-  code.value = code.value.replace(/\\n/gi, '');
-  if (code.language === 'Javascript') {
-    return eval(code.value);
-  } else if (code.language === 'Python') {
-    return 'Python coming soon!';
-  } else if (code.language === 'Ruby') {
-    return 'Ruby coming soon!';
-  }
-  return null;
-};
-
-console.log(codeParser({
-  value: 'function ribbit() { return "Ribbit";};ribbit();',
-  language: 'Javascript'
-}));
 
 // Routes
 app.get('/', (req, res) => {
@@ -59,26 +44,23 @@ app.get('/', (req, res) => {
 });
 
 app.get('/runCode', (req, res) => {
-  const result = codeParser(req.query);
-  // axios.post(LAMBDA_URL, {
-  //   params: {
-  //     code: req.query.value
-  //   }
-  // })
-  // .then((response) => {
-  //   console.log(response);
-  //   res.status(200).send(JSON.stringify(response));
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  //   res.status(500).send('error in your code');
-  // });
-  res.status(200).send(JSON.stringify(result));
+  // call the seperate server
+  const codeToEval = req.query;
+  console.log(codeToEval);
+  axios.get(`${url}:8080/evalCode`, {
+    params: {
+      code: codeToEval
+    }
+  })
+  .then((result) => {
+    console.log(result.data, 'result data');
+    res.status(200).send(JSON.stringify(result.data));
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send(err);
+  });
 });
-
-
-// Facebook Routes
-app.get('/fblogin', passport.authenticate('facebook'));
 
 // Facebook will redirect the user to this URL after approval.  Finish the
 // authentication process by attempting to obtain an access token.  If
